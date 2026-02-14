@@ -5,6 +5,14 @@ const RECAPTCHA_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
 const RECAPTCHA_MIN_SCORE = 0.3;
 const CONTACT_TO_EMAIL = "info@techdr.in";
 
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 async function verifyRecaptchaToken(
   token: string
 ): Promise<{ success: boolean; score?: number; raw?: unknown }> {
@@ -39,6 +47,23 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { name, country, whatsapp, email, medicalCondition, files, recaptchaToken } = body;
+
+    // Build attachments from uploaded files (base64 content)
+    const attachments: { filename: string; content: Buffer }[] = [];
+    if (Array.isArray(files) && files.length > 0) {
+      for (const f of files) {
+        if (f && typeof f.name === "string" && typeof f.content === "string") {
+          try {
+            attachments.push({
+              filename: f.name,
+              content: Buffer.from(f.content, "base64"),
+            });
+          } catch {
+            // Skip invalid base64
+          }
+        }
+      }
+    }
 
     // Verify reCAPTCHA v3 when secret is set and a token was sent
     if (process.env.RECAPTCHA_SECRET_KEY && recaptchaToken && typeof recaptchaToken === "string") {
@@ -132,12 +157,12 @@ export async function POST(request: NextRequest) {
             <p style="color: #374151; line-height: 1.6; margin: 0;">${medicalCondition.replace(/\n/g, '<br>')}</p>
           </div>
 
-          ${files && files.length > 0 ? `
-            <div style="margin: 20px 0;">
-              <h3 style="color: #171717;">Attached Files</h3>
-              <p style="color: #374151;">${files.length} file(s) attached</p>
+          ${attachments.length > 0 ? `
+            <div style="margin: 20px 0; padding: 16px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #10b981;">
+              <h3 style="color: #171717; margin-top: 0;">Attached Files (see email attachments)</h3>
+              <ul style="color: #374151; margin: 0; padding-left: 20px;">${attachments.map((a) => `<li>${escapeHtml(a.filename)}</li>`).join("")}</ul>
             </div>
-          ` : ''}
+          ` : ""}
 
           <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
             <p style="color: #6b7280; font-size: 12px; margin: 0;">
@@ -158,16 +183,17 @@ Patient Information:
 Medical Condition:
 ${medicalCondition}
 
-${files && files.length > 0 ? `\nAttached Files: ${files.length} file(s)` : ''}
+${attachments.length > 0 ? `\nAttached Files:\n${attachments.map((a) => `- ${a.filename}`).join("\n")}` : ""}
       `.trim();
 
-    // 1. Send inquiry to the team
+    // 1. Send inquiry to the team (with attachments if any)
     const { data, error } = await resend.emails.send({
       from: fromEmail,
       to: CONTACT_TO_EMAIL,
       subject,
       html,
       text,
+      ...(attachments.length > 0 && { attachments }),
     });
 
     if (error) {

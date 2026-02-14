@@ -1,6 +1,5 @@
 "use client";
 
-import NextLink from "next/link";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -10,7 +9,7 @@ import Stack from "@mui/material/Stack";
 
 const TRUST_METRICS = [
   { value: "50+", label: "Hospitals in India" },
-  { value: "Kenya-first", label: "Global support" },
+  { value: "Worldwide", label: "Global support" },
   { value: "24/7", label: "Patient coordinators" },
 ];
 
@@ -59,6 +58,7 @@ export function Footer() {
                   fontWeight: 700,
                   lineHeight: 1.2,
                   mb: 0.5,
+                  color: "#ffffff",
                 }}
               >
                 {metric.value}
@@ -67,7 +67,7 @@ export function Footer() {
                 variant="body2"
                 sx={{
                   fontSize: "0.875rem",
-                  color: "rgba(255, 255, 255, 0.7)",
+                  color: "rgba(255, 255, 255, 0.9)",
                 }}
               >
                 {metric.label}
@@ -93,24 +93,12 @@ export function Footer() {
               sx={{
                 fontSize: "1.125rem",
                 mb: 1,
-                color: "#fff",
+                color: "#ffffff",
               }}
             >
               MedicalToursIndia.com
             </Typography>
             <Stack spacing={0.5} sx={{ mt: 1 }}>
-              <Link
-                component={NextLink}
-                href="/landing-page/kenya"
-                underline="hover"
-                sx={{
-                  color: "rgba(255, 255, 255, 0.85)",
-                  fontSize: "0.875rem",
-                  "&:hover": { color: "#fff" },
-                }}
-              >
-                For patients in Kenya →
-              </Link>
               <Link
                 component="a"
                 href="https://wa.me/919032292171"
@@ -118,9 +106,9 @@ export function Footer() {
                 rel="noopener noreferrer"
                 underline="hover"
                 sx={{
-                  color: "rgba(255, 255, 255, 0.85)",
+                  color: "rgba(255, 255, 255, 0.95)",
                   fontSize: "0.875rem",
-                  "&:hover": { color: "#fff" },
+                  "&:hover": { color: "#ffffff" },
                 }}
               >
                 WhatsApp: +91 9032292171
@@ -129,21 +117,33 @@ export function Footer() {
                 component="a"
                 href="tel:+919032292171"
                 sx={{
-                  color: "rgba(255, 255, 255, 0.7)",
+                  color: "rgba(255, 255, 255, 0.9)",
                   fontSize: "0.875rem",
                   textDecoration: "none",
-                  "&:hover": { color: "rgba(255, 255, 255, 0.9)" },
+                  "&:hover": { color: "#ffffff" },
                 }}
               >
                 Phone: +91 9032292171
               </Typography>
+              <Link
+                component="a"
+                href="mailto:info@techdr.in"
+                underline="hover"
+                sx={{
+                  color: "rgba(255, 255, 255, 0.95)",
+                  fontSize: "0.875rem",
+                  "&:hover": { color: "#ffffff" },
+                }}
+              >
+                Email: info@techdr.in
+              </Link>
             </Stack>
           </Box>
           <Box sx={{ maxWidth: { xs: "100%", md: 420 }, flex: { md: "1 1 auto" } }}>
             <Typography
               variant="body2"
               sx={{
-                color: "rgba(255, 255, 255, 0.7)",
+                color: "rgba(255, 255, 255, 0.9)",
                 lineHeight: 1.7,
                 fontSize: "0.875rem",
               }}
@@ -167,7 +167,7 @@ export function Footer() {
           <Typography
             variant="caption"
             sx={{
-              color: "rgba(255, 255, 255, 0.5)",
+              color: "rgba(255, 255, 255, 0.78)",
               fontSize: "0.8125rem",
             }}
           >

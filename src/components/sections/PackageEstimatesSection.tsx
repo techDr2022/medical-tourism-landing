@@ -123,17 +123,27 @@ export function PackageEstimatesSection() {
             boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
           }}
         >
-          <Typography
-            variant="h3"
-            sx={{
-              fontSize: "1.25rem",
-              fontWeight: 700,
-              mb: 0.5,
-              color: "#171717",
-            }}
-          >
-            Upon reviewing your medical reports, we can share:
-          </Typography>
+          <Box sx={{ mb: 0.5 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: "1.25rem",
+                fontWeight: 700,
+                color: "#171717",
+              }}
+            >
+              Upon reviewing your medical reports, we can share:
+            </Typography>
+            <Box
+              sx={{
+                width: 48,
+                height: 3,
+                mt: 1,
+                borderRadius: 1,
+                background: `linear-gradient(90deg, ${GREEN_600} 0%, ${GREEN_700} 100%)`,
+              }}
+            />
+          </Box>
           <Typography
             variant="body2"
             sx={{

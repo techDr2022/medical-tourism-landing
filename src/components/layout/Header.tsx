@@ -1,11 +1,9 @@
 "use client";
 
-import NextLink from "next/link";
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { alpha } from "@mui/material/styles";
 
@@ -80,24 +78,22 @@ export function Header({ onCtaClick }: HeaderProps) {
         <Link
           href="/"
           underline="none"
-          sx={{ 
+          sx={{
             display: "flex",
             alignItems: "center",
-            gap: 0.5,
             mr: { xs: 2, md: 4 },
           }}
         >
-          <Typography 
-            variant="h6" 
-            fontWeight={700}
+          <Box
+            component="img"
+            src="/logos/new-logo.png"
+            alt="Medical Tours India"
             sx={{
-              fontSize: { xs: "1.125rem", md: "1.25rem" },
+              height: { xs: 32, md: 38 },
+              width: "auto",
+              display: "block",
             }}
-          >
-            Medical
-            <Box component="span" sx={{ color: GREEN_600 }}>Tours</Box>
-            <Box component="span" sx={{ color: GREEN_600, ml: 0.25 }}>India</Box>
-          </Typography>
+          />
         </Link>
 
         {/* Navigation Links */}
@@ -131,26 +127,41 @@ export function Header({ onCtaClick }: HeaderProps) {
               {item.label}
             </Box>
           ))}
-          <Link
-            component={NextLink}
-            href="/landing-page/kenya"
-            underline="none"
+        </Box>
+
+        {/* CTA Buttons – pushed to right corner */}
+        <Box
+          sx={{
+            display: "flex",
+            gap: 1.5,
+            alignItems: "center",
+            marginLeft: "auto",
+            flexShrink: 0,
+          }}
+        >
+          {/* Mobile: single form CTA, right-aligned */}
+          <Button
+            variant="contained"
+            size="small"
+            onClick={onCtaClick}
             sx={{
-              color: alpha("#171717", 0.7),
-              fontSize: "0.9375rem",
-              fontWeight: 500,
-              transition: "color 0.2s ease",
+              display: { xs: "inline-flex", lg: "none" },
+              px: { xs: 1.5, sm: 2 },
+              py: 1,
+              fontSize: { xs: "0.75rem", sm: "0.8125rem" },
+              fontWeight: 600,
+              minWidth: 0,
+              background: `linear-gradient(135deg, ${GREEN_600} 0%, ${GREEN_700} 100%)`,
+              boxShadow: "0 2px 8px rgba(22, 163, 74, 0.3)",
               "&:hover": {
-                color: GREEN_600,
+                background: `linear-gradient(135deg, ${GREEN_700} 0%, #0f766e 100%)`,
+                boxShadow: "0 4px 12px rgba(22, 163, 74, 0.4)",
               },
             }}
           >
-            For Kenya
-          </Link>
-        </Box>
-
-        {/* CTA Buttons */}
-        <Box sx={{ display: "flex", gap: 1.5, alignItems: "center" }}>
+            Request Estimate
+          </Button>
+          {/* Desktop: full CTAs */}
           <Button
             variant="outlined"
             onClick={onCtaClick}
