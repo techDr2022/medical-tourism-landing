@@ -1,0 +1,42 @@
+html {
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+  height: 100%;
+}
+
+body {
+  font-feature-settings: "rlig" 1, "calt" 1;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100%;
+}
+
+/* Ensure Next.js root div doesn't interfere with sticky */
+#__next {
+  min-height: 100%;
+}
+
+/* Ensure sticky header works - override any Material-UI styles */
+header.sticky-header,
+.sticky-header {
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 1100 !important;
+  width: 100% !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Force sticky on Material-UI Box component */
+header[class*="sticky-header"],
+[class*="sticky-header"] {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1100 !important;
+}

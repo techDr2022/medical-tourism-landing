@@ -1,0 +1,13 @@
+export { HeroSection } from "./HeroSection";
+export { MetricsCard } from "./MetricsCard";
+export { TrustBarSection } from "./TrustBarSection";
+export { WhyConsiderIndiaSection } from "./WhyConsiderIndiaSection";
+export { HospitalsSection } from "./HospitalsSection";
+export { VideoConsultationSection } from "./VideoConsultationSection";
+export { TreatmentsSection } from "./TreatmentsSection";
+export { CoordinationSection } from "./CoordinationSection";
+export { TransparencySection } from "./TransparencySection";
+export { PackageEstimatesSection } from "./PackageEstimatesSection";
+export { ProcessSection } from "./ProcessSection";
+export { ImportantInfoSection } from "./ImportantInfoSection";
+export { RequestFormSection } from "./RequestFormSection";
