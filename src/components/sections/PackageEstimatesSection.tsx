@@ -128,11 +128,21 @@ export function PackageEstimatesSection() {
             sx={{
               fontSize: "1.25rem",
               fontWeight: 700,
-              mb: 3,
+              mb: 0.5,
               color: "#171717",
             }}
           >
             Upon reviewing your medical reports, we can share:
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              fontSize: "0.8125rem",
+              color: alpha("#171717", 0.65),
+              mb: 3,
+            }}
+          >
+            Transparent, personalized estimates with no hidden costs.
           </Typography>
           <Grid container spacing={2}>
             {PACKAGE_ITEMS.map((item) => (
