@@ -62,6 +62,21 @@ export function RequestFormSection() {
     }
   };
 
+  const fileToBase64 = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = reader.result as string;
+        const base64 = result.includes(",") ? result.split(",")[1] : result;
+        resolve(base64 ?? "");
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
+  const MAX_FILE_SIZE_MB = 8;
+  const MAX_FILE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -73,18 +88,27 @@ export function RequestFormSection() {
         try {
           recaptchaToken = await getRecaptchaToken("submit");
         } catch {
-          // Proceed without token so form still works if reCAPTCHA misconfigured or script fails
           recaptchaToken = undefined;
         }
       }
 
+      const filesWithContent: { name: string; content: string }[] = [];
+      for (const file of files) {
+        if (file.size > MAX_FILE_BYTES) {
+          setSubmitStatus({
+            type: "error",
+            message: `"${file.name}" is too large. Max ${MAX_FILE_SIZE_MB}MB per file.`,
+          });
+          setIsSubmitting(false);
+          return;
+        }
+        const content = await fileToBase64(file);
+        filesWithContent.push({ name: file.name, content });
+      }
+
       const formDataToSend = {
         ...formData,
-        files: files.map((file) => ({
-          name: file.name,
-          size: file.size,
-          type: file.type,
-        })),
+        ...(filesWithContent.length > 0 && { files: filesWithContent }),
         ...(recaptchaToken && { recaptchaToken }),
       };
 

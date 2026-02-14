@@ -41,55 +41,71 @@ export function HospitalsSection() {
           Patients are treated directly by the selected hospital and its licensed medical team. Hospital billing is issued directly by the hospital.
         </Typography>
       </Box>
-      <Grid 
-        container 
-        spacing={{ xs: 2, sm: 2.5, md: 3 }} 
-        sx={{ 
-          maxWidth: 1400, 
+      <Grid
+        container
+        spacing={{ xs: 2, sm: 3, md: 3 }}
+        sx={{
+          maxWidth: 1000,
           mx: "auto",
           justifyContent: "center",
+          justifyItems: "stretch",
         }}
       >
         {HOSPITALS.map((hospital) => (
           <HospitalLogo key={hospital.name} hospital={hospital} />
         ))}
       </Grid>
+      <Typography
+        variant="body2"
+        sx={{
+          textAlign: "center",
+          mt: 3,
+          mb: 0,
+          fontSize: { xs: "1.0625rem", md: "1.125rem" },
+          fontWeight: 600,
+          color: GREEN_600,
+        }}
+      >
+        50+ hospitals in India
+      </Typography>
     </SectionContainer>
   );
 }
 
-function HospitalLogo({ hospital }: { hospital: { name: string; logo: string } }) {
+export function HospitalLogo({ hospital }: { hospital: { name: string; logo: string } }) {
   const [imageError, setImageError] = useState(false);
 
   return (
-    <Grid 
-      size={{ 
-        xs: 6,    // 2 per row on mobile
-        sm: 4,    // 3 per row on small screens
-        md: 2.4,  // 5 per row on medium screens
-        lg: 2,    // 6 per row on large screens
-        xl: 1.7,  // 7 per row on extra large screens
+    <Grid
+      size={{
+        xs: 6,   // 2 per row on mobile
+        sm: 4,   // 3 per row on tablet
+        md: 2.4, // 5 per row on desktop
       }}
+      sx={{ display: "flex" }}
     >
       <Box
         sx={{
+          width: "100%",
           p: { xs: 2, sm: 2.5, md: 3 },
           borderRadius: 3,
-          background: "linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 253, 244, 0.3) 100%)",
+          background:
+            "linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 253, 244, 0.3) 100%)",
           backdropFilter: "blur(10px)",
           border: "1px solid",
           borderColor: alpha("#171717", 0.1),
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          height: { xs: 85, sm: 95, md: 105 },
+          minHeight: { xs: 90, sm: 100, md: 110 },
           boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
           transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
           "&:hover": {
             boxShadow: "0 8px 24px rgba(22, 163, 74, 0.2)",
             borderColor: alpha(GREEN_600, 0.3),
             transform: "translateY(-4px)",
-            background: "linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(240, 253, 244, 0.5) 100%)",
+            background:
+              "linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(240, 253, 244, 0.5) 100%)",
           },
         }}
       >
@@ -102,6 +118,8 @@ function HospitalLogo({ hospital }: { hospital: { name: string; logo: string } }
             sx={{
               maxWidth: "85%",
               maxHeight: "70%",
+              width: "auto",
+              height: "auto",
               objectFit: "contain",
               opacity: 0.85,
               transition: "all 0.3s ease",
@@ -114,9 +132,9 @@ function HospitalLogo({ hospital }: { hospital: { name: string; logo: string } }
         ) : (
           <Typography
             sx={{
-              fontSize: { xs: "0.65rem", sm: "0.7rem", md: "0.75rem" },
+              fontSize: { xs: "0.7rem", sm: "0.8rem", md: "0.85rem" },
               fontWeight: 600,
-              color: alpha("#171717", 0.6),
+              color: alpha("#171717", 0.7),
               textAlign: "center",
               lineHeight: 1.2,
               px: 1,

@@ -3,7 +3,6 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid2";
-import Chip from "@mui/material/Chip";
 import { alpha } from "@mui/material/styles";
 
 const GREEN_600 = "#10b981";
@@ -27,106 +26,174 @@ const METRICS = [
   },
 ];
 
+const SPECIALTIES = [
+  "Cardiac",
+  "Orthopaedic",
+  "Spine",
+  "Oncology",
+  "Neurosurgery",
+  "Transplant",
+  "Fertility",
+  "General Surgery",
+];
+
 export function MetricsCard() {
   return (
     <Box
       sx={{
-        p: 4,
+        overflow: "hidden",
         borderRadius: 3,
         backgroundColor: "#ffffff",
-        border: `1px solid ${alpha("#171717", 0.1)}`,
-        boxShadow: "0 8px 32px rgba(0, 0, 0, 0.12)",
-        position: "relative",
+        border: `1px solid ${alpha("#171717", 0.08)}`,
+        boxShadow: "0 10px 40px rgba(0, 0, 0, 0.08)",
         transition: "all 0.3s ease",
         "&:hover": {
-          transform: "translateY(-4px)",
-          boxShadow: "0 12px 40px rgba(0, 0, 0, 0.15)",
+          boxShadow: "0 16px 48px rgba(16, 185, 129, 0.12)",
+          borderColor: alpha(GREEN_600, 0.2),
         },
       }}
     >
-      {/* LIVE Badge */}
-      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", mb: 3 }}>
+      {/* Header */}
+      <Box
+        sx={{
+          px: 2.5,
+          py: 2,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          background: `linear-gradient(135deg, ${alpha(GREEN_600, 0.08)} 0%, ${alpha(GREEN_700, 0.05)} 100%)`,
+          borderBottom: `1px solid ${alpha("#171717", 0.06)}`,
+        }}
+      >
         <Typography
-          variant="overline"
           sx={{
-            fontSize: "0.75rem",
+            fontSize: "0.8125rem",
             fontWeight: 600,
-            letterSpacing: 1.5,
-            color: alpha("#171717", 0.5),
-            textTransform: "uppercase",
+            letterSpacing: 0.5,
+            color: "#171717",
           }}
         >
           Service Overview
         </Typography>
-        <Chip
-          label="ACTIVE"
-          size="small"
+        <Box
           sx={{
+            px: 1.5,
+            py: 0.5,
+            borderRadius: 1.5,
             backgroundColor: GREEN_600,
-            color: "#ffffff",
-            fontWeight: 600,
-            fontSize: "0.7rem",
-            height: 24,
+            color: "#fff",
+            fontSize: "0.6875rem",
+            fontWeight: 700,
+            letterSpacing: 0.5,
           }}
-        />
+        >
+          ACTIVE
+        </Box>
       </Box>
 
       {/* Metrics */}
-      <Grid container spacing={3}>
-        {METRICS.map((metric) => (
-          <Grid key={metric.label} size={{ xs: 12, sm: 4 }}>
-            <Box>
-              <Typography
+      <Box sx={{ p: 2.5 }}>
+        <Grid container spacing={2}>
+          {METRICS.map((metric) => (
+            <Grid key={metric.label} size={{ xs: 12, sm: 4 }}>
+              <Box
                 sx={{
-                  fontSize: "2rem",
-                  fontWeight: 700,
-                  background: `linear-gradient(135deg, ${GREEN_600} 0%, ${GREEN_700} 100%)`,
-                  backgroundClip: "text",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  mb: 0.5,
+                  py: 1.5,
+                  px: 2,
+                  borderRadius: 2,
+                  backgroundColor: alpha("#171717", 0.02),
+                  border: `1px solid ${alpha("#171717", 0.06)}`,
+                  height: "100%",
                 }}
               >
-                {metric.value}
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  fontSize: "0.875rem",
-                  fontWeight: 600,
-                  color: "#171717",
-                  mb: 0.25,
-                }}
-              >
-                {metric.label}
-              </Typography>
-              <Typography
-                variant="caption"
-                sx={{
-                  fontSize: "0.75rem",
-                  color: alpha("#171717", 0.6),
-                }}
-              >
-                {metric.description}
-              </Typography>
-            </Box>
-          </Grid>
-        ))}
-      </Grid>
+                <Typography
+                  sx={{
+                    fontSize: "1.75rem",
+                    fontWeight: 700,
+                    lineHeight: 1.2,
+                    background: `linear-gradient(135deg, ${GREEN_600} 0%, ${GREEN_700} 100%)`,
+                    backgroundClip: "text",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}
+                >
+                  {metric.value}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "0.8125rem",
+                    fontWeight: 600,
+                    color: "#171717",
+                    mt: 0.5,
+                  }}
+                >
+                  {metric.label}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "0.75rem",
+                    color: alpha("#171717", 0.6),
+                    mt: 0.25,
+                  }}
+                >
+                  {metric.description}
+                </Typography>
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
 
-      {/* Service Categories */}
-      <Box sx={{ mt: 3, pt: 3, borderTop: `1px solid ${alpha("#171717", 0.1)}` }}>
-        <Typography
-          variant="caption"
+        {/* Specialties */}
+        <Box
           sx={{
-            fontSize: "0.75rem",
-            color: alpha("#171717", 0.6),
-            display: "block",
-            textAlign: "center",
+            mt: 2.5,
+            pt: 2,
+            borderTop: `1px solid ${alpha("#171717", 0.08)}`,
           }}
         >
-          Cardiac · Orthopaedic · Spine · Oncology · Neurosurgery · Transplant · Fertility · General Surgery
-        </Typography>
+          <Typography
+            sx={{
+              fontSize: "0.6875rem",
+              fontWeight: 600,
+              letterSpacing: 0.5,
+              color: alpha("#171717", 0.5),
+              textTransform: "uppercase",
+              mb: 1.5,
+            }}
+          >
+            Specialties
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 1,
+            }}
+          >
+            {SPECIALTIES.map((specialty) => (
+              <Box
+                key={specialty}
+                sx={{
+                  px: 1.5,
+                  py: 0.5,
+                  borderRadius: 1.5,
+                  backgroundColor: alpha(GREEN_600, 0.08),
+                  border: `1px solid ${alpha(GREEN_600, 0.15)}`,
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: "0.75rem",
+                    fontWeight: 500,
+                    color: "#171717",
+                  }}
+                >
+                  {specialty}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
+        </Box>
       </Box>
     </Box>
   );

@@ -18,36 +18,93 @@ const ASSIST_ITEMS = [
   "Preliminary treatment plan and estimated hospital stay",
 ];
 
+// Optional: replace with your own image path e.g. "/images/video-consultation.jpg"
+const VIDEO_IMAGE_SRC =
+  "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80";
+
 export function VideoConsultationSection() {
   return (
     <SectionContainer>
-      <Box sx={{ maxWidth: 1000, mx: "auto" }}>
-        <Box sx={{ textAlign: "center", mb: 6 }}>
+      <Grid
+        container
+        spacing={{ xs: 4, md: 6 }}
+        alignItems="center"
+        sx={{ maxWidth: 1100, mx: "auto" }}
+      >
+        {/* Image – left on desktop, top on mobile */}
+        <Grid size={{ xs: 12, md: 5 }}>
           <Box
             sx={{
-              display: "inline-flex",
-              width: 80,
-              height: 80,
-              borderRadius: "50%",
-              backgroundColor: alpha(GREEN_600, 0.1),
-              alignItems: "center",
-              justifyContent: "center",
-              mb: 3,
+              position: "relative",
+              borderRadius: 3,
+              overflow: "hidden",
+              boxShadow: "0 12px 40px rgba(0, 0, 0, 0.12)",
+              "&::after": {
+                content: '""',
+                position: "absolute",
+                inset: 0,
+                background: `linear-gradient(135deg, ${alpha(GREEN_600, 0.15)} 0%, transparent 60%)`,
+                pointerEvents: "none",
+              },
             }}
           >
-            <VideoCallIcon
+            <Box
+              component="img"
+              src={VIDEO_IMAGE_SRC}
+              alt="Video consultation with a specialist before you travel"
               sx={{
-                fontSize: 40,
-                color: GREEN_600,
+                width: "100%",
+                height: { xs: 280, sm: 340, md: 420 },
+                objectFit: "cover",
+                display: "block",
               }}
             />
+            <Box
+              sx={{
+                position: "absolute",
+                bottom: 16,
+                left: 16,
+                right: 16,
+                zIndex: 1,
+                display: "flex",
+                alignItems: "center",
+                gap: 1.5,
+                py: 1.5,
+                px: 2,
+                borderRadius: 2,
+                backgroundColor: "rgba(255, 255, 255, 0.95)",
+                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              <VideoCallIcon sx={{ fontSize: 28, color: GREEN_600 }} />
+              <Typography variant="body2" fontWeight={600} color="#171717">
+                Speak to the specialist before you travel
+              </Typography>
+            </Box>
           </Box>
+        </Grid>
+
+        {/* Content – right on desktop, below image on mobile */}
+        <Grid size={{ xs: 12, md: 7 }}>
+          <Typography
+            variant="overline"
+            sx={{
+              color: GREEN_600,
+              fontWeight: 600,
+              letterSpacing: 1.5,
+              fontSize: "0.8125rem",
+              display: "block",
+              mb: 1.5,
+            }}
+          >
+            Pre-travel consultation
+          </Typography>
           <Typography
             variant="h2"
             sx={{
               fontSize: { xs: "1.75rem", md: "2rem" },
               fontWeight: 700,
-              mb: 3,
+              mb: 2,
               lineHeight: 1.2,
             }}
           >
@@ -60,7 +117,10 @@ export function VideoConsultationSection() {
                 WebkitTextFillColor: "transparent",
               }}
             >
-              Speak to the Doctor Before You Travel
+              Speak to the Specialist{" "}
+            </Box>
+            <Box component="span" sx={{ color: "#171717" }}>
+              Before You Travel
             </Box>
           </Typography>
           <Typography
@@ -68,119 +128,113 @@ export function VideoConsultationSection() {
             sx={{
               fontSize: { xs: "1rem", md: "1.125rem" },
               color: alpha("#171717", 0.7),
-              maxWidth: 800,
-              mx: "auto",
               lineHeight: 1.7,
-            }}
-          >
-            Before confirming travel, you may request a video consultation with the hospital specialist.
-          </Typography>
-        </Box>
-
-        <Box
-          sx={{
-            backgroundColor: "#ffffff",
-            borderRadius: 3,
-            border: `1px solid ${alpha("#171717", 0.1)}`,
-            p: { xs: 3, md: 4 },
-            mb: 4,
-            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
-          }}
-        >
-          <Typography
-            variant="h3"
-            sx={{
-              fontSize: "1.125rem",
-              fontWeight: 700,
               mb: 3,
-              color: "#171717",
             }}
           >
-            We coordinate:
+            Before confirming travel, you may request a video consultation with the hospital
+            specialist.
           </Typography>
-          <Grid container spacing={2}>
-            {ASSIST_ITEMS.map((item) => (
-              <Grid key={item} size={{ xs: 12, sm: 6 }}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "flex-start",
-                    gap: 2,
-                    py: 1.5,
-                  }}
-                >
+
+          <Box
+            sx={{
+              backgroundColor: "#ffffff",
+              borderRadius: 3,
+              border: `1px solid ${alpha("#171717", 0.1)}`,
+              p: { xs: 3, md: 4 },
+              mb: 3,
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
+            }}
+          >
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: "1.125rem",
+                fontWeight: 700,
+                mb: 3,
+                color: "#171717",
+              }}
+            >
+              We coordinate:
+            </Typography>
+            <Grid container spacing={2}>
+              {ASSIST_ITEMS.map((item) => (
+                <Grid key={item} size={{ xs: 12, sm: 6 }}>
                   <Box
                     sx={{
-                      width: 28,
-                      height: 28,
-                      borderRadius: "50%",
-                      backgroundColor: alpha(GREEN_600, 0.1),
                       display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
-                      mt: 0.25,
+                      alignItems: "flex-start",
+                      gap: 2,
+                      py: 1.5,
                     }}
                   >
-                    <CheckCircleIcon
+                    <Box
                       sx={{
-                        fontSize: 18,
-                        color: GREEN_600,
+                        width: 28,
+                        height: 28,
+                        borderRadius: "50%",
+                        backgroundColor: alpha(GREEN_600, 0.1),
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                        mt: 0.25,
                       }}
-                    />
+                    >
+                      <CheckCircleIcon sx={{ fontSize: 18, color: GREEN_600 }} />
+                    </Box>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: "0.9375rem",
+                        color: alpha("#171717", 0.8),
+                        lineHeight: 1.6,
+                      }}
+                    >
+                      {item}
+                    </Typography>
                   </Box>
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      fontSize: "0.9375rem",
-                      color: alpha("#171717", 0.8),
-                      lineHeight: 1.6,
-                    }}
-                  >
-                    {item}
-                  </Typography>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
 
-        <Box
-          sx={{
-            p: 4,
-            borderRadius: 3,
-            background: `linear-gradient(135deg, ${alpha(GREEN_600, 0.08)} 0%, ${alpha(GREEN_700, 0.05)} 100%)`,
-            border: `1px solid ${alpha(GREEN_600, 0.2)}`,
-            textAlign: "center",
-          }}
-        >
-          <Typography
-            variant="body1"
+          <Box
             sx={{
-              fontSize: { xs: "1rem", md: "1.125rem" },
-              color: alpha("#171717", 0.9),
-              lineHeight: 1.7,
-              mb: 2,
+              p: 3,
+              borderRadius: 3,
+              background: `linear-gradient(135deg, ${alpha(GREEN_600, 0.08)} 0%, ${alpha(GREEN_700, 0.05)} 100%)`,
+              border: `1px solid ${alpha(GREEN_600, 0.2)}`,
             }}
           >
-            This allows you to{" "}
-            <Box component="span" sx={{ color: GREEN_600, fontWeight: 600 }}>
-              speak directly with the treating doctor
-            </Box>{" "}
-            before making travel decisions.
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{
-              fontSize: "0.875rem",
-              color: alpha("#171717", 0.7),
-              fontStyle: "italic",
-            }}
-          >
-            All medical advice is provided by the hospital specialist.
-          </Typography>
-        </Box>
-      </Box>
+            <Typography
+              variant="body1"
+              sx={{
+                fontSize: { xs: "1rem", md: "1.125rem" },
+                color: alpha("#171717", 0.9),
+                lineHeight: 1.7,
+                mb: 1,
+              }}
+            >
+              This allows you to{" "}
+              <Box component="span" sx={{ color: GREEN_600, fontWeight: 600 }}>
+                speak directly with the treating doctor
+              </Box>{" "}
+              before making travel decisions.
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                fontSize: "0.875rem",
+                color: alpha("#171717", 0.7),
+                fontStyle: "italic",
+              }}
+            >
+              All medical advice is provided by the hospital specialist.
+            </Typography>
+          </Box>
+        </Grid>
+      </Grid>
     </SectionContainer>
   );
 }
