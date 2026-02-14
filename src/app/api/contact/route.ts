@@ -70,23 +70,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const apiKey = process.env.RESEND_API_KEY;
-    const fromEmail = process.env.RESEND_FROM;
+    const apiKey = process.env.RESEND_API_KEY?.trim();
+    const fromEmail = process.env.RESEND_FROM?.trim();
 
     if (!apiKey) {
       console.error("RESEND_API_KEY is not set");
-      return NextResponse.json(
-        { error: "Email service is not configured. Please contact the administrator." },
-        { status: 500 }
-      );
+      const msg =
+        process.env.NODE_ENV === "development"
+          ? "RESEND_API_KEY is missing. Add it to .env and restart the dev server."
+          : "Email service is not configured. Please contact the administrator.";
+      return NextResponse.json({ error: msg }, { status: 500 });
     }
 
     if (!fromEmail) {
       console.error("RESEND_FROM is not set (use a verified domain in Resend)");
-      return NextResponse.json(
-        { error: "Email service is not configured. Please contact the administrator." },
-        { status: 500 }
-      );
+      const msg =
+        process.env.NODE_ENV === "development"
+          ? "RESEND_FROM is missing. Add it to .env (e.g. \"Your Name <onboarding@resend.dev>\") and restart the dev server."
+          : "Email service is not configured. Please contact the administrator.";
+      return NextResponse.json({ error: msg }, { status: 500 });
     }
 
     const resend = new Resend(apiKey);
@@ -159,6 +161,7 @@ ${medicalCondition}
 ${files && files.length > 0 ? `\nAttached Files: ${files.length} file(s)` : ''}
       `.trim();
 
+    // 1. Send inquiry to the team
     const { data, error } = await resend.emails.send({
       from: fromEmail,
       to: CONTACT_TO_EMAIL,
@@ -181,6 +184,52 @@ ${files && files.length > 0 ? `\nAttached Files: ${files.length} file(s)` : ''}
         },
         { status: 500 }
       );
+    }
+
+    // 2. Send thank-you confirmation to the customer
+    const customerSubject = "Thank you for your inquiry – Medical Travel to India";
+    const customerHtml = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #10b981; border-bottom: 2px solid #10b981; padding-bottom: 10px;">
+          Thank you for reaching out
+        </h2>
+        <p style="color: #374151; line-height: 1.6; font-size: 16px;">
+          Dear ${name},
+        </p>
+        <p style="color: #374151; line-height: 1.6;">
+          Thank you for submitting your medical travel inquiry. We have received your details and our team will connect with you shortly to discuss your requirements and next steps.
+        </p>
+        <p style="color: #374151; line-height: 1.6;">
+          If you have any urgent questions, please reply to this email or WhatsApp us at <a href="https://wa.me/919542218454" style="color: #10b981; text-decoration: none;">+91 9542218454</a>.
+        </p>
+        <p style="color: #374151; line-height: 1.6; margin-top: 24px;">
+          Best regards,<br />
+          <strong>Medical Travel to India Team</strong>
+        </p>
+      </div>
+    `;
+    const customerText = `
+Thank you for reaching out, ${name}.
+
+Thank you for submitting your medical travel inquiry. We have received your details and our team will connect with you shortly to discuss your requirements and next steps.
+
+If you have any urgent questions, please reply to this email or WhatsApp us at +91 9542218454.
+
+Best regards,
+Medical Travel to India Team
+    `.trim();
+
+    const customerResult = await resend.emails.send({
+      from: fromEmail,
+      to: email,
+      subject: customerSubject,
+      html: customerHtml,
+      text: customerText,
+    });
+
+    if (customerResult.error) {
+      console.error("Failed to send customer confirmation email:", customerResult.error);
+      // Inquiry was already received by the team; don't fail the request
     }
 
     return NextResponse.json(
