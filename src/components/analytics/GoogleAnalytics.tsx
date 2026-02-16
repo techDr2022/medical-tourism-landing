@@ -55,4 +55,8 @@ export function trackFormConversion() {
       event_callback: () => {},
     });
   }
+  // Google Ads conversion event for Contact Us form
+  window.gtag("event", "ads_conversion_Contact_Us_1", {
+    event_callback: () => {},
+  });
 }
