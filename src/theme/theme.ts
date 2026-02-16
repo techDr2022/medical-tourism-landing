@@ -1,8 +1,10 @@
 import { createTheme, alpha } from "@mui/material/styles";
 
 const GREEN_500 = "#34d399";
-const GREEN_600 = "#10b981";
+const GREEN_600 = "#1c7c7f";
 const GREEN_700 = "#0d9488";
+const GRADIENT_GREEN_START = "#10b981";
+const GRADIENT_GREEN_END = "#0d9488";
 const GREEN_100 = "#d1fae5";
 const GREEN_50 = "#ecfdf5";
 

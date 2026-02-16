@@ -11,7 +11,7 @@ export function OfficialCollaborationSection() {
       <Box sx={{ textAlign: "center", mb: 4 }}>
         <Typography
           variant="overline"
-          sx={{ color: "#10b981", fontWeight: 600, letterSpacing: 1.5 }}
+          sx={{ color: "#1c7c7f", fontWeight: 600, letterSpacing: 1.5 }}
         >
           Hospital Partnerships
         </Typography>

@@ -11,7 +11,7 @@ interface GlassCardProps {
   sx?: SxProps<Theme>;
 }
 
-const GREEN_600 = "#10b981";
+const GREEN_600 = "#1c7c7f";
 const GREEN_50 = "#f0fdf4";
 
 export function GlassCard({

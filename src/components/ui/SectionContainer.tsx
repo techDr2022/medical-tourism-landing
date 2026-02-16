@@ -31,7 +31,7 @@ export function SectionContainer({ children, id, variant = "default" }: SectionC
                 left: 0,
                 right: 0,
                 height: "1px",
-                background: `linear-gradient(90deg, transparent 0%, ${alpha("#10b981", 0.2)} 50%, transparent 100%)`,
+                background: `linear-gradient(90deg, transparent 0%, ${alpha("#1c7c7f", 0.2)} 50%, transparent 100%)`,
               },
             }
           : {

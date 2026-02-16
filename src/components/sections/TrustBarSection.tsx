@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { alpha } from "@mui/material/styles";
 
-const GREEN_600 = "#10b981";
+const GREEN_600 = "#1c7c7f";
 
 const TRUST_ITEMS = [
   "Formal hospital collaborations",

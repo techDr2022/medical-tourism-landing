@@ -16,8 +16,10 @@ interface HeroSectionProps {
   audience?: "default" | "kenya";
 }
 
-const GREEN_600 = "#10b981";
+const GREEN_600 = "#1c7c7f";
 const GREEN_700 = "#0d9488";
+const GRADIENT_START = "#10b981";
+const GRADIENT_END = "#0d9488";
 
 export function HeroSection({ onCtaClick, onUploadClick, audience = "default" }: HeroSectionProps) {
   const [imageError, setImageError] = useState(false);
@@ -137,11 +139,11 @@ export function HeroSection({ onCtaClick, onUploadClick, audience = "default" }:
                     py: 1.5,
                     fontSize: "1rem",
                     fontWeight: 600,
-                    background: `linear-gradient(135deg, ${GREEN_600} 0%, ${GREEN_700} 100%)`,
+                    background: `linear-gradient(135deg, ${GRADIENT_START} 0%, ${GRADIENT_END} 100%)`,
                     boxShadow: "0 4px 14px rgba(22, 163, 74, 0.4)",
                     transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                     "&:hover": {
-                      background: `linear-gradient(135deg, ${GREEN_700} 0%, #0f766e 100%)`,
+                      background: `linear-gradient(135deg, ${GRADIENT_END} 0%, #0f766e 100%)`,
                       boxShadow: "0 6px 20px rgba(22, 163, 74, 0.5)",
                       transform: "translateY(-2px)",
                     },

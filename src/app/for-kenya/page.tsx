@@ -23,8 +23,10 @@ import { HOSPITALS } from "@/constants";
 import { MobileStickyCta } from "@/components/layout/MobileStickyCta";
 import { AuroraBackground } from "@/components/layout/AuroraBackground";
 
-const GREEN_600 = "#10b981";
+const GREEN_600 = "#1c7c7f";
 const GREEN_700 = "#0d9488";
+const GRADIENT_START = "#10b981";
+const GRADIENT_END = "#0d9488";
 
 const WHY_INDIA_BULLETS = [
   "Internationally accredited hospitals",
@@ -287,7 +289,7 @@ export default function ForKenyaPage() {
                         py: 1.5,
                         fontSize: "0.9375rem",
                         fontWeight: 600,
-                        background: `linear-gradient(135deg, ${GREEN_600} 0%, ${GREEN_700} 100%)`,
+                        background: `linear-gradient(135deg, ${GRADIENT_START} 0%, ${GRADIENT_END} 100%)`,
                         boxShadow: "0 4px 14px rgba(22, 163, 74, 0.35)",
                         borderRadius: 2,
                         transition: "all 0.25s ease",
@@ -763,7 +765,7 @@ export default function ForKenyaPage() {
                   <Box
                     component="span"
                     sx={{
-                      background: `linear-gradient(135deg, ${GREEN_600} 0%, ${GREEN_700} 100%)`,
+                      background: `linear-gradient(135deg, ${GRADIENT_START} 0%, ${GRADIENT_END} 100%)`,
                       backgroundClip: "text",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
@@ -958,7 +960,7 @@ export default function ForKenyaPage() {
                         left: "calc(50% + 32px)",
                         right: "-14px",
                         height: 3,
-                        background: `linear-gradient(90deg, ${GREEN_600} 0%, ${alpha(GREEN_600, 0.3)} 50%, transparent 100%)`,
+                        background: `linear-gradient(90deg, ${GRADIENT_START} 0%, ${alpha(GRADIENT_START, 0.3)} 50%, transparent 100%)`,
                         borderRadius: 2,
                       },
                     },
@@ -969,7 +971,7 @@ export default function ForKenyaPage() {
                       width: 48,
                       height: 48,
                       borderRadius: "50%",
-                      background: `linear-gradient(135deg, ${GREEN_600} 0%, ${GREEN_700} 100%)`,
+                      background: `linear-gradient(135deg, ${GRADIENT_START} 0%, ${GRADIENT_END} 100%)`,
                       color: "#fff",
                       display: "flex",
                       alignItems: "center",
@@ -1062,7 +1064,7 @@ export default function ForKenyaPage() {
                   component="span"
                   sx={{
                     display: "block",
-                    background: `linear-gradient(135deg, ${GREEN_600} 0%, ${GREEN_700} 100%)`,
+                    background: `linear-gradient(135deg, ${GRADIENT_START} 0%, ${GRADIENT_END} 100%)`,
                     backgroundClip: "text",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
@@ -1155,7 +1157,7 @@ export default function ForKenyaPage() {
                     fontSize: "0.9375rem",
                     fontWeight: 600,
                     borderRadius: 2,
-                    background: `linear-gradient(135deg, ${GREEN_600} 0%, ${GREEN_700} 100%)`,
+                    background: `linear-gradient(135deg, ${GRADIENT_START} 0%, ${GRADIENT_END} 100%)`,
                     boxShadow: "0 4px 14px rgba(22, 163, 74, 0.35)",
                     "&:hover": {
                       background: `linear-gradient(135deg, ${GREEN_700} 0%, #0f766e 100%)`,

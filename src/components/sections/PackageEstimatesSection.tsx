@@ -7,8 +7,10 @@ import { SectionContainer } from "../ui/SectionContainer";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { alpha } from "@mui/material/styles";
 
-const GREEN_600 = "#10b981";
+const GREEN_600 = "#1c7c7f";
 const GREEN_700 = "#0d9488";
+const GRADIENT_START = "#10b981";
+const GRADIENT_END = "#0d9488";
 
 const PACKAGE_ITEMS = [
   "Structured hospital package estimates",
@@ -89,7 +91,7 @@ export function PackageEstimatesSection() {
             <Box
               component="span"
               sx={{
-                background: `linear-gradient(135deg, ${GREEN_600} 0%, ${GREEN_700} 100%)`,
+                background: `linear-gradient(135deg, ${GRADIENT_START} 0%, ${GRADIENT_END} 100%)`,
                 backgroundClip: "text",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
@@ -140,7 +142,7 @@ export function PackageEstimatesSection() {
                 height: 3,
                 mt: 1,
                 borderRadius: 1,
-                background: `linear-gradient(90deg, ${GREEN_600} 0%, ${GREEN_700} 100%)`,
+                background: `linear-gradient(90deg, ${GRADIENT_START} 0%, ${GRADIENT_END} 100%)`,
               }}
             />
           </Box>
