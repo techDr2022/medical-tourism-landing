@@ -43,11 +43,31 @@ export function PopupForm({ open, onClose, title = "Request a Treatment Estimate
     email: "",
     medicalCondition: "",
   });
+  const [files, setFiles] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{
     type: "success" | "error" | null;
     message: string;
   }>({ type: null, message: "" });
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) setFiles(Array.from(e.target.files));
+  };
+
+  const fileToBase64 = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = reader.result as string;
+        const base64 = result.includes(",") ? result.split(",")[1] : result;
+        resolve(base64 ?? "");
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
+  const MAX_FILE_SIZE_MB = 8;
+  const MAX_FILE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
   const handleInputChange = (field: keyof FormData) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -60,6 +80,7 @@ export function PopupForm({ open, onClose, title = "Request a Treatment Estimate
     if (!isSubmitting) {
       setSubmitStatus({ type: null, message: "" });
       setFormData({ name: "", country: "", whatsapp: "", email: "", medicalCondition: "" });
+      setFiles([]);
       onClose();
     }
   };
@@ -75,9 +96,22 @@ export function PopupForm({ open, onClose, title = "Request a Treatment Estimate
         try {
           recaptchaToken = await getRecaptchaToken("submit");
         } catch {
-          // Proceed without token so form still works if reCAPTCHA misconfigured or script fails
           recaptchaToken = undefined;
         }
+      }
+
+      const filesWithContent: { name: string; content: string }[] = [];
+      for (const file of files) {
+        if (file.size > MAX_FILE_BYTES) {
+          setSubmitStatus({
+            type: "error",
+            message: `"${file.name}" is too large. Max ${MAX_FILE_SIZE_MB}MB per file.`,
+          });
+          setIsSubmitting(false);
+          return;
+        }
+        const content = await fileToBase64(file);
+        filesWithContent.push({ name: file.name, content });
       }
 
       const response = await fetch("/api/contact", {
@@ -85,7 +119,7 @@ export function PopupForm({ open, onClose, title = "Request a Treatment Estimate
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
-          files: [],
+          ...(filesWithContent.length > 0 && { files: filesWithContent }),
           ...(recaptchaToken && { recaptchaToken }),
         }),
       });
@@ -103,6 +137,7 @@ export function PopupForm({ open, onClose, title = "Request a Treatment Estimate
         message: "Thank you! We've received your inquiry and will respond within 24–48 hours.",
       });
       setFormData({ name: "", country: "", whatsapp: "", email: "", medicalCondition: "" });
+      setFiles([]);
 
       setTimeout(() => {
         setSubmitStatus({ type: null, message: "" });
@@ -236,6 +271,23 @@ export function PopupForm({ open, onClose, title = "Request a Treatment Estimate
             disabled={isSubmitting}
             inputProps={{ style: { resize: "none" } }}
           />
+
+          <Button
+            variant="outlined"
+            component="label"
+            fullWidth
+            disabled={isSubmitting}
+            sx={{ py: 1.5, borderColor: alpha(GREEN_600, 0.5), color: GREEN_600 }}
+          >
+            {files.length > 0 ? `${files.length} file(s) selected` : "Upload Reports (PDF, DOC, JPG, PNG)"}
+            <input
+              type="file"
+              hidden
+              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+              multiple
+              onChange={handleFileChange}
+            />
+          </Button>
 
           <Button
             type="submit"
