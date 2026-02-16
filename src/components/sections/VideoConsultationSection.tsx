@@ -16,13 +16,11 @@ const GRADIENT_END = "#0d9488";
 const ASSIST_ITEMS = [
   "Secure sharing of medical reports",
   "Appointment scheduling",
-  "Time zone coordination between Kenya and India",
+  "Time zone coordination with India",
   "Preliminary treatment plan and estimated hospital stay",
 ];
 
-// Optional: replace with your own image path e.g. "/images/video-consultation.jpg"
-const VIDEO_IMAGE_SRC =
-  "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80";
+const VIDEO_IMAGE_SRC = "/logos/16369.jpg";
 
 export function VideoConsultationSection() {
   return (

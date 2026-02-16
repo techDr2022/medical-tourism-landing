@@ -110,7 +110,7 @@ export function PackageEstimatesSection() {
               lineHeight: 1.7,
             }}
           >
-            We understand that patients travelling from Kenya want clarity on expected treatment costs before planning their journey. Through our formal hospital collaborations, we receive official tariff plans directly from accredited hospital partners in India.
+            We understand that international patients want clarity on expected treatment costs before planning their journey. Through our formal hospital collaborations, we receive official tariff plans directly from accredited hospital partners in India.
           </Typography>
         </Box>
 

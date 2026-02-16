@@ -5,34 +5,40 @@ import Typography from "@mui/material/Typography";
 import { SectionContainer } from "../ui/SectionContainer";
 import { GlassCard } from "../ui/GlassCard";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import { alpha } from "@mui/material/styles";
 
 const GREEN_600 = "#1c7c7f";
 const GRADIENT_START = "#10b981";
 const GRADIENT_END = "#0d9488";
 
 const BENEFITS = [
+  "Compare multiple hospital options",
+  "Structured cost clarity before travel",
+  "Video consultation arranged efficiently",
+  "Travel and accommodation support",
   "Single point of communication",
-  "Comparison across major hospital groups",
-  "Coordinated documentation",
-  "Travel and accommodation assistance",
-  "Structured planning support",
 ];
 
-export function WhyWorkWithUsSection() {
+export function WhyCoordinatorSection() {
   return (
-    <SectionContainer>
+    <SectionContainer variant="alt">
       <Box sx={{ textAlign: "center", mb: 4 }}>
         <Typography
           variant="overline"
           sx={{ color: GREEN_600, fontWeight: 600, letterSpacing: 1.5 }}
         >
-          Our Advantage
+          Coordinator vs Direct Contact
         </Typography>
         <Typography
           variant="h2"
           component="span"
-          sx={{ mt: 1, mb: 3, fontSize: { xs: "1.5rem", md: "1.75rem" }, display: "block" }}
+          sx={{
+            mt: 1,
+            mb: 3,
+            fontSize: { xs: "1.5rem", md: "1.75rem" },
+            maxWidth: 720,
+            mx: "auto",
+            display: "block",
+          }}
         >
           Why{" "}
           <Box
@@ -45,19 +51,16 @@ export function WhyWorkWithUsSection() {
             }}
           >
             Work With a Medical Travel Coordinator
-          </Box>
-          ?
+          </Box>{" "}
+          Instead of Contacting Hospitals Directly?
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 4, maxWidth: 720, mx: "auto" }}>
-          Direct hospital contact can be time-consuming when comparing multiple institutions. We simplify complex cross-border medical travel.
+          A coordinator streamlines your journey and gives you one clear point of contact instead of managing multiple hospitals yourself.
         </Typography>
       </Box>
       <Box sx={{ maxWidth: 800, mx: "auto" }}>
         <GlassCard>
-          <Typography variant="body1" paragraph>
-            We provide:
-          </Typography>
-          <Box component="ul" sx={{ m: 0, p: 0, pl: 2.5, mb: 3 }}>
+          <Box component="ul" sx={{ m: 0, p: 0, pl: 2.5 }}>
             {BENEFITS.map((benefit) => (
               <Box
                 key={benefit}
