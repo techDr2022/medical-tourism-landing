@@ -4,6 +4,9 @@ import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  icons: {
+    icon: "/logos/medical%20tours%20india%20favicon.png",
+  },
   title: "Medical Travel to India | Coordinated Hospital Access for International Patients",
   description:
     "Submit your medical reports to receive hospital options, preliminary estimates, and coordinated treatment support in India. Exclusively for international patients.",

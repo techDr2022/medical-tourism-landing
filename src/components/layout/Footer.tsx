@@ -9,7 +9,7 @@ import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 
 const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || "919032292171";
-const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "info@medicaltoursindia.com";
+const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "info@techdr.in";
 const WHATSAPP_DISPLAY =
   WHATSAPP.length >= 12 ? `+${WHATSAPP.slice(0, 2)} ${WHATSAPP.slice(2)}` : `+${WHATSAPP}`;
 

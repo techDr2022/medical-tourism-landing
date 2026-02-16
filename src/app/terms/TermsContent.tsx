@@ -90,8 +90,8 @@ export function TermsContent() {
         </Typography>
         <Typography variant="body1" sx={{ lineHeight: 1.8, color: "#374151" }}>
           For questions about these Terms, contact us at{" "}
-          <a href="mailto:info@medicaltoursindia.com" style={{ color: "#1c7c7f", textDecoration: "none" }}>
-            info@medicaltoursindia.com
+          <a href="mailto:info@techdr.in" style={{ color: "#1c7c7f", textDecoration: "none" }}>
+            info@techdr.in
           </a>
           .
         </Typography>

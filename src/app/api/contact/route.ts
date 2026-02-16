@@ -4,8 +4,8 @@ import { Resend } from "resend";
 const RECAPTCHA_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
 const RECAPTCHA_MIN_SCORE = 0.3;
 
-// Inquiries go here; set CONTACT_TO_EMAIL in env for production (e.g. info@medicaltoursindia.com)
-const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL?.trim() || "info@medicaltoursindia.com";
+// Inquiries go here; set CONTACT_TO_EMAIL in env
+const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL?.trim() || "info@techdr.in";
 // WhatsApp shown in customer confirmation email; set NEXT_PUBLIC_WHATSAPP_NUMBER (e.g. 919032292171)
 const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || "919032292171";
 
@@ -53,18 +53,15 @@ export async function POST(request: NextRequest) {
     const { name, country, whatsapp, email, medicalCondition, files, recaptchaToken } = body;
 
     // Build attachments from uploaded files (base64 content)
-    const attachments: { filename: string; content: Buffer }[] = [];
+    // Resend expects base64 string, not Buffer
+    const attachments: { filename: string; content: string }[] = [];
     if (Array.isArray(files) && files.length > 0) {
       for (const f of files) {
-        if (f && typeof f.name === "string" && typeof f.content === "string") {
-          try {
-            attachments.push({
-              filename: f.name,
-              content: Buffer.from(f.content, "base64"),
-            });
-          } catch {
-            // Skip invalid base64
-          }
+        if (f && typeof f.name === "string" && typeof f.content === "string" && f.content.length > 0) {
+          attachments.push({
+            filename: f.name,
+            content: f.content,
+          });
         }
       }
     }
