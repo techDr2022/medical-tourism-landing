@@ -50,7 +50,7 @@ async function verifyRecaptchaToken(
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, country, whatsapp, email, medicalCondition, files, recaptchaToken } = body;
+    const { name, country, outsideIndia, whatsapp, email, medicalCondition, files, recaptchaToken } = body;
 
     // Build attachments from uploaded files (base64 content)
     // Resend expects base64 string, not Buffer
@@ -79,10 +79,16 @@ export async function POST(request: NextRequest) {
       console.warn("RECAPTCHA_SECRET_KEY set but no token received; skipping verification");
     }
 
-    // Validate required fields
-    if (!name || !country || !whatsapp || !email || !medicalCondition) {
+    // Validate required fields (country dropdown, outside India, and others filter junk leads)
+    if (!name || !country || !outsideIndia || !whatsapp || !email || !medicalCondition) {
       return NextResponse.json(
         { error: "All fields are required" },
+        { status: 400 }
+      );
+    }
+    if (outsideIndia !== "yes" && outsideIndia !== "no") {
+      return NextResponse.json(
+        { error: "Please indicate whether you are currently outside India" },
         { status: 400 }
       );
     }
@@ -136,7 +142,11 @@ export async function POST(request: NextRequest) {
               </tr>
               <tr>
                 <td style="padding: 8px 0; font-weight: 600; color: #374151;">Country:</td>
-                <td style="padding: 8px 0; color: #171717;">${country}</td>
+                <td style="padding: 8px 0; color: #171717;">${escapeHtml(country)}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; font-weight: 600; color: #374151;">Currently outside India:</td>
+                <td style="padding: 8px 0; color: #171717;">${outsideIndia === "yes" ? "Yes" : "No"}</td>
               </tr>
               <tr>
                 <td style="padding: 8px 0; font-weight: 600; color: #374151;">Email:</td>
@@ -178,6 +188,7 @@ New Medical Travel Inquiry
 Patient Information:
 - Full Name: ${name}
 - Country: ${country}
+- Currently outside India: ${outsideIndia === "yes" ? "Yes" : "No"}
 - Email: ${email}
 - WhatsApp: ${whatsapp}
 

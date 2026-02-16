@@ -5,7 +5,15 @@ import { getRecaptchaToken } from "@/lib/recaptcha";
 import { trackFormConversion } from "@/components/analytics/GoogleAnalytics";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
 import Grid from "@mui/material/Grid2";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import Select from "@mui/material/Select";
 import { SectionContainer } from "../ui/SectionContainer";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
@@ -20,15 +28,24 @@ const GRADIENT_START = "#10b981";
 const GRADIENT_END = "#0d9488";
 
 const BENEFITS = [
-  "Hospital options",
-  "Preliminary treatment estimate",
+  "Suitable hospital options",
+  "Preliminary package estimate",
   "Video consultation scheduling",
-  "Travel coordination guidance",
+  "Travel guidance support",
 ];
+
+// Country list for dropdown (required, filters junk leads)
+const COUNTRIES = [
+  "Afghanistan", "Bangladesh", "Egypt", "Ethiopia", "Ghana", "India", "Indonesia",
+  "Iraq", "Jordan", "Kenya", "Malaysia", "Nepal", "Nigeria", "Oman", "Pakistan",
+  "Philippines", "Rwanda", "Saudi Arabia", "South Africa", "Sri Lanka", "Tanzania",
+  "Uganda", "United Arab Emirates", "United Kingdom", "United States", "Yemen", "Zambia", "Zimbabwe",
+].sort();
 
 interface FormData {
   name: string;
   country: string;
+  outsideIndia: "" | "yes" | "no";
   whatsapp: string;
   email: string;
   medicalCondition: string;
@@ -38,6 +55,7 @@ export function RequestFormSection() {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     country: "",
+    outsideIndia: "",
     whatsapp: "",
     email: "",
     medicalCondition: "",
@@ -53,10 +71,17 @@ export function RequestFormSection() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormData((prev) => ({ ...prev, [field]: e.target.value }));
-    // Clear status when user starts typing
-    if (submitStatus.type) {
-      setSubmitStatus({ type: null, message: "" });
-    }
+    if (submitStatus.type) setSubmitStatus({ type: null, message: "" });
+  };
+
+  const handleSelectChange = (field: "country" | "outsideIndia") => (
+    e: { target: { value: unknown } }
+  ) => {
+    const value = field === "outsideIndia"
+      ? (e.target.value as "" | "yes" | "no")
+      : String(e.target.value);
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (submitStatus.type) setSubmitStatus({ type: null, message: "" });
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,6 +166,7 @@ export function RequestFormSection() {
       setFormData({
         name: "",
         country: "",
+        outsideIndia: "",
         whatsapp: "",
         email: "",
         medicalCondition: "",
@@ -174,7 +200,7 @@ export function RequestFormSection() {
             Get Started
           </Typography>
           <Typography variant="h2" sx={{ mt: 1, mb: 2, fontSize: { xs: "1.5rem", md: "1.75rem" } }}>
-            Start Your Medical Journey to India
+            Request a Treatment Estimate Within 24–48 Hours
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
             Submit your medical reports to receive:
@@ -256,16 +282,43 @@ export function RequestFormSection() {
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
-                  <TextField
-                    fullWidth
-                    required
-                    label="Country"
-                    placeholder="Your country"
-                    variant="outlined"
-                    value={formData.country}
-                    onChange={handleInputChange("country")}
-                    disabled={isSubmitting}
-                  />
+                  <FormControl fullWidth required disabled={isSubmitting}>
+                    <InputLabel id="country-label">Country</InputLabel>
+                    <Select
+                      labelId="country-label"
+                      id="country"
+                      value={formData.country}
+                      label="Country"
+                      onChange={handleSelectChange("country")}
+                    >
+                      <MenuItem value="">
+                        <em>Select country</em>
+                      </MenuItem>
+                      {COUNTRIES.map((c) => (
+                        <MenuItem key={c} value={c}>
+                          {c}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <FormControl component="fieldset" required disabled={isSubmitting} sx={{ width: "100%" }}>
+                    <FormLabel id="outside-india-label" sx={{ typography: "body2" }}>
+                      Are you currently outside India?
+                    </FormLabel>
+                    <RadioGroup
+                      row
+                      aria-labelledby="outside-india-label"
+                      name="outsideIndia"
+                      value={formData.outsideIndia}
+                      onChange={handleSelectChange("outsideIndia")}
+                      sx={{ mt: 0.5 }}
+                    >
+                      <FormControlLabel value="yes" control={<Radio size="small" />} label="Yes" />
+                      <FormControlLabel value="no" control={<Radio size="small" />} label="No" />
+                    </RadioGroup>
+                  </FormControl>
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
                   <TextField
@@ -318,7 +371,7 @@ export function RequestFormSection() {
                   >
                     {files.length > 0
                       ? `${files.length} file(s) selected`
-                      : "Upload Reports"}
+                      : "Upload Medical Reports"}
                     <input
                       type="file"
                       hidden

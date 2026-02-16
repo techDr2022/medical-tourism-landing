@@ -24,27 +24,27 @@ interface Testimonial {
 const TESTIMONIALS: Testimonial[] = [
   {
     name: "James M.",
-    location: "Nairobi, Kenya",
+    location: "International patient",
     text: "I was initially unsure about travelling to India for heart surgery. The coordination team helped arrange a video consultation with the specialist before I travelled. Everything was organised clearly — hospital admission, visa guidance, and accommodation. The process felt structured and professional from start to finish.",
   },
   {
     name: "Grace W.",
-    location: "Mombasa, Kenya",
+    location: "International patient",
     text: "We were looking for options for my mother's knee replacement. The team shared hospital package estimates and explained the differences between room categories. There were no hidden charges from their side. The hospital treated us directly, and the coordination support made the journey smooth.",
   },
   {
     name: "Daniel O.",
-    location: "Kisumu, Kenya",
+    location: "International patient",
     text: "I appreciated being able to speak with the doctor through video consultation before making travel plans. It helped us understand the procedure and expected hospital stay. Once we arrived in India, airport pickup and accommodation were already arranged.",
   },
   {
     name: "Esther N.",
-    location: "Nairobi, Kenya",
-    text: "From the first enquiry to discharge, communication was clear. We were assigned one coordinator who handled hospital communication and documents. It reduced stress, especially travelling from Kenya for medical treatment.",
+    location: "International patient",
+    text: "From the first enquiry to discharge, communication was clear. We were assigned one coordinator who handled hospital communication and documents. It reduced stress, especially when travelling abroad for medical treatment.",
   },
   {
     name: "Peter K.",
-    location: "Eldoret, Kenya",
+    location: "International patient",
     text: "We received official hospital cost estimates before travelling. The final invoice was issued directly by the hospital as explained. The transparency gave us confidence in the process.",
   },
 ];

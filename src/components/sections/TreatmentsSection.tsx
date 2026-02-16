@@ -34,7 +34,7 @@ export function TreatmentsSection() {
           Treatments We Commonly Coordinate
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 4, maxWidth: 720, mx: "auto" }}>
-          We assist Kenyan patients seeking coordination for:
+          We assist international patients seeking coordination for:
         </Typography>
       </Box>
       <Grid container spacing={2} sx={{ maxWidth: 960, mx: "auto" }}>

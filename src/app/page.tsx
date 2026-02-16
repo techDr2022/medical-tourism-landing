@@ -8,6 +8,7 @@ import { PopupForm } from "@/components/layout/PopupForm";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { TrustBarSection } from "@/components/sections/TrustBarSection";
 import { WhyConsiderIndiaSection } from "@/components/sections/WhyConsiderIndiaSection";
+import { WhyCoordinatorSection } from "@/components/sections/WhyCoordinatorSection";
 import { HospitalsSection } from "@/components/sections/HospitalsSection";
 import { VideoConsultationSection } from "@/components/sections/VideoConsultationSection";
 import { TreatmentsSection } from "@/components/sections/TreatmentsSection";
@@ -42,6 +43,7 @@ export default function Home() {
         <HeroSection onCtaClick={() => setPopupOpen(true)} />
         <TrustBarSection />
         <WhyConsiderIndiaSection />
+        <WhyCoordinatorSection />
         <HospitalsSection />
         <VideoConsultationSection />
         <TreatmentsSection />
