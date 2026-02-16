@@ -10,8 +10,10 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import StarIcon from "@mui/icons-material/Star";
 
-const GREEN_600 = "#10b981";
+const GREEN_600 = "#1c7c7f";
 const GREEN_700 = "#0d9488";
+const GRADIENT_START = "#10b981";
+const GRADIENT_END = "#0d9488";
 
 interface Testimonial {
   name: string;
@@ -239,7 +241,7 @@ export function TestimonialsSection() {
                 borderRadius: 4,
                 background:
                   activeIndex === index
-                    ? `linear-gradient(135deg, ${GREEN_600} 0%, ${GREEN_700} 100%)`
+                    ? `linear-gradient(135deg, ${GRADIENT_START} 0%, ${GRADIENT_END} 100%)`
                     : alpha("#171717", 0.2),
                 cursor: "pointer",
                 transition: "all 0.3s ease",

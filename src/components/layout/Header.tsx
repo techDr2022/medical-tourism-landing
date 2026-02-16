@@ -11,8 +11,10 @@ interface HeaderProps {
   onCtaClick: () => void;
 }
 
-const GREEN_600 = "#10b981";
+const GREEN_600 = "#1c7c7f";
 const GREEN_700 = "#0d9488";
+const GRADIENT_START = "#10b981";
+const GRADIENT_END = "#0d9488";
 
 const NAV_ITEMS = [
   { label: "Why India", id: "why-india" },
@@ -151,7 +153,7 @@ export function Header({ onCtaClick }: HeaderProps) {
               fontSize: { xs: "0.75rem", sm: "0.8125rem" },
               fontWeight: 600,
               minWidth: 0,
-              background: `linear-gradient(135deg, ${GREEN_600} 0%, ${GREEN_700} 100%)`,
+              background: `linear-gradient(135deg, ${GRADIENT_START} 0%, ${GRADIENT_END} 100%)`,
               boxShadow: "0 2px 8px rgba(22, 163, 74, 0.3)",
               "&:hover": {
                 background: `linear-gradient(135deg, ${GREEN_700} 0%, #0f766e 100%)`,
@@ -182,7 +184,7 @@ export function Header({ onCtaClick }: HeaderProps) {
             onClick={onCtaClick}
             sx={{
               display: { xs: "none", lg: "inline-flex" },
-              background: `linear-gradient(135deg, ${GREEN_600} 0%, ${GREEN_700} 100%)`,
+              background: `linear-gradient(135deg, ${GRADIENT_START} 0%, ${GRADIENT_END} 100%)`,
               boxShadow: "0 4px 12px rgba(22, 163, 74, 0.3)",
               "&:hover": {
                 background: `linear-gradient(135deg, ${GREEN_700} 0%, #0f766e 100%)`,

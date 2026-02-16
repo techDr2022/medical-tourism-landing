@@ -3,7 +3,11 @@ import { Resend } from "resend";
 
 const RECAPTCHA_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
 const RECAPTCHA_MIN_SCORE = 0.3;
-const CONTACT_TO_EMAIL = "info@techdr.in";
+
+// Inquiries go here; set CONTACT_TO_EMAIL in env for production (e.g. info@medicaltoursindia.com)
+const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL?.trim() || "info@medicaltoursindia.com";
+// WhatsApp shown in customer confirmation email; set NEXT_PUBLIC_WHATSAPP_NUMBER (e.g. 919032292171)
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || "919032292171";
 
 function escapeHtml(s: string): string {
   return s
@@ -121,7 +125,7 @@ export async function POST(request: NextRequest) {
     const subject = `New Medical Travel Inquiry from ${name}`;
     const html = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #10b981; border-bottom: 2px solid #10b981; padding-bottom: 10px;">
+          <h2 style="color: #1c7c7f; border-bottom: 2px solid #1c7c7f; padding-bottom: 10px;">
             New Medical Travel Inquiry
           </h2>
           
@@ -140,25 +144,25 @@ export async function POST(request: NextRequest) {
               <tr>
                 <td style="padding: 8px 0; font-weight: 600; color: #374151;">Email:</td>
                 <td style="padding: 8px 0; color: #171717;">
-                  <a href="mailto:${email}" style="color: #10b981; text-decoration: none;">${email}</a>
+                  <a href="mailto:${email}" style="color: #1c7c7f; text-decoration: none;">${email}</a>
                 </td>
               </tr>
               <tr>
                 <td style="padding: 8px 0; font-weight: 600; color: #374151;">WhatsApp:</td>
                 <td style="padding: 8px 0; color: #171717;">
-                  <a href="https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}" style="color: #10b981; text-decoration: none;">${whatsapp}</a>
+                  <a href="https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}" style="color: #1c7c7f; text-decoration: none;">${whatsapp}</a>
                 </td>
               </tr>
             </table>
           </div>
 
-          <div style="background-color: #f0fdf4; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #10b981;">
+          <div style="background-color: #f0fdf4; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #1c7c7f;">
             <h3 style="color: #171717; margin-top: 0;">Medical Condition</h3>
             <p style="color: #374151; line-height: 1.6; margin: 0;">${medicalCondition.replace(/\n/g, '<br>')}</p>
           </div>
 
           ${attachments.length > 0 ? `
-            <div style="margin: 20px 0; padding: 16px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #10b981;">
+            <div style="margin: 20px 0; padding: 16px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid #1c7c7f;">
               <h3 style="color: #171717; margin-top: 0;">Attached Files (see email attachments)</h3>
               <ul style="color: #374151; margin: 0; padding-left: 20px;">${attachments.map((a) => `<li>${escapeHtml(a.filename)}</li>`).join("")}</ul>
             </div>
@@ -216,7 +220,7 @@ ${attachments.length > 0 ? `\nAttached Files:\n${attachments.map((a) => `- ${a.f
     const customerSubject = "Thank you for your inquiry – Medical Travel to India";
     const customerHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #10b981; border-bottom: 2px solid #10b981; padding-bottom: 10px;">
+        <h2 style="color: #1c7c7f; border-bottom: 2px solid #1c7c7f; padding-bottom: 10px;">
           Thank you for reaching out
         </h2>
         <p style="color: #374151; line-height: 1.6; font-size: 16px;">
@@ -226,7 +230,7 @@ ${attachments.length > 0 ? `\nAttached Files:\n${attachments.map((a) => `- ${a.f
           Thank you for submitting your medical travel inquiry. We have received your details and our team will connect with you shortly to discuss your requirements and next steps.
         </p>
         <p style="color: #374151; line-height: 1.6;">
-          If you have any urgent questions, please reply to this email or WhatsApp us at <a href="https://wa.me/919542218454" style="color: #10b981; text-decoration: none;">+91 9542218454</a>.
+          If you have any urgent questions, please reply to this email or WhatsApp us at <a href="https://wa.me/${WHATSAPP_NUMBER}" style="color: #1c7c7f; text-decoration: none;">+${WHATSAPP_NUMBER.length >= 12 ? `${WHATSAPP_NUMBER.slice(0, 2)} ${WHATSAPP_NUMBER.slice(2)}` : WHATSAPP_NUMBER}</a>.
         </p>
         <p style="color: #374151; line-height: 1.6; margin-top: 24px;">
           Best regards,<br />
@@ -239,7 +243,7 @@ Thank you for reaching out, ${name}.
 
 Thank you for submitting your medical travel inquiry. We have received your details and our team will connect with you shortly to discuss your requirements and next steps.
 
-If you have any urgent questions, please reply to this email or WhatsApp us at +91 9542218454.
+If you have any urgent questions, please reply to this email or WhatsApp us at +${WHATSAPP_NUMBER.length >= 12 ? `${WHATSAPP_NUMBER.slice(0, 2)} ${WHATSAPP_NUMBER.slice(2)}` : WHATSAPP_NUMBER}.
 
 Best regards,
 Medical Travel to India Team

@@ -6,8 +6,10 @@ import { alpha } from "@mui/material/styles";
 import { SectionContainer } from "../ui/SectionContainer";
 import { PROCESS_STEPS } from "@/constants";
 
-const GREEN_600 = "#10b981";
+const GREEN_600 = "#1c7c7f";
 const GREEN_700 = "#0d9488";
+const GRADIENT_START = "#10b981";
+const GRADIENT_END = "#0d9488";
 
 export function ProcessSection() {
   return (
@@ -54,7 +56,7 @@ export function ProcessSection() {
                   left: "calc(50% + 32px)",
                   right: "-14px",
                   height: 3,
-                  background: `linear-gradient(90deg, ${GREEN_600} 0%, ${alpha(GREEN_600, 0.3)} 50%, transparent 100%)`,
+                  background: `linear-gradient(90deg, ${GRADIENT_START} 0%, ${alpha(GRADIENT_START, 0.3)} 50%, transparent 100%)`,
                   borderRadius: 2,
                 },
               },
@@ -65,7 +67,7 @@ export function ProcessSection() {
                 width: 48,
                 height: 48,
                 borderRadius: "50%",
-                background: `linear-gradient(135deg, ${GREEN_600} 0%, ${GREEN_700} 100%)`,
+                background: `linear-gradient(135deg, ${GRADIENT_START} 0%, ${GRADIENT_END} 100%)`,
                 color: "#fff",
                 display: "flex",
                 alignItems: "center",

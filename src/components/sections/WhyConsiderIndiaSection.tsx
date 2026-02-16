@@ -7,7 +7,9 @@ import { SectionContainer } from "../ui/SectionContainer";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { alpha } from "@mui/material/styles";
 
-const GREEN_600 = "#10b981";
+const GREEN_600 = "#1c7c7f";
+const GRADIENT_START = "#10b981";
+const GRADIENT_END = "#0d9488";
 
 const REASONS = [
   "Internationally accredited hospitals",
@@ -132,7 +134,7 @@ export function WhyConsiderIndiaSection({ audience = "default" }: WhyConsiderInd
             <Box
               component="span"
               sx={{
-                background: `linear-gradient(135deg, ${GREEN_600} 0%, #0d9488 100%)`,
+                background: `linear-gradient(135deg, ${GRADIENT_START} 0%, ${GRADIENT_END} 100%)`,
                 backgroundClip: "text",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",

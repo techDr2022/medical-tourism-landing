@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import { getRecaptchaToken } from "@/lib/recaptcha";
+import { trackFormConversion } from "@/components/analytics/GoogleAnalytics";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
@@ -15,8 +16,10 @@ import Alert from "@mui/material/Alert";
 import CircularProgress from "@mui/material/CircularProgress";
 import { alpha } from "@mui/material/styles";
 
-const GREEN_600 = "#10b981";
+const GREEN_600 = "#1c7c7f";
 const GREEN_700 = "#0d9488";
+const GRADIENT_START = "#10b981";
+const GRADIENT_END = "#0d9488";
 
 interface FormData {
   name: string;
@@ -92,6 +95,8 @@ export function PopupForm({ open, onClose, title = "Request a Treatment Estimate
       if (!response.ok) {
         throw new Error(data.error || "Failed to send message");
       }
+
+      trackFormConversion();
 
       setSubmitStatus({
         type: "success",
@@ -241,7 +246,7 @@ export function PopupForm({ open, onClose, title = "Request a Treatment Estimate
             sx={{
               mt: 1,
               py: 1.5,
-              background: `linear-gradient(135deg, ${GREEN_600} 0%, ${GREEN_700} 100%)`,
+              background: `linear-gradient(135deg, ${GRADIENT_START} 0%, ${GRADIENT_END} 100%)`,
               boxShadow: "0 4px 14px rgba(22, 163, 74, 0.4)",
               "&:hover": {
                 background: `linear-gradient(135deg, ${GREEN_700} 0%, #0f766e 100%)`,

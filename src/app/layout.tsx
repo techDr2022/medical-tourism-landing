@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeRegistry } from "@/theme/ThemeRegistry";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -34,6 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body style={{ margin: 0, padding: 0 }} suppressHydrationWarning>
+        <GoogleAnalytics />
         <ThemeRegistry>{children}</ThemeRegistry>
       </body>
     </html>

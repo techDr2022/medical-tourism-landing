@@ -7,7 +7,7 @@ import { GlassCard } from "../ui/GlassCard";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { alpha } from "@mui/material/styles";
 
-const GREEN_600 = "#10b981";
+const GREEN_600 = "#1c7c7f";
 
 const BENEFITS = [
   "Single point of communication",

@@ -8,7 +8,7 @@ import { SectionContainer } from "../ui/SectionContainer";
 import { HOSPITALS } from "@/constants";
 import { useState } from "react";
 
-const GREEN_600 = "#10b981";
+const GREEN_600 = "#1c7c7f";
 
 export function HospitalsSection() {
   return (
