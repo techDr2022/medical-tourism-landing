@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -14,11 +14,11 @@ import VideoCallIcon from "@mui/icons-material/VideoCall";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { PopupForm } from "@/components/layout/PopupForm";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { VideoConsultationSection } from "@/components/sections/VideoConsultationSection";
 import { HospitalLogo } from "@/components/sections/HospitalsSection";
 import { RequestFormSection } from "@/components/sections/RequestFormSection";
+import { TeamGroupPhotosSection } from "@/components/sections/TeamGroupPhotosSection";
 import { HOSPITALS } from "@/constants";
 import { MobileStickyCta } from "@/components/layout/MobileStickyCta";
 import { AuroraBackground } from "@/components/layout/AuroraBackground";
@@ -109,12 +109,12 @@ const FINAL_CTA_BENEFITS = [
 ];
 
 export default function ForKenyaPage() {
-  const [popupOpen, setPopupOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <>
       <AuroraBackground />
-      <Header onCtaClick={() => setPopupOpen(true)} />
+      <Header onCtaClick={() => router.push("/lead-form")} />
       <Box
         sx={{
           minHeight: "100vh",
@@ -283,7 +283,7 @@ export default function ForKenyaPage() {
                     <Button
                       variant="contained"
                       size="large"
-                      onClick={() => setPopupOpen(true)}
+                      onClick={() => router.push("/lead-form")}
                       sx={{
                         px: 4,
                         py: 1.5,
@@ -1150,7 +1150,7 @@ export default function ForKenyaPage() {
                 <Button
                   variant="contained"
                   size="large"
-                  onClick={() => setPopupOpen(true)}
+                  onClick={() => router.push("/lead-form")}
                   sx={{
                     px: 4,
                     py: 1.5,
@@ -1171,7 +1171,7 @@ export default function ForKenyaPage() {
                 <Button
                   variant="outlined"
                   size="large"
-                  onClick={() => setPopupOpen(true)}
+                  onClick={() => router.push("/lead-form")}
                   sx={{
                     px: 4,
                     py: 1.5,
@@ -1195,14 +1195,13 @@ export default function ForKenyaPage() {
             </Box>
           </SectionContainer>
 
+          <TeamGroupPhotosSection />
           <RequestFormSection />
         </Box>
 
         <Footer />
 
-        <MobileStickyCta onClick={() => setPopupOpen(true)} label="Request Treatment Estimate" />
-
-        <PopupForm open={popupOpen} onClose={() => setPopupOpen(false)} />
+        <MobileStickyCta onClick={() => router.push("/lead-form")} label="Request Treatment Estimate" />
 
         <Box sx={{ height: 80, display: { xs: "block", lg: "none" } }} />
       </Box>

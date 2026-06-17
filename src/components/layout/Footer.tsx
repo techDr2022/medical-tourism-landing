@@ -31,6 +31,30 @@ export function Footer() {
       }}
     >
       <Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3, lg: 4 } }}>
+        <Box
+          sx={{
+            mb: 4,
+            p: { xs: 2, md: 2.5 },
+            borderRadius: 2,
+            border: "1px solid rgba(255, 255, 255, 0.18)",
+            backgroundColor: "rgba(255, 255, 255, 0.04)",
+          }}
+        >
+          <Typography
+            variant="body2"
+            sx={{
+              color: "rgba(255, 255, 255, 0.96)",
+              lineHeight: 1.8,
+              fontSize: "0.875rem",
+            }}
+          >
+            <strong>Important Information:</strong> We are a medical travel coordination service.
+            We do not provide medical diagnosis or treatment. All medical services are delivered by
+            licensed hospitals and doctors in India. Our services are exclusively for international
+            patients travelling to India for medical treatment.
+          </Typography>
+        </Box>
+
         {/* Trust Metrics */}
         <Stack
           direction={{ xs: "column", sm: "row" }}

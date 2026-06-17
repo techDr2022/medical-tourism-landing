@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Box from "@mui/material/Box";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { PopupForm } from "@/components/layout/PopupForm";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { TrustBarSection } from "@/components/sections/TrustBarSection";
 import { WhyConsiderIndiaSection } from "@/components/sections/WhyConsiderIndiaSection";
@@ -18,16 +17,17 @@ import { ProcessSection } from "@/components/sections/ProcessSection";
 import { ImportantInfoSection } from "@/components/sections/ImportantInfoSection";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { RequestFormSection } from "@/components/sections/RequestFormSection";
+import { TeamGroupPhotosSection } from "@/components/sections/TeamGroupPhotosSection";
 import { MobileStickyCta } from "@/components/layout/MobileStickyCta";
 import { AuroraBackground } from "@/components/layout/AuroraBackground";
 
 export default function KenyaPage() {
-  const [popupOpen, setPopupOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <>
       <AuroraBackground />
-      <Header onCtaClick={() => setPopupOpen(true)} />
+      <Header onCtaClick={() => router.push("/lead-form")} />
       <Box
         sx={{
           minHeight: "100vh",
@@ -38,7 +38,7 @@ export default function KenyaPage() {
         }}
       >
         <Box component="main">
-          <HeroSection onCtaClick={() => setPopupOpen(true)} audience="kenya" />
+          <HeroSection onCtaClick={() => router.push("/lead-form")} audience="kenya" />
           <TrustBarSection />
           <WhyConsiderIndiaSection audience="kenya" />
           <HospitalsSection />
@@ -50,14 +50,13 @@ export default function KenyaPage() {
           <ProcessSection />
           <TestimonialsSection />
           <ImportantInfoSection />
+          <TeamGroupPhotosSection />
           <RequestFormSection />
         </Box>
 
         <Footer />
 
-        <MobileStickyCta onClick={() => setPopupOpen(true)} label="Request a Treatment Estimate" />
-
-        <PopupForm open={popupOpen} onClose={() => setPopupOpen(false)} />
+        <MobileStickyCta onClick={() => router.push("/lead-form")} label="Request a Treatment Estimate" />
 
         <Box sx={{ height: 80, display: { xs: "block", lg: "none" } }} />
       </Box>

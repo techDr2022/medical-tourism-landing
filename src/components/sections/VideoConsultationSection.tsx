@@ -20,7 +20,7 @@ const ASSIST_ITEMS = [
   "Preliminary treatment plan and estimated hospital stay",
 ];
 
-const VIDEO_IMAGE_SRC = "/logos/16369.jpg";
+const TEAM_PHOTOS = ["/logos/team-photo.png", "/logos/team-photo2.png"];
 
 export function VideoConsultationSection() {
   return (
@@ -31,41 +31,42 @@ export function VideoConsultationSection() {
         alignItems="center"
         sx={{ maxWidth: 1100, mx: "auto" }}
       >
-        {/* Image – left on desktop, top on mobile */}
+        {/* Team photos – left on desktop, top on mobile */}
         <Grid size={{ xs: 12, md: 5 }}>
-          <Box
-            sx={{
-              position: "relative",
-              borderRadius: 3,
-              overflow: "hidden",
-              boxShadow: "0 12px 40px rgba(0, 0, 0, 0.12)",
-              "&::after": {
-                content: '""',
-                position: "absolute",
-                inset: 0,
-                background: `linear-gradient(135deg, ${alpha(GREEN_600, 0.15)} 0%, transparent 60%)`,
-                pointerEvents: "none",
-              },
-            }}
-          >
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
+            {TEAM_PHOTOS.map((photo, index) => (
+              <Box
+                key={photo}
+                sx={{
+                  position: "relative",
+                  borderRadius: 3,
+                  overflow: "hidden",
+                  boxShadow: "0 12px 40px rgba(0, 0, 0, 0.12)",
+                  "&::after": {
+                    content: '""',
+                    position: "absolute",
+                    inset: 0,
+                    background: `linear-gradient(135deg, ${alpha(GREEN_600, 0.15)} 0%, transparent 60%)`,
+                    pointerEvents: "none",
+                  },
+                }}
+              >
+                <Box
+                  component="img"
+                  src={photo}
+                  alt={`Our team group photo ${index + 1}`}
+                  sx={{
+                    width: "100%",
+                    height: { xs: 220, sm: 260, md: 200 },
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                />
+              </Box>
+            ))}
+
             <Box
-              component="img"
-              src={VIDEO_IMAGE_SRC}
-              alt="Video consultation with a specialist before you travel"
               sx={{
-                width: "100%",
-                height: { xs: 280, sm: 340, md: 420 },
-                objectFit: "cover",
-                display: "block",
-              }}
-            />
-            <Box
-              sx={{
-                position: "absolute",
-                bottom: 16,
-                left: 16,
-                right: 16,
-                zIndex: 1,
                 display: "flex",
                 alignItems: "center",
                 gap: 1.5,
@@ -78,7 +79,7 @@ export function VideoConsultationSection() {
             >
               <VideoCallIcon sx={{ fontSize: 28, color: GREEN_600 }} />
               <Typography variant="body2" fontWeight={600} color="#171717">
-                Speak to the specialist before you travel
+                Our team group photos
               </Typography>
             </Box>
           </Box>
