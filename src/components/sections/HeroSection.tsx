@@ -5,12 +5,13 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid2";
 import Container from "@mui/material/Container";
+import Link from "next/link";
 import { alpha } from "@mui/material/styles";
 import { useState } from "react";
 import { MetricsCard } from "./MetricsCard";
 
 interface HeroSectionProps {
-  onCtaClick: () => void;
+  ctaHref?: string;
   onUploadClick?: () => void;
   /** "default" = generic international; "kenya" = Kenya-focused copy */
   audience?: "default" | "kenya";
@@ -21,7 +22,7 @@ const GREEN_700 = "#0d9488";
 const GRADIENT_START = "#10b981";
 const GRADIENT_END = "#0d9488";
 
-export function HeroSection({ onCtaClick, onUploadClick, audience = "default" }: HeroSectionProps) {
+export function HeroSection({ ctaHref = "/lead-form", onUploadClick, audience = "default" }: HeroSectionProps) {
   const [imageError, setImageError] = useState(false);
   const isKenya = audience === "kenya";
 
@@ -131,9 +132,10 @@ export function HeroSection({ onCtaClick, onUploadClick, audience = "default" }:
 
               <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: 2 }}>
                 <Button
+                  component={Link}
+                  href={ctaHref}
                   variant="contained"
                   size="large"
-                  onClick={onCtaClick}
                   sx={{
                     px: 4,
                     py: 1.5,

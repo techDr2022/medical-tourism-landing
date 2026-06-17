@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Box from "@mui/material/Box";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -22,23 +21,21 @@ import { MobileStickyCta } from "@/components/layout/MobileStickyCta";
 import { AuroraBackground } from "@/components/layout/AuroraBackground";
 
 export default function KenyaPage() {
-  const router = useRouter();
-
   return (
     <>
       <AuroraBackground />
-      <Header onCtaClick={() => router.push("/lead-form")} />
+      <Header />
       <Box
         sx={{
           minHeight: "100vh",
           bgcolor: "transparent",
           color: "text.primary",
-          overflowX: "hidden",
+          overflowX: "clip",
           overflowY: "visible",
         }}
       >
         <Box component="main">
-          <HeroSection onCtaClick={() => router.push("/lead-form")} audience="kenya" />
+          <HeroSection audience="kenya" />
           <TrustBarSection />
           <WhyConsiderIndiaSection audience="kenya" />
           <HospitalsSection />
@@ -55,11 +52,10 @@ export default function KenyaPage() {
         </Box>
 
         <Footer />
-
-        <MobileStickyCta onClick={() => router.push("/lead-form")} label="Request a Treatment Estimate" />
-
-        <Box sx={{ height: 80, display: { xs: "block", lg: "none" } }} />
       </Box>
+
+      <MobileStickyCta label="Request a Treatment Estimate" />
+      <Box sx={{ height: 80, display: { xs: "block", lg: "none" } }} />
     </>
   );
 }

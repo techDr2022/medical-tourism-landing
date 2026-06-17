@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Header } from "@/components/layout/Header";
@@ -9,12 +8,10 @@ import { AuroraBackground } from "@/components/layout/AuroraBackground";
 import { RequestFormSection } from "@/components/sections/RequestFormSection";
 
 export default function LeadFormPage() {
-  const router = useRouter();
-
   return (
     <>
       <AuroraBackground />
-      <Header onCtaClick={() => router.push("/lead-form")} />
+      <Header />
 
       <Box
         component="main"
@@ -22,7 +19,7 @@ export default function LeadFormPage() {
           minHeight: "100vh",
           bgcolor: "transparent",
           color: "text.primary",
-          overflowX: "hidden",
+          overflowX: "clip",
           pt: { xs: 3, md: 5 },
         }}
       >

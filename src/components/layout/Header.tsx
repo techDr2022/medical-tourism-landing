@@ -3,12 +3,13 @@
 import AppBar from "@mui/material/AppBar";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
+import NextLink from "next/link";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import { alpha } from "@mui/material/styles";
 
 interface HeaderProps {
-  onCtaClick: () => void;
+  ctaHref?: string;
 }
 
 const GREEN_600 = "#1c7c7f";
@@ -25,7 +26,7 @@ const NAV_ITEMS = [
   { label: "Contact", id: "contact" },
 ];
 
-export function Header({ onCtaClick }: HeaderProps) {
+export function Header({ ctaHref = "/lead-form" }: HeaderProps) {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -143,9 +144,10 @@ export function Header({ onCtaClick }: HeaderProps) {
         >
           {/* Mobile: single form CTA, right-aligned */}
           <Button
+            component={NextLink}
+            href={ctaHref}
             variant="contained"
             size="small"
-            onClick={onCtaClick}
             sx={{
               display: { xs: "inline-flex", lg: "none" },
               px: { xs: 1.5, sm: 2 },
@@ -165,8 +167,9 @@ export function Header({ onCtaClick }: HeaderProps) {
           </Button>
           {/* Desktop: full CTAs */}
           <Button
+            component={NextLink}
+            href={ctaHref}
             variant="outlined"
-            onClick={onCtaClick}
             sx={{
               display: { xs: "none", lg: "inline-flex" },
               borderColor: alpha("#171717", 0.2),
@@ -180,8 +183,9 @@ export function Header({ onCtaClick }: HeaderProps) {
             Talk to Expert
           </Button>
           <Button
+            component={NextLink}
+            href={ctaHref}
             variant="contained"
-            onClick={onCtaClick}
             sx={{
               display: { xs: "none", lg: "inline-flex" },
               background: `linear-gradient(135deg, ${GRADIENT_START} 0%, ${GRADIENT_END} 100%)`,

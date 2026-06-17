@@ -74,6 +74,13 @@ export const theme = createTheme({
         },
       },
     },
+    MuiButtonBase: {
+      styleOverrides: {
+        root: {
+          touchAction: "manipulation",
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {

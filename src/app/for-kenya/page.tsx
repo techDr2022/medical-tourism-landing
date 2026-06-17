@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -109,18 +109,16 @@ const FINAL_CTA_BENEFITS = [
 ];
 
 export default function ForKenyaPage() {
-  const router = useRouter();
-
   return (
     <>
       <AuroraBackground />
-      <Header onCtaClick={() => router.push("/lead-form")} />
+      <Header />
       <Box
         sx={{
           minHeight: "100vh",
           bgcolor: "transparent",
           color: "text.primary",
-          overflowX: "hidden",
+          overflowX: "clip",
           overflowY: "visible",
         }}
       >
@@ -281,9 +279,10 @@ export default function ForKenyaPage() {
                     }}
                   >
                     <Button
+                      component={Link}
+                      href="/lead-form"
                       variant="contained"
                       size="large"
-                      onClick={() => router.push("/lead-form")}
                       sx={{
                         px: 4,
                         py: 1.5,
@@ -1148,9 +1147,10 @@ export default function ForKenyaPage() {
                 }}
               >
                 <Button
+                  component={Link}
+                  href="/lead-form"
                   variant="contained"
                   size="large"
-                  onClick={() => router.push("/lead-form")}
                   sx={{
                     px: 4,
                     py: 1.5,
@@ -1169,9 +1169,10 @@ export default function ForKenyaPage() {
                   Request Treatment Estimate
                 </Button>
                 <Button
+                  component={Link}
+                  href="/lead-form"
                   variant="outlined"
                   size="large"
-                  onClick={() => router.push("/lead-form")}
                   sx={{
                     px: 4,
                     py: 1.5,
@@ -1200,11 +1201,10 @@ export default function ForKenyaPage() {
         </Box>
 
         <Footer />
-
-        <MobileStickyCta onClick={() => router.push("/lead-form")} label="Request Treatment Estimate" />
-
-        <Box sx={{ height: 80, display: { xs: "block", lg: "none" } }} />
       </Box>
+
+      <MobileStickyCta label="Request Treatment Estimate" />
+      <Box sx={{ height: 80, display: { xs: "block", lg: "none" } }} />
     </>
   );
 }

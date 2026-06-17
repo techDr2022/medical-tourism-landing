@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Dialog from "@mui/material/Dialog";
 import { getRecaptchaToken } from "@/lib/recaptcha";
 import { trackFormConversion } from "@/components/analytics/GoogleAnalytics";
@@ -15,6 +16,8 @@ import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";
 import CircularProgress from "@mui/material/CircularProgress";
 import { alpha } from "@mui/material/styles";
+import { MedicalFileUpload } from "../ui/MedicalFileUpload";
+import { fileToBase64, MAX_FILE_BYTES, MAX_FILE_SIZE_MB } from "@/lib/fileUpload";
 
 const GREEN_600 = "#1c7c7f";
 const GREEN_700 = "#0d9488";
@@ -36,6 +39,7 @@ interface PopupFormProps {
 }
 
 export function PopupForm({ open, onClose, title = "Request a Treatment Estimate" }: PopupFormProps) {
+  const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     name: "",
     country: "",
@@ -49,25 +53,6 @@ export function PopupForm({ open, onClose, title = "Request a Treatment Estimate
     type: "success" | "error" | null;
     message: string;
   }>({ type: null, message: "" });
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) setFiles(Array.from(e.target.files));
-  };
-
-  const fileToBase64 = (file: File): Promise<string> =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const result = reader.result as string;
-        const base64 = result.includes(",") ? result.split(",")[1] : result;
-        resolve(base64 ?? "");
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-
-  const MAX_FILE_SIZE_MB = 8;
-  const MAX_FILE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
   const handleInputChange = (field: keyof FormData) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -131,18 +116,8 @@ export function PopupForm({ open, onClose, title = "Request a Treatment Estimate
       }
 
       trackFormConversion();
-
-      setSubmitStatus({
-        type: "success",
-        message: "Thank you! We've received your inquiry and will respond within 24–48 hours.",
-      });
-      setFormData({ name: "", country: "", whatsapp: "", email: "", medicalCondition: "" });
-      setFiles([]);
-
-      setTimeout(() => {
-        setSubmitStatus({ type: null, message: "" });
-        handleClose();
-      }, 2500);
+      onClose();
+      router.push("/thank-you");
     } catch (error) {
       setSubmitStatus({
         type: "error",
@@ -272,22 +247,13 @@ export function PopupForm({ open, onClose, title = "Request a Treatment Estimate
             inputProps={{ style: { resize: "none" } }}
           />
 
-          <Button
-            variant="outlined"
-            component="label"
-            fullWidth
+          <MedicalFileUpload
+            files={files}
+            onChange={setFiles}
             disabled={isSubmitting}
-            sx={{ py: 1.5, borderColor: alpha(GREEN_600, 0.5), color: GREEN_600 }}
-          >
-            {files.length > 0 ? `${files.length} file(s) selected` : "Upload Reports (PDF, DOC, JPG, PNG)"}
-            <input
-              type="file"
-              hidden
-              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-              multiple
-              onChange={handleFileChange}
-            />
-          </Button>
+            buttonLabel="Upload Reports (PDF, DOC, JPG, PNG)"
+            py={1.5}
+          />
 
           <Button
             type="submit"

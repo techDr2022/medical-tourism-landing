@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { getRecaptchaToken } from "@/lib/recaptcha";
 import { trackFormConversion } from "@/components/analytics/GoogleAnalytics";
 import Box from "@mui/material/Box";
@@ -21,6 +22,8 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import Alert from "@mui/material/Alert";
 import CircularProgress from "@mui/material/CircularProgress";
 import { alpha } from "@mui/material/styles";
+import { MedicalFileUpload } from "../ui/MedicalFileUpload";
+import { fileToBase64, MAX_FILE_BYTES, MAX_FILE_SIZE_MB } from "@/lib/fileUpload";
 
 const GREEN_600 = "#1c7c7f";
 const GREEN_700 = "#0d9488";
@@ -52,6 +55,7 @@ interface FormData {
 }
 
 export function RequestFormSection() {
+  const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     name: "",
     country: "",
@@ -83,27 +87,6 @@ export function RequestFormSection() {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (submitStatus.type) setSubmitStatus({ type: null, message: "" });
   };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFiles(Array.from(e.target.files));
-    }
-  };
-
-  const fileToBase64 = (file: File): Promise<string> =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const result = reader.result as string;
-        const base64 = result.includes(",") ? result.split(",")[1] : result;
-        resolve(base64 ?? "");
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-
-  const MAX_FILE_SIZE_MB = 8;
-  const MAX_FILE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -155,28 +138,7 @@ export function RequestFormSection() {
       }
 
       trackFormConversion();
-
-      // Success
-      setSubmitStatus({
-        type: "success",
-        message: "Thank you! We've received your inquiry and will respond within 24-48 hours.",
-      });
-
-      // Reset form
-      setFormData({
-        name: "",
-        country: "",
-        outsideIndia: "",
-        whatsapp: "",
-        email: "",
-        medicalCondition: "",
-      });
-      setFiles([]);
-
-      // Clear success message after 5 seconds
-      setTimeout(() => {
-        setSubmitStatus({ type: null, message: "" });
-      }, 5000);
+      router.push("/thank-you");
     } catch (error) {
       setSubmitStatus({
         type: "error",
@@ -362,24 +324,11 @@ export function RequestFormSection() {
                   />
                 </Grid>
                 <Grid size={12}>
-                  <Button
-                    variant="outlined"
-                    component="label"
-                    fullWidth
-                    sx={{ py: 2 }}
+                  <MedicalFileUpload
+                    files={files}
+                    onChange={setFiles}
                     disabled={isSubmitting}
-                  >
-                    {files.length > 0
-                      ? `${files.length} file(s) selected`
-                      : "Upload Medical Reports"}
-                    <input
-                      type="file"
-                      hidden
-                      accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                      multiple
-                      onChange={handleFileChange}
-                    />
-                  </Button>
+                  />
                 </Grid>
               </Grid>
               <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: 2 }}>
