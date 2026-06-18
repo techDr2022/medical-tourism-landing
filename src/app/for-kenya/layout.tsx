@@ -3,19 +3,20 @@ import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "Medical Travel to India from Kenya | Hospital Coordination for Kenyan Patients",
+  title: "Medical Treatment in India from Kenya | Hospital & Travel Coordination",
   description:
-    "Kenya to India medical travel made simple. Free coordination with 50+ hospitals, treatment estimates, visa guidance, and 20+ team members — no service fee for Kenyan patients.",
-  path: "/landing-page/kenya",
+    "Free medical travel coordination for patients in Kenya seeking treatment in India. Hospital options, cost estimates, medical visa help, and 20+ coordinators — zero service fee.",
+  path: "/for-kenya",
   keywords: [
     "medical travel Kenya to India",
     "Kenya patients India hospital",
     "medical tourism Kenya India",
     "India treatment cost estimate Kenya",
+    "medical visa India Kenya",
   ],
 });
 
-export default function KenyaLayout({
+export default function ForKenyaLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -25,7 +26,7 @@ export default function KenyaLayout({
       <BreadcrumbJsonLd
         items={[
           { name: "Home", path: "/" },
-          { name: "Kenya Medical Travel", path: "/landing-page/kenya" },
+          { name: "Medical Travel from Kenya", path: "/for-kenya" },
         ]}
       />
       {children}

@@ -15,6 +15,7 @@ import { PackageEstimatesSection } from "@/components/sections/PackageEstimatesS
 import { ProcessSection } from "@/components/sections/ProcessSection";
 import { ImportantInfoSection } from "@/components/sections/ImportantInfoSection";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
+import { FaqSection } from "@/components/sections/FaqSection";
 import { RequestFormSection } from "@/components/sections/RequestFormSection";
 import { TeamGroupPhotosSection } from "@/components/sections/TeamGroupPhotosSection";
 import { MobileStickyCta } from "@/components/layout/MobileStickyCta";
@@ -46,6 +47,7 @@ export default function KenyaPage() {
           <PackageEstimatesSection />
           <ProcessSection />
           <TestimonialsSection />
+          <FaqSection />
           <ImportantInfoSection />
           <TeamGroupPhotosSection />
           <RequestFormSection />

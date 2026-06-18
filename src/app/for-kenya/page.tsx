@@ -19,6 +19,7 @@ import { VideoConsultationSection } from "@/components/sections/VideoConsultatio
 import { HospitalLogo } from "@/components/sections/HospitalsSection";
 import { RequestFormSection } from "@/components/sections/RequestFormSection";
 import { TeamGroupPhotosSection } from "@/components/sections/TeamGroupPhotosSection";
+import { FaqSection } from "@/components/sections/FaqSection";
 import { HOSPITALS } from "@/constants";
 import { MobileStickyCta } from "@/components/layout/MobileStickyCta";
 import { AuroraBackground } from "@/components/layout/AuroraBackground";
@@ -1197,6 +1198,7 @@ export default function ForKenyaPage() {
           </SectionContainer>
 
           <TeamGroupPhotosSection />
+          <FaqSection />
           <RequestFormSection />
         </Box>
 

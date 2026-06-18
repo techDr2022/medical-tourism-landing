@@ -16,6 +16,7 @@ import { PackageEstimatesSection } from "@/components/sections/PackageEstimatesS
 import { ProcessSection } from "@/components/sections/ProcessSection";
 import { ImportantInfoSection } from "@/components/sections/ImportantInfoSection";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
+import { FaqSection } from "@/components/sections/FaqSection";
 import { TeamGroupPhotosSection } from "@/components/sections/TeamGroupPhotosSection";
 import { MobileStickyCta } from "@/components/layout/MobileStickyCta";
 import { AuroraBackground } from "@/components/layout/AuroraBackground";
@@ -47,6 +48,7 @@ export default function Home() {
         <PackageEstimatesSection />
         <ProcessSection />
         <TestimonialsSection />
+        <FaqSection />
         <ImportantInfoSection />
         <TeamGroupPhotosSection />
       </Box>

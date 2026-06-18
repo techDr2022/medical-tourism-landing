@@ -1,27 +1,29 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalPageWrapper } from "@/components/layout/LegalPageWrapper";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import { createPageMetadata } from "@/lib/seo";
 import { PrivacyContent } from "./PrivacyContent";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Privacy Policy | Medical Travel to India",
   description:
     "Privacy Policy for MedicalToursIndia.com. How we collect, use, and protect your personal and health information.",
-  openGraph: {
-    title: "Privacy Policy | Medical Travel to India",
-    url: "https://medicaltoursindia.com/privacy",
-  },
-  alternates: {
-    canonical: "https://medicaltoursindia.com/privacy",
-  },
-};
+  path: "/privacy",
+});
 
 export default function PrivacyPage() {
   return (
     <LegalPageWrapper>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Privacy Policy", path: "/privacy" },
+        ]}
+      />
       <Box
         sx={{
           minHeight: "100vh",

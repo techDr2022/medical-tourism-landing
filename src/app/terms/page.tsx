@@ -1,27 +1,29 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalPageWrapper } from "@/components/layout/LegalPageWrapper";
+import { BreadcrumbJsonLd } from "@/components/seo/BreadcrumbJsonLd";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import { createPageMetadata } from "@/lib/seo";
 import { TermsContent } from "./TermsContent";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createPageMetadata({
   title: "Terms of Service & Disclaimer | Medical Travel to India",
   description:
     "Terms of Service and Medical Disclaimer for MedicalToursIndia.com. Important information about our coordination service.",
-  openGraph: {
-    title: "Terms of Service & Disclaimer | Medical Travel to India",
-    url: "https://medicaltoursindia.com/terms",
-  },
-  alternates: {
-    canonical: "https://medicaltoursindia.com/terms",
-  },
-};
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (
     <LegalPageWrapper>
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", path: "/" },
+          { name: "Terms & Disclaimer", path: "/terms" },
+        ]}
+      />
       <Box
         sx={{
           minHeight: "100vh",

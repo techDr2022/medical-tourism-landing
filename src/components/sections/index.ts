@@ -9,5 +9,6 @@ export { CoordinationSection } from "./CoordinationSection";
 export { TransparencySection } from "./TransparencySection";
 export { PackageEstimatesSection } from "./PackageEstimatesSection";
 export { ProcessSection } from "./ProcessSection";
+export { FaqSection } from "./FaqSection";
 export { ImportantInfoSection } from "./ImportantInfoSection";
 export { RequestFormSection } from "./RequestFormSection";
