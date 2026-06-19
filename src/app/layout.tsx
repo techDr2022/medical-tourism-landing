@@ -35,6 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <GoogleAnalytics />
         <GoogleTagManager />
         <link
           rel="alternate"
@@ -58,7 +59,6 @@ export default function RootLayout({
       <body style={{ margin: 0, padding: 0 }} suppressHydrationWarning>
         <GoogleTagManagerNoscript />
         <GlobalJsonLd />
-        <GoogleAnalytics />
         <ThemeRegistry>{children}</ThemeRegistry>
       </body>
     </html>
