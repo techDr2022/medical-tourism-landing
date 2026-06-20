@@ -8,10 +8,15 @@ import Divider from "@mui/material/Divider";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 
-const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || "919032292171";
-const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "info@techdr.in";
-const WHATSAPP_DISPLAY =
-  WHATSAPP.length >= 12 ? `+${WHATSAPP.slice(0, 2)} ${WHATSAPP.slice(2)}` : `+${WHATSAPP}`;
+import {
+  DEFAULT_CONTACT_EMAIL,
+  DEFAULT_WHATSAPP_NUMBER,
+  formatWhatsAppDisplay,
+} from "@/lib/contact";
+
+const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || DEFAULT_WHATSAPP_NUMBER;
+const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || DEFAULT_CONTACT_EMAIL;
+const WHATSAPP_DISPLAY = formatWhatsAppDisplay(WHATSAPP);
 
 const TRUST_METRICS = [
   { value: "50+", label: "Hospitals in India" },

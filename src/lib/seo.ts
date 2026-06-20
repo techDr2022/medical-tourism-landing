@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { DEFAULT_CONTACT_EMAIL, DEFAULT_WHATSAPP_NUMBER } from "@/lib/contact";
 
 export const SITE_KEYWORDS = [
   "medical tourism India",
@@ -99,8 +100,8 @@ export const SITE = {
   locale: "en_US",
   ogImagePath: "/opengraph-image",
   twitterHandle: "@medicaltoursindia",
-  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "info@techdr.in",
-  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || "919032292171",
+  contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || DEFAULT_CONTACT_EMAIL,
+  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || DEFAULT_WHATSAPP_NUMBER,
   keywords: SITE_KEYWORDS,
 } as const;
 

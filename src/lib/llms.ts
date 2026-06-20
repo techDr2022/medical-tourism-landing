@@ -1,4 +1,5 @@
 import { HOSPITALS, PROCESS_STEPS } from "@/constants";
+import { formatWhatsAppDisplay } from "@/lib/contact";
 import { SITE_FAQ } from "@/lib/faq";
 import { SITE, SITE_KEYWORDS, absoluteUrl } from "@/lib/seo";
 
@@ -32,10 +33,7 @@ const ALL_TREATMENTS = [
 
 export function generateLlmsTxt(): string {
   const hospitalNames = HOSPITALS.map((h) => h.name).join(", ");
-  const whatsappDisplay =
-    SITE.whatsapp.length >= 12
-      ? `+${SITE.whatsapp.slice(0, 2)} ${SITE.whatsapp.slice(2)}`
-      : `+${SITE.whatsapp}`;
+  const whatsappDisplay = formatWhatsAppDisplay(SITE.whatsapp);
 
   return `# ${SITE.name}
 

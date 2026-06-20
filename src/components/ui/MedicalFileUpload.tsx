@@ -29,7 +29,7 @@ export function MedicalFileUpload({
   files,
   onChange,
   disabled = false,
-  buttonLabel = "Upload Medical Reports",
+  buttonLabel = "Upload Reports (Images or PDF)",
   py = 2,
 }: MedicalFileUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -107,8 +107,8 @@ export function MedicalFileUpload({
       )}
 
       <Typography variant="caption" color="text.secondary">
-        PDF, DOC, JPG, or PNG. Up to {MAX_FILES} files, {MAX_FILE_SIZE_MB}MB each. Hold Ctrl/Cmd or tap
-        multiple files to select several at once.
+        Images or PDF. Up to {MAX_FILES} files, {MAX_FILE_SIZE_MB}MB each. Hold Ctrl/Cmd or tap multiple
+        files to select several at once.
       </Typography>
     </Box>
   );

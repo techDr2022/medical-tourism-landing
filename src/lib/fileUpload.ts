@@ -1,9 +1,8 @@
-export const MAX_FILE_SIZE_MB = 8;
+export const MAX_FILE_SIZE_MB = 5;
 export const MAX_FILE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 export const MAX_FILES = 10;
 
-export const ACCEPTED_FILE_TYPES =
-  ".pdf,.doc,.docx,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+export const ACCEPTED_FILE_TYPES = "image/*,.pdf";
 
 export function fileIdentity(file: File): string {
   return `${file.name}-${file.size}-${file.lastModified}`;

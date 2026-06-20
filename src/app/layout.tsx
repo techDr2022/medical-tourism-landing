@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeRegistry } from "@/theme/ThemeRegistry";
+import { RecaptchaProvider } from "@/components/providers/RecaptchaProvider";
 import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import {
   GoogleTagManager,
@@ -59,7 +60,9 @@ export default function RootLayout({
       <body style={{ margin: 0, padding: 0 }} suppressHydrationWarning>
         <GoogleTagManagerNoscript />
         <GlobalJsonLd />
-        <ThemeRegistry>{children}</ThemeRegistry>
+        <ThemeRegistry>
+          <RecaptchaProvider>{children}</RecaptchaProvider>
+        </ThemeRegistry>
       </body>
     </html>
   );

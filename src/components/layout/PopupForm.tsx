@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Dialog from "@mui/material/Dialog";
-import { getRecaptchaToken } from "@/lib/recaptcha";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { trackFormConversion } from "@/components/analytics/GoogleAnalytics";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -40,6 +40,7 @@ interface PopupFormProps {
 
 export function PopupForm({ open, onClose, title = "Request a Treatment Estimate" }: PopupFormProps) {
   const router = useRouter();
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [formData, setFormData] = useState<FormData>({
     name: "",
     country: "",
@@ -78,11 +79,10 @@ export function PopupForm({ open, onClose, title = "Request a Treatment Estimate
     try {
       let recaptchaToken: string | undefined;
       if (process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
-        try {
-          recaptchaToken = await getRecaptchaToken("submit");
-        } catch {
-          recaptchaToken = undefined;
+        if (!executeRecaptcha) {
+          throw new Error("Security verification is loading. Please try again.");
         }
+        recaptchaToken = await executeRecaptcha("submit");
       }
 
       const filesWithContent: { name: string; content: string }[] = [];
@@ -251,7 +251,7 @@ export function PopupForm({ open, onClose, title = "Request a Treatment Estimate
             files={files}
             onChange={setFiles}
             disabled={isSubmitting}
-            buttonLabel="Upload Reports (PDF, DOC, JPG, PNG)"
+            buttonLabel="Upload Reports (Images or PDF)"
             py={1.5}
           />
 

@@ -11,14 +11,15 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { AuroraBackground } from "@/components/layout/AuroraBackground";
 
+import { DEFAULT_WHATSAPP_NUMBER, formatWhatsAppDisplay } from "@/lib/contact";
+
 const GREEN_600 = "#1c7c7f";
 const GREEN_700 = "#0d9488";
 const GRADIENT_START = "#10b981";
 const GRADIENT_END = "#0d9488";
 
-const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || "919032292171";
-const WHATSAPP_DISPLAY =
-  WHATSAPP.length >= 12 ? `+${WHATSAPP.slice(0, 2)} ${WHATSAPP.slice(2)}` : `+${WHATSAPP}`;
+const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || DEFAULT_WHATSAPP_NUMBER;
+const WHATSAPP_DISPLAY = formatWhatsAppDisplay(WHATSAPP);
 
 const NEXT_STEPS = [
   "Our coordination team reviews your medical details",

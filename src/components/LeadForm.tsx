@@ -1,0 +1,326 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { trackFormConversion } from "@/components/analytics/GoogleAnalytics";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
+import Grid from "@mui/material/Grid2";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import Select from "@mui/material/Select";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Alert from "@mui/material/Alert";
+import CircularProgress from "@mui/material/CircularProgress";
+import { alpha } from "@mui/material/styles";
+import { MedicalFileUpload } from "./ui/MedicalFileUpload";
+import { fileToBase64, MAX_FILE_BYTES, MAX_FILE_SIZE_MB } from "@/lib/fileUpload";
+
+const GREEN_600 = "#1c7c7f";
+const GREEN_700 = "#0d9488";
+const GRADIENT_START = "#10b981";
+const GRADIENT_END = "#0d9488";
+
+const COUNTRIES = [
+  "Afghanistan", "Bangladesh", "Egypt", "Ethiopia", "Ghana", "India", "Indonesia",
+  "Iraq", "Jordan", "Kenya", "Malaysia", "Nepal", "Nigeria", "Oman", "Pakistan",
+  "Philippines", "Rwanda", "Saudi Arabia", "South Africa", "Sri Lanka", "Tanzania",
+  "Uganda", "United Arab Emirates", "United Kingdom", "United States", "Yemen", "Zambia", "Zimbabwe",
+].sort();
+
+interface FormData {
+  name: string;
+  country: string;
+  outsideIndia: "" | "yes" | "no";
+  whatsapp: string;
+  email: string;
+  medicalCondition: string;
+}
+
+interface LeadFormProps {
+  showCoordinatorButton?: boolean;
+}
+
+export function LeadForm({ showCoordinatorButton = true }: LeadFormProps) {
+  const router = useRouter();
+  const { executeRecaptcha } = useGoogleReCaptcha();
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    country: "",
+    outsideIndia: "",
+    whatsapp: "",
+    email: "",
+    medicalCondition: "",
+  });
+  const [files, setFiles] = useState<File[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: "success" | "error" | null;
+    message: string;
+  }>({ type: null, message: "" });
+
+  const handleInputChange = (field: keyof FormData) => (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData((prev) => ({ ...prev, [field]: e.target.value }));
+    if (submitStatus.type) setSubmitStatus({ type: null, message: "" });
+  };
+
+  const handleSelectChange = (field: "country" | "outsideIndia") => (
+    e: { target: { value: unknown } }
+  ) => {
+    const value = field === "outsideIndia"
+      ? (e.target.value as "" | "yes" | "no")
+      : String(e.target.value);
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (submitStatus.type) setSubmitStatus({ type: null, message: "" });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus({ type: null, message: "" });
+
+    try {
+      let recaptchaToken: string | undefined;
+      if (process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
+        if (!executeRecaptcha) {
+          throw new Error("Security verification is loading. Please try again.");
+        }
+        recaptchaToken = await executeRecaptcha("submit");
+      }
+
+      const filesWithContent: { name: string; content: string }[] = [];
+      for (const file of files) {
+        if (file.size > MAX_FILE_BYTES) {
+          setSubmitStatus({
+            type: "error",
+            message: `"${file.name}" is too large. Max ${MAX_FILE_SIZE_MB}MB per file.`,
+          });
+          setIsSubmitting(false);
+          return;
+        }
+        const content = await fileToBase64(file);
+        filesWithContent.push({ name: file.name, content });
+      }
+
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          ...(filesWithContent.length > 0 && { files: filesWithContent }),
+          ...(recaptchaToken && { recaptchaToken }),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send message");
+      }
+
+      trackFormConversion();
+      router.push("/thank-you");
+    } catch (error) {
+      setSubmitStatus({
+        type: "error",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again later.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}
+    >
+      {submitStatus.type && (
+        <Alert
+          severity={submitStatus.type}
+          sx={{
+            borderRadius: 2,
+            "& .MuiAlert-message": { width: "100%" },
+          }}
+          onClose={() => setSubmitStatus({ type: null, message: "" })}
+        >
+          {submitStatus.message}
+        </Alert>
+      )}
+
+      <Grid container spacing={2.5}>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <TextField
+            fullWidth
+            required
+            label="Full Name"
+            placeholder="Your full name"
+            variant="outlined"
+            value={formData.name}
+            onChange={handleInputChange("name")}
+            disabled={isSubmitting}
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <FormControl fullWidth required disabled={isSubmitting}>
+            <InputLabel id="country-label">Country</InputLabel>
+            <Select
+              labelId="country-label"
+              id="country"
+              value={formData.country}
+              label="Country"
+              onChange={handleSelectChange("country")}
+            >
+              <MenuItem value="">
+                <em>Select country</em>
+              </MenuItem>
+              {COUNTRIES.map((c) => (
+                <MenuItem key={c} value={c}>
+                  {c}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <FormControl component="fieldset" required disabled={isSubmitting} sx={{ width: "100%" }}>
+            <FormLabel id="outside-india-label" sx={{ typography: "body2" }}>
+              Are you currently outside India?
+            </FormLabel>
+            <RadioGroup
+              row
+              aria-labelledby="outside-india-label"
+              name="outsideIndia"
+              value={formData.outsideIndia}
+              onChange={handleSelectChange("outsideIndia")}
+              sx={{ mt: 0.5 }}
+            >
+              <FormControlLabel value="yes" control={<Radio size="small" />} label="Yes" />
+              <FormControlLabel value="no" control={<Radio size="small" />} label="No" />
+            </RadioGroup>
+          </FormControl>
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <TextField
+            fullWidth
+            required
+            label="WhatsApp / Phone number"
+            placeholder="+254 700 000 000 or +91 98765 43210"
+            type="tel"
+            variant="outlined"
+            value={formData.whatsapp}
+            onChange={handleInputChange("whatsapp")}
+            disabled={isSubmitting}
+          />
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <TextField
+            fullWidth
+            required
+            label="Email"
+            placeholder="your@email.com"
+            type="email"
+            variant="outlined"
+            value={formData.email}
+            onChange={handleInputChange("email")}
+            disabled={isSubmitting}
+          />
+        </Grid>
+        <Grid size={12}>
+          <TextField
+            fullWidth
+            required
+            label="Medical Condition"
+            placeholder="Brief description of your medical condition"
+            multiline
+            rows={3}
+            variant="outlined"
+            value={formData.medicalCondition}
+            onChange={handleInputChange("medicalCondition")}
+            inputProps={{ style: { resize: "none" } }}
+            disabled={isSubmitting}
+          />
+        </Grid>
+        <Grid size={12}>
+          <MedicalFileUpload
+            files={files}
+            onChange={setFiles}
+            disabled={isSubmitting}
+          />
+        </Grid>
+      </Grid>
+
+      <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: 2 }}>
+        <Button
+          variant="contained"
+          type="submit"
+          size="large"
+          disabled={isSubmitting}
+          sx={{
+            flex: 1,
+            background: `linear-gradient(135deg, ${GRADIENT_START} 0%, ${GRADIENT_END} 100%)`,
+            boxShadow: "0 4px 14px rgba(22, 163, 74, 0.4)",
+            transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+            "&:hover": {
+              background: `linear-gradient(135deg, ${GRADIENT_END} 0%, #0f766e 100%)`,
+              boxShadow: "0 6px 20px rgba(22, 163, 74, 0.5)",
+              transform: "translateY(-2px)",
+            },
+            "&:disabled": { background: alpha(GREEN_600, 0.5) },
+          }}
+          startIcon={isSubmitting ? <CircularProgress size={20} color="inherit" /> : null}
+        >
+          {isSubmitting ? "Sending..." : "Request Treatment Estimate"}
+        </Button>
+        {showCoordinatorButton && (
+          <Button
+            variant="outlined"
+            type="button"
+            size="large"
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            sx={{
+              flex: 1,
+              borderColor: GREEN_600,
+              borderWidth: 2,
+              color: GREEN_600,
+              backgroundColor: "rgba(255, 255, 255, 0.8)",
+              backdropFilter: "blur(10px)",
+              transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+              "&:hover": {
+                borderColor: GREEN_700,
+                color: GREEN_700,
+                backgroundColor: alpha(GREEN_600, 0.08),
+                transform: "translateY(-2px)",
+                boxShadow: "0 4px 12px rgba(22, 163, 74, 0.2)",
+              },
+              "&:disabled": {
+                borderColor: alpha(GREEN_600, 0.3),
+                color: alpha(GREEN_600, 0.3),
+              },
+            }}
+          >
+            Speak to Our Coordinator
+          </Button>
+        )}
+      </Box>
+
+      <Typography variant="caption" color="text.disabled" sx={{ textAlign: "center" }}>
+        Your medical details remain confidential.
+      </Typography>
+    </Box>
+  );
+}
