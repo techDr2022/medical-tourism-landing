@@ -1,9 +1,12 @@
 import Script from "next/script";
 
-const GA_MEASUREMENT_ID =
+export const GA_MEASUREMENT_ID =
   process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-DN851W50PC";
-const GOOGLE_ADS_ID =
+export const GOOGLE_ADS_ID =
   process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "AW-18246472126";
+export const GOOGLE_ADS_CONVERSION_LABEL =
+  process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL ||
+  "4t3fCPCE0cEcEL6jzPxD";
 
 export function GoogleAnalytics() {
   const primaryId = GA_MEASUREMENT_ID || GOOGLE_ADS_ID;
@@ -34,26 +37,11 @@ declare global {
   }
 }
 
-/** Fire conversion event for form submissions (GA4 + Google Ads) */
+/** Fire GA4 lead event on form submit; Google Ads conversion fires on /thank-you */
 export function trackFormConversion() {
-  if (typeof window === "undefined" || !window.gtag) return;
-  const GA_ID = GA_MEASUREMENT_ID;
-  const ADS_ID = GOOGLE_ADS_ID;
-  const ADS_LABEL = process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL;
-  if (GA_ID) {
-    window.gtag("event", "generate_lead", {
-      send_to: GA_ID,
-      event_callback: () => {},
-    });
-  }
-  if (ADS_ID && ADS_LABEL) {
-    window.gtag("event", "conversion", {
-      send_to: `${ADS_ID}/${ADS_LABEL}`,
-      event_callback: () => {},
-    });
-  }
-  // Google Ads conversion event for Contact Us form
-  window.gtag("event", "ads_conversion_Contact_Us_1", {
+  if (typeof window === "undefined" || !window.gtag || !GA_MEASUREMENT_ID) return;
+  window.gtag("event", "generate_lead", {
+    send_to: GA_MEASUREMENT_ID,
     event_callback: () => {},
   });
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GoogleAdsContactConversion } from "@/components/analytics/GoogleAdsConversion";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
@@ -10,5 +11,10 @@ export const metadata: Metadata = createPageMetadata({
 });
 
 export default function ThankYouLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <GoogleAdsContactConversion />
+      {children}
+    </>
+  );
 }
