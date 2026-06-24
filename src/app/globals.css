@@ -31,3 +31,8 @@ a,
 [role="button"] {
   touch-action: manipulation;
 }
+
+/* Hide reCAPTCHA v3 badge; required notice is shown near forms instead */
+.grecaptcha-badge {
+  visibility: hidden;
+}

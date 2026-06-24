@@ -21,7 +21,15 @@ import Alert from "@mui/material/Alert";
 import CircularProgress from "@mui/material/CircularProgress";
 import { alpha } from "@mui/material/styles";
 import { MedicalFileUpload } from "./ui/MedicalFileUpload";
+import { RecaptchaNotice } from "./ui/RecaptchaNotice";
 import { fileToBase64, MAX_FILE_BYTES, MAX_FILE_SIZE_MB } from "@/lib/fileUpload";
+import { validateLeadFormFields } from "@/lib/formValidation";
+import {
+  VISA_ASSISTANCE_OPTIONS,
+  WHEN_TO_TRAVEL_OPTIONS,
+  type VisaAssistance,
+  type WhenToTravel,
+} from "@/lib/leadFormFields";
 
 const GREEN_600 = "#1c7c7f";
 const GREEN_700 = "#0d9488";
@@ -41,6 +49,8 @@ interface FormData {
   outsideIndia: "" | "yes" | "no";
   whatsapp: string;
   email: string;
+  whenToTravel: "" | WhenToTravel;
+  visaAssistance: "" | VisaAssistance;
   medicalCondition: string;
 }
 
@@ -57,6 +67,8 @@ export function LeadForm({ showCoordinatorButton = true }: LeadFormProps) {
     outsideIndia: "",
     whatsapp: "",
     email: "",
+    whenToTravel: "",
+    visaAssistance: "",
     medicalCondition: "",
   });
   const [files, setFiles] = useState<File[]>([]);
@@ -73,12 +85,13 @@ export function LeadForm({ showCoordinatorButton = true }: LeadFormProps) {
     if (submitStatus.type) setSubmitStatus({ type: null, message: "" });
   };
 
-  const handleSelectChange = (field: "country" | "outsideIndia") => (
-    e: { target: { value: unknown } }
-  ) => {
-    const value = field === "outsideIndia"
-      ? (e.target.value as "" | "yes" | "no")
-      : String(e.target.value);
+  const handleSelectChange = (
+    field: "country" | "outsideIndia" | "whenToTravel" | "visaAssistance"
+  ) => (e: { target: { value: unknown } }) => {
+    const value =
+      field === "country" || field === "whenToTravel"
+        ? String(e.target.value)
+        : (e.target.value as FormData[typeof field]);
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (submitStatus.type) setSubmitStatus({ type: null, message: "" });
   };
@@ -87,6 +100,13 @@ export function LeadForm({ showCoordinatorButton = true }: LeadFormProps) {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus({ type: null, message: "" });
+
+    const validationError = validateLeadFormFields({ ...formData, fileCount: files.length });
+    if (validationError) {
+      setSubmitStatus({ type: "error", message: validationError });
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       let recaptchaToken: string | undefined;
@@ -116,7 +136,7 @@ export function LeadForm({ showCoordinatorButton = true }: LeadFormProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
-          ...(filesWithContent.length > 0 && { files: filesWithContent }),
+          files: filesWithContent,
           ...(recaptchaToken && { recaptchaToken }),
         }),
       });
@@ -239,6 +259,51 @@ export function LeadForm({ showCoordinatorButton = true }: LeadFormProps) {
             disabled={isSubmitting}
           />
         </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <FormControl fullWidth required disabled={isSubmitting}>
+            <InputLabel id="when-to-travel-label">When to travel</InputLabel>
+            <Select
+              labelId="when-to-travel-label"
+              id="whenToTravel"
+              value={formData.whenToTravel}
+              label="When to travel"
+              onChange={handleSelectChange("whenToTravel")}
+            >
+              <MenuItem value="">
+                <em>Select timeframe</em>
+              </MenuItem>
+              {WHEN_TO_TRAVEL_OPTIONS.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <FormControl component="fieldset" required disabled={isSubmitting} sx={{ width: "100%" }}>
+            <FormLabel id="visa-assistance-label" sx={{ typography: "body2" }}>
+              Need visa assistance?
+            </FormLabel>
+            <RadioGroup
+              row
+              aria-labelledby="visa-assistance-label"
+              name="visaAssistance"
+              value={formData.visaAssistance}
+              onChange={handleSelectChange("visaAssistance")}
+              sx={{ mt: 0.5 }}
+            >
+              {VISA_ASSISTANCE_OPTIONS.map((option) => (
+                <FormControlLabel
+                  key={option.value}
+                  value={option.value}
+                  control={<Radio size="small" />}
+                  label={option.label}
+                />
+              ))}
+            </RadioGroup>
+          </FormControl>
+        </Grid>
         <Grid size={12}>
           <TextField
             fullWidth
@@ -257,8 +322,12 @@ export function LeadForm({ showCoordinatorButton = true }: LeadFormProps) {
         <Grid size={12}>
           <MedicalFileUpload
             files={files}
-            onChange={setFiles}
+            onChange={(newFiles) => {
+              setFiles(newFiles);
+              if (submitStatus.type) setSubmitStatus({ type: null, message: "" });
+            }}
             disabled={isSubmitting}
+            required
           />
         </Grid>
       </Grid>
@@ -321,6 +390,7 @@ export function LeadForm({ showCoordinatorButton = true }: LeadFormProps) {
       <Typography variant="caption" color="text.disabled" sx={{ textAlign: "center" }}>
         Your medical details remain confidential.
       </Typography>
+      <RecaptchaNotice />
     </Box>
   );
 }

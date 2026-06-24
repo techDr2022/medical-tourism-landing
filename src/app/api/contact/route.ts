@@ -5,6 +5,13 @@ import {
   DEFAULT_WHATSAPP_NUMBER,
   formatWhatsAppDisplay,
 } from "@/lib/contact";
+import { validateLeadFormFields } from "@/lib/formValidation";
+import {
+  formatVisaAssistance,
+  formatWhenToTravel,
+  VISA_ASSISTANCE_VALUES,
+  WHEN_TO_TRAVEL_VALUES,
+} from "@/lib/leadFormFields";
 
 const RECAPTCHA_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
 const RECAPTCHA_MIN_SCORE = 0.5;
@@ -130,8 +137,18 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { name, country, outsideIndia, whatsapp, email, medicalCondition, files, recaptchaToken } =
-      body;
+    const {
+      name,
+      country,
+      outsideIndia,
+      whatsapp,
+      email,
+      whenToTravel,
+      visaAssistance,
+      medicalCondition,
+      files,
+      recaptchaToken,
+    } = body;
 
     if (process.env.RECAPTCHA_SECRET_KEY) {
       if (!recaptchaToken || typeof recaptchaToken !== "string") {
@@ -150,8 +167,22 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    if (!name || !country || !outsideIndia || !whatsapp || !email || !medicalCondition) {
+    if (
+      !name ||
+      !country ||
+      !outsideIndia ||
+      !whatsapp ||
+      !email ||
+      !whenToTravel ||
+      !visaAssistance ||
+      !medicalCondition
+    ) {
       return NextResponse.json({ error: "All fields are required" }, { status: 400 });
+    }
+
+    const fieldValidationError = validateLeadFormFields({ name, medicalCondition });
+    if (fieldValidationError) {
+      return NextResponse.json({ error: fieldValidationError }, { status: 400 });
     }
 
     if (outsideIndia !== "yes" && outsideIndia !== "no") {
@@ -160,6 +191,20 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    if (!WHEN_TO_TRAVEL_VALUES.includes(whenToTravel)) {
+      return NextResponse.json({ error: "Please select when you plan to travel" }, { status: 400 });
+    }
+
+    if (!VISA_ASSISTANCE_VALUES.includes(visaAssistance)) {
+      return NextResponse.json(
+        { error: "Please indicate whether you need visa assistance" },
+        { status: 400 }
+      );
+    }
+
+    const whenToTravelLabel = formatWhenToTravel(whenToTravel);
+    const visaAssistanceLabel = formatVisaAssistance(visaAssistance);
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -174,15 +219,27 @@ export async function POST(request: NextRequest) {
     }
 
     const attachments: { filename: string; content: string }[] = [];
-    if (Array.isArray(files) && files.length > 0) {
-      for (const f of files) {
-        if (f && typeof f.name === "string" && typeof f.content === "string" && f.content.length > 0) {
-          attachments.push({
-            filename: f.name,
-            content: f.content,
-          });
-        }
+    if (!Array.isArray(files) || files.length === 0) {
+      return NextResponse.json(
+        { error: "Please upload at least one medical report (image or PDF)." },
+        { status: 400 }
+      );
+    }
+
+    for (const f of files) {
+      if (f && typeof f.name === "string" && typeof f.content === "string" && f.content.length > 0) {
+        attachments.push({
+          filename: f.name,
+          content: f.content,
+        });
       }
+    }
+
+    if (attachments.length === 0) {
+      return NextResponse.json(
+        { error: "Please upload at least one valid medical report (image or PDF)." },
+        { status: 400 }
+      );
     }
 
     const apiKey = process.env.RESEND_API_KEY?.trim();
@@ -243,6 +300,14 @@ export async function POST(request: NextRequest) {
                   <a href="https://wa.me/${whatsapp.replace(/[^0-9]/g, "")}" style="color: #1c7c7f; text-decoration: none;">${escapeHtml(whatsapp)}</a>
                 </td>
               </tr>
+              <tr>
+                <td style="padding: 8px 0; font-weight: 600; color: #374151;">When to travel:</td>
+                <td style="padding: 8px 0; color: #171717;">${escapeHtml(whenToTravelLabel)}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; font-weight: 600; color: #374151;">Need visa assistance:</td>
+                <td style="padding: 8px 0; color: #171717;">${escapeHtml(visaAssistanceLabel)}</td>
+              </tr>
             </table>
           </div>
 
@@ -278,6 +343,8 @@ Patient Information:
 - Currently outside India: ${outsideIndia === "yes" ? "Yes" : "No"}
 - Email: ${email}
 - WhatsApp: ${whatsapp}
+- When to travel: ${whenToTravelLabel}
+- Need visa assistance: ${visaAssistanceLabel}
 
 Medical Condition:
 ${medicalCondition}

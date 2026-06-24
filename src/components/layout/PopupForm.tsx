@@ -17,7 +17,9 @@ import Alert from "@mui/material/Alert";
 import CircularProgress from "@mui/material/CircularProgress";
 import { alpha } from "@mui/material/styles";
 import { MedicalFileUpload } from "../ui/MedicalFileUpload";
+import { RecaptchaNotice } from "../ui/RecaptchaNotice";
 import { fileToBase64, MAX_FILE_BYTES, MAX_FILE_SIZE_MB } from "@/lib/fileUpload";
+import { validateLeadFormFields } from "@/lib/formValidation";
 
 const GREEN_600 = "#1c7c7f";
 const GREEN_700 = "#0d9488";
@@ -75,6 +77,13 @@ export function PopupForm({ open, onClose, title = "Request a Treatment Estimate
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus({ type: null, message: "" });
+
+    const validationError = validateLeadFormFields(formData);
+    if (validationError) {
+      setSubmitStatus({ type: "error", message: validationError });
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       let recaptchaToken: string | undefined;
@@ -280,6 +289,7 @@ export function PopupForm({ open, onClose, title = "Request a Treatment Estimate
           <Typography variant="caption" color="text.secondary" sx={{ textAlign: "center" }}>
             Your details remain confidential. We respond within 24–48 hours.
           </Typography>
+          <RecaptchaNotice />
         </Box>
       </DialogContent>
     </Dialog>
