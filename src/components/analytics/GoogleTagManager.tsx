@@ -1,4 +1,4 @@
-const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || "GTM-WBV54PM9";
+const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || "GTM-K5DN86ML";
 
 export function GoogleTagManager() {
   return (
