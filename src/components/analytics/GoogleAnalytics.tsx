@@ -1,7 +1,7 @@
 import Script from "next/script";
 
 export const GA_MEASUREMENT_ID =
-  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-DN851W50PC";
+  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || "G-H4SG6VZYL6";
 export const GOOGLE_ADS_ID =
   process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "AW-18246472126";
 export const GOOGLE_ADS_CONVERSION_LABEL =
