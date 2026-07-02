@@ -21,7 +21,6 @@ interface MedicalFileUploadProps {
   files: File[];
   onChange: (files: File[]) => void;
   disabled?: boolean;
-  required?: boolean;
   buttonLabel?: string;
   py?: number;
 }
@@ -30,8 +29,7 @@ export function MedicalFileUpload({
   files,
   onChange,
   disabled = false,
-  required = false,
-  buttonLabel = "Upload Reports (Images or PDF)",
+  buttonLabel = "Upload reports now (if you have them)",
   py = 2,
 }: MedicalFileUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -51,14 +49,9 @@ export function MedicalFileUpload({
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-      {required && (
-        <Typography variant="body2" sx={{ fontWeight: 500, color: "text.primary" }}>
-          Medical Reports{" "}
-          <Box component="span" sx={{ color: "error.main" }}>
-            *
-          </Box>
-        </Typography>
-      )}
+      <Typography variant="body2" sx={{ fontWeight: 500, color: "text.primary", lineHeight: 1.5 }}>
+        Optional — you can also send reports on WhatsApp later.
+      </Typography>
       <Button
         variant="outlined"
         component="label"

@@ -20,21 +20,9 @@ export function validateName(value: string): string | null {
   return null;
 }
 
-export function validateReportFiles(fileCount: number): string | null {
-  if (fileCount < 1) {
-    return "Please upload at least one medical report (image or PDF).";
-  }
-  return null;
-}
-
 export function validateLeadFormFields(fields: {
   name: string;
   medicalCondition: string;
-  fileCount?: number;
 }): string | null {
-  return (
-    validateName(fields.name) ??
-    validateMedicalCondition(fields.medicalCondition) ??
-    (fields.fileCount !== undefined ? validateReportFiles(fields.fileCount) : null)
-  );
+  return validateName(fields.name) ?? validateMedicalCondition(fields.medicalCondition);
 }

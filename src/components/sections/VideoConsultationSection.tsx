@@ -6,6 +6,10 @@ import Typography from "@mui/material/Typography";
 import { SectionContainer } from "../ui/SectionContainer";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import VideoCallIcon from "@mui/icons-material/VideoCall";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import EventAvailableOutlinedIcon from "@mui/icons-material/EventAvailableOutlined";
+import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
+import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import { alpha } from "@mui/material/styles";
 
 const GREEN_600 = "#1c7c7f";
@@ -13,14 +17,71 @@ const GREEN_700 = "#0d9488";
 const GRADIENT_START = "#10b981";
 const GRADIENT_END = "#0d9488";
 
-const ASSIST_ITEMS = [
-  "Secure sharing of medical reports",
-  "Appointment scheduling",
-  "Time zone coordination with India",
-  "Preliminary treatment plan and estimated hospital stay",
-];
+const COORDINATION_ITEMS = [
+  {
+    icon: LockOutlinedIcon,
+    label: "Secure sharing of medical reports",
+    detail: "Encrypted transfer to the hospital specialist only",
+  },
+  {
+    icon: EventAvailableOutlinedIcon,
+    label: "Appointment scheduling",
+    detail: "We book your video consult at a time that works for you",
+  },
+  {
+    icon: PublicOutlinedIcon,
+    label: "Time zone coordination with India",
+    detail: "No confusion — we align your local time with IST",
+  },
+  {
+    icon: AssignmentOutlinedIcon,
+    label: "Preliminary treatment plan and estimated hospital stay",
+    detail: "Know what to expect before you book flights",
+  },
+] as const;
 
-const TEAM_PHOTOS = ["/logos/team-photo.png", "/logos/team-photo2.png"];
+const CONSULTATION_PHOTO = "/logos/16369.jpg";
+const TEAM_PHOTOS = ["/logos/team-photo2.png"];
+
+function SectionPhoto({
+  src,
+  alt,
+  height,
+}: {
+  src: string;
+  alt: string;
+  height: { xs: number; sm?: number; md: number };
+}) {
+  return (
+    <Box
+      sx={{
+        position: "relative",
+        borderRadius: 3,
+        overflow: "hidden",
+        boxShadow: "0 12px 40px rgba(0, 0, 0, 0.12)",
+        "&::after": {
+          content: '""',
+          position: "absolute",
+          inset: 0,
+          background: `linear-gradient(135deg, ${alpha(GREEN_600, 0.15)} 0%, transparent 60%)`,
+          pointerEvents: "none",
+        },
+      }}
+    >
+      <Box
+        component="img"
+        src={src}
+        alt={alt}
+        sx={{
+          width: "100%",
+          height,
+          objectFit: "cover",
+          display: "block",
+        }}
+      />
+    </Box>
+  );
+}
 
 export function VideoConsultationSection() {
   return (
@@ -31,38 +92,40 @@ export function VideoConsultationSection() {
         alignItems="center"
         sx={{ maxWidth: 1100, mx: "auto" }}
       >
-        {/* Team photos – left on desktop, top on mobile */}
+        {/* Photos – left on desktop, top on mobile */}
         <Grid size={{ xs: 12, md: 5 }}>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2.5 }}>
+            <SectionPhoto
+              src={CONSULTATION_PHOTO}
+              alt="Patient video consultation with hospital specialist before travel"
+              height={{ xs: 220, sm: 260, md: 240 }}
+            />
+
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 1.5,
+                py: 1.5,
+                px: 2,
+                borderRadius: 2,
+                backgroundColor: "rgba(255, 255, 255, 0.95)",
+                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              <VideoCallIcon sx={{ fontSize: 28, color: GREEN_600 }} />
+              <Typography variant="body2" fontWeight={600} color="#171717">
+                Pre-travel video consultation
+              </Typography>
+            </Box>
+
             {TEAM_PHOTOS.map((photo, index) => (
-              <Box
+              <SectionPhoto
                 key={photo}
-                sx={{
-                  position: "relative",
-                  borderRadius: 3,
-                  overflow: "hidden",
-                  boxShadow: "0 12px 40px rgba(0, 0, 0, 0.12)",
-                  "&::after": {
-                    content: '""',
-                    position: "absolute",
-                    inset: 0,
-                    background: `linear-gradient(135deg, ${alpha(GREEN_600, 0.15)} 0%, transparent 60%)`,
-                    pointerEvents: "none",
-                  },
-                }}
-              >
-                <Box
-                  component="img"
-                  src={photo}
-                  alt={`Our team group photo ${index + 1}`}
-                  sx={{
-                    width: "100%",
-                    height: { xs: 220, sm: 260, md: 200 },
-                    objectFit: "cover",
-                    display: "block",
-                  }}
-                />
-              </Box>
+                src={photo}
+                alt={`Our team group photo ${index + 1}`}
+                height={{ xs: 220, sm: 260, md: 200 }}
+              />
             ))}
 
             <Box
@@ -139,65 +202,116 @@ export function VideoConsultationSection() {
 
           <Box
             sx={{
-              backgroundColor: "#ffffff",
-              borderRadius: 3,
-              border: `1px solid ${alpha("#171717", 0.1)}`,
-              p: { xs: 3, md: 4 },
               mb: 3,
-              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.08)",
             }}
           >
             <Typography
               variant="h3"
               sx={{
-                fontSize: "1.125rem",
+                fontSize: "1.0625rem",
                 fontWeight: 700,
-                mb: 3,
+                mb: 2,
                 color: "#171717",
               }}
             >
               We coordinate:
             </Typography>
-            <Grid container spacing={2}>
-              {ASSIST_ITEMS.map((item) => (
-                <Grid key={item} size={{ xs: 12, sm: 6 }}>
+
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+              {COORDINATION_ITEMS.map((item, index) => {
+                const Icon = item.icon;
+                return (
                   <Box
+                    key={item.label}
                     sx={{
                       display: "flex",
                       alignItems: "flex-start",
                       gap: 2,
-                      py: 1.5,
+                      p: 2,
+                      borderRadius: 2.5,
+                      bgcolor: "#ffffff",
+                      border: `1px solid ${alpha(GREEN_600, 0.12)}`,
+                      boxShadow: "0 2px 10px rgba(0, 0, 0, 0.04)",
+                      transition: "border-color 0.2s ease, box-shadow 0.2s ease",
+                      "&:hover": {
+                        borderColor: alpha(GREEN_600, 0.3),
+                        boxShadow: "0 4px 16px rgba(16, 185, 129, 0.1)",
+                      },
                     }}
                   >
                     <Box
                       sx={{
-                        width: 28,
-                        height: 28,
-                        borderRadius: "50%",
-                        backgroundColor: alpha(GREEN_600, 0.1),
+                        width: 44,
+                        height: 44,
+                        borderRadius: 2,
+                        flexShrink: 0,
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        flexShrink: 0,
-                        mt: 0.25,
+                        background: `linear-gradient(135deg, ${alpha(GREEN_600, 0.12)} 0%, ${alpha(GREEN_700, 0.08)} 100%)`,
+                        color: GREEN_600,
+                        position: "relative",
                       }}
                     >
-                      <CheckCircleIcon sx={{ fontSize: 18, color: GREEN_600 }} />
+                      <Icon sx={{ fontSize: 22 }} />
+                      <Box
+                        component="span"
+                        sx={{
+                          position: "absolute",
+                          top: -6,
+                          right: -6,
+                          width: 18,
+                          height: 18,
+                          borderRadius: "50%",
+                          bgcolor: GREEN_600,
+                          color: "#fff",
+                          fontSize: "0.625rem",
+                          fontWeight: 700,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          lineHeight: 1,
+                        }}
+                      >
+                        {index + 1}
+                      </Box>
                     </Box>
-                    <Typography
-                      variant="body1"
+                    <Box sx={{ minWidth: 0, pt: 0.25 }}>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          fontWeight: 700,
+                          color: "#171717",
+                          lineHeight: 1.4,
+                          mb: 0.5,
+                        }}
+                      >
+                        {item.label}
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          color: alpha("#171717", 0.6),
+                          lineHeight: 1.5,
+                          display: "block",
+                        }}
+                      >
+                        {item.detail}
+                      </Typography>
+                    </Box>
+                    <CheckCircleIcon
                       sx={{
-                        fontSize: "0.9375rem",
-                        color: alpha("#171717", 0.8),
-                        lineHeight: 1.6,
+                        fontSize: 20,
+                        color: alpha(GREEN_600, 0.35),
+                        flexShrink: 0,
+                        mt: 0.5,
+                        display: { xs: "none", sm: "block" },
                       }}
-                    >
-                      {item}
-                    </Typography>
+                    />
                   </Box>
-                </Grid>
-              ))}
-            </Grid>
+                );
+              })}
+            </Box>
           </Box>
 
           <Box

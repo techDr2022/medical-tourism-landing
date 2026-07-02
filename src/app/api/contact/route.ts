@@ -219,27 +219,15 @@ export async function POST(request: NextRequest) {
     }
 
     const attachments: { filename: string; content: string }[] = [];
-    if (!Array.isArray(files) || files.length === 0) {
-      return NextResponse.json(
-        { error: "Please upload at least one medical report (image or PDF)." },
-        { status: 400 }
-      );
-    }
-
-    for (const f of files) {
-      if (f && typeof f.name === "string" && typeof f.content === "string" && f.content.length > 0) {
-        attachments.push({
-          filename: f.name,
-          content: f.content,
-        });
+    if (Array.isArray(files)) {
+      for (const f of files) {
+        if (f && typeof f.name === "string" && typeof f.content === "string" && f.content.length > 0) {
+          attachments.push({
+            filename: f.name,
+            content: f.content,
+          });
+        }
       }
-    }
-
-    if (attachments.length === 0) {
-      return NextResponse.json(
-        { error: "Please upload at least one valid medical report (image or PDF)." },
-        { status: 400 }
-      );
     }
 
     const apiKey = process.env.RESEND_API_KEY?.trim();

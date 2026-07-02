@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Dialog from "@mui/material/Dialog";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
-import { trackFormConversion } from "@/components/analytics/GoogleAnalytics";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
@@ -124,7 +123,6 @@ export function PopupForm({ open, onClose, title = "Request a Treatment Estimate
         throw new Error(data.error || "Failed to send message");
       }
 
-      trackFormConversion();
       onClose();
       router.push("/thank-you");
     } catch (error) {
@@ -260,7 +258,6 @@ export function PopupForm({ open, onClose, title = "Request a Treatment Estimate
             files={files}
             onChange={setFiles}
             disabled={isSubmitting}
-            buttonLabel="Upload Reports (Images or PDF)"
             py={1.5}
           />
 
@@ -287,7 +284,8 @@ export function PopupForm({ open, onClose, title = "Request a Treatment Estimate
           </Button>
 
           <Typography variant="caption" color="text.secondary" sx={{ textAlign: "center" }}>
-            Your details remain confidential. We respond within 24–48 hours.
+            Your details remain confidential. A coordinator replies within 24–48 hours on WhatsApp or
+            email.
           </Typography>
           <RecaptchaNotice />
         </Box>

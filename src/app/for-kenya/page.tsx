@@ -16,11 +16,15 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { VideoConsultationSection } from "@/components/sections/VideoConsultationSection";
+import { MedicalVisaSection } from "@/components/sections/MedicalVisaSection";
 import { HospitalLogo } from "@/components/sections/HospitalsSection";
 import { RequestFormSection } from "@/components/sections/RequestFormSection";
-import { TeamGroupPhotosSection } from "@/components/sections/TeamGroupPhotosSection";
 import { FaqSection } from "@/components/sections/FaqSection";
+import { YouTubePatientTestimonialsSection } from "@/components/sections/YouTubePatientTestimonialsSection";
+import { PatientSocialProofSection } from "@/components/sections/PatientSocialProofSection";
 import { HOSPITALS } from "@/constants";
+import { PROCEDURE_PRICE_CATEGORIES } from "@/constants/procedurePricing";
+import { ProcedurePricingGrid } from "@/components/ui/ProcedurePricingGrid";
 import { MobileStickyCta } from "@/components/layout/MobileStickyCta";
 import { AuroraBackground } from "@/components/layout/AuroraBackground";
 
@@ -46,34 +50,6 @@ const COMMON_PROCEDURES = [
   "Organ transplant coordination",
   "Fertility treatments",
   "General surgical procedures",
-];
-
-const PACKAGE_CATEGORIES = [
-  {
-    title: "Cardiac Procedures",
-    items: [
-      { name: "Angioplasty (1 Stent)", price: "from USD 4,400" },
-      { name: "Bypass Surgery (CABG)", price: "from USD 5,500" },
-    ],
-  },
-  {
-    title: "Orthopaedic Procedures",
-    items: [
-      { name: "Total Knee Replacement", price: "from USD 5,500" },
-      { name: "Total Hip Replacement", price: "from USD 6,200" },
-    ],
-  },
-  {
-    title: "Neurosurgery",
-    items: [{ name: "Spinal Fusion", price: "from USD 8,200" }],
-  },
-  {
-    title: "Transplant Procedures",
-    items: [
-      { name: "Kidney Transplant", price: "from USD 13,000" },
-      { name: "Liver Transplant", price: "from USD 27,000" },
-    ],
-  },
 ];
 
 const COORDINATION_ITEMS = [
@@ -342,7 +318,7 @@ export default function ForKenyaPage() {
           {/* SECTION 2 – WHY INDIA */}
           <SectionContainer id="why-india" variant="alt">
             <Box sx={{ maxWidth: 1000, mx: "auto" }}>
-              <Box sx={{ textAlign: "center", mb: 4 }}>
+              <Box sx={{ textAlign: "center", mb: { xs: 2.5, md: 3 } }}>
                 <Typography
                   variant="overline"
                   sx={{
@@ -351,7 +327,7 @@ export default function ForKenyaPage() {
                     letterSpacing: 1.5,
                     fontSize: "0.8125rem",
                     display: "block",
-                    mb: 1.5,
+                    mb: 1,
                   }}
                 >
                   Why Choose India
@@ -359,10 +335,9 @@ export default function ForKenyaPage() {
                 <Typography
                   variant="h2"
                   sx={{
-                    fontSize: { xs: "1.75rem", md: "2rem" },
+                    fontSize: { xs: "1.5rem", md: "1.75rem" },
                     fontWeight: 700,
-                    mb: 2,
-                    lineHeight: 1.2,
+                    lineHeight: 1.25,
                     color: "#171717",
                   }}
                 >
@@ -374,31 +349,30 @@ export default function ForKenyaPage() {
                   backgroundColor: "#ffffff",
                   borderRadius: 2,
                   border: `1px solid ${alpha("#171717", 0.1)}`,
-                  p: { xs: 3, md: 4 },
-                  mb: 3,
+                  p: { xs: 2.5, md: 3 },
                 }}
               >
                 <Typography
                   variant="body1"
                   sx={{
-                    fontSize: "1rem",
-                    color: alpha("#171717", 0.8),
-                    mb: 3,
-                    fontWeight: 500,
+                    fontSize: "0.9375rem",
+                    color: alpha("#171717", 0.85),
+                    mb: 1.5,
+                    fontWeight: 600,
                   }}
                 >
                   India is recognised for:
                 </Typography>
-                <Grid container spacing={2}>
+                <Grid container spacing={{ xs: 0.5, sm: 1 }}>
                   {WHY_INDIA_BULLETS.map((reason) => (
                     <Grid key={reason} size={{ xs: 12, sm: 6 }}>
-                      <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2, py: 1.5 }}>
+                      <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1.25, py: 0.5 }}>
                         <CheckCircleIcon
-                          sx={{ fontSize: 24, color: GREEN_600, flexShrink: 0, mt: 0.25 }}
+                          sx={{ fontSize: 20, color: GREEN_600, flexShrink: 0, mt: 0.2 }}
                         />
                         <Typography
-                          variant="body1"
-                          sx={{ fontSize: "0.9375rem", color: alpha("#171717", 0.8), lineHeight: 1.6 }}
+                          variant="body2"
+                          sx={{ fontSize: "0.9375rem", color: alpha("#171717", 0.8), lineHeight: 1.45 }}
                         >
                           {reason}
                         </Typography>
@@ -406,19 +380,22 @@ export default function ForKenyaPage() {
                     </Grid>
                   ))}
                 </Grid>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    mt: 2,
+                    pt: 2,
+                    borderTop: `1px solid ${alpha("#171717", 0.08)}`,
+                    textAlign: "center",
+                    color: alpha("#171717", 0.7),
+                    fontSize: "0.875rem",
+                    lineHeight: 1.55,
+                  }}
+                >
+                  Hospitals in India regularly treat patients travelling from Kenya, including
+                  Nairobi, Mombasa, Kisumu, and other regions.
+                </Typography>
               </Box>
-              <Typography
-                variant="body2"
-                sx={{
-                  textAlign: "center",
-                  color: alpha("#171717", 0.7),
-                  fontSize: "0.9375rem",
-                  lineHeight: 1.7,
-                }}
-              >
-                Hospitals in India regularly treat patients travelling from Kenya, including
-                Nairobi, Mombasa, Kisumu, and other regions.
-              </Typography>
             </Box>
           </SectionContainer>
 
@@ -501,6 +478,11 @@ export default function ForKenyaPage() {
               partner.
             </Typography>
           </SectionContainer>
+
+          <PatientSocialProofSection />
+          <YouTubePatientTestimonialsSection />
+
+          <MedicalVisaSection />
 
           {/* SECTION 4 – VIDEO CONSULTATION (uses shared component with image) */}
           <VideoConsultationSection />
@@ -632,82 +614,11 @@ export default function ForKenyaPage() {
                     lineHeight: 1.7,
                   }}
                 >
-                  Patients from Kenya often request cost clarity before travel. Based on official
-                  hospital tariff plans:
+                  Patients from Kenya often request cost clarity before travel. India hospital packages
+                  compared to typical costs in the US and UK:
                 </Typography>
               </Box>
-              <Grid container spacing={3}>
-                {PACKAGE_CATEGORIES.map((category) => (
-                  <Grid key={category.title} size={{ xs: 12, md: 6 }}>
-                    <Box
-                      sx={{
-                        p: 4,
-                        height: "100%",
-                        borderRadius: 3,
-                        backgroundColor: "#ffffff",
-                        border: `1px solid ${alpha("#171717", 0.1)}`,
-                        boxShadow: "0 2px 12px rgba(0, 0, 0, 0.06)",
-                        "&:hover": {
-                          boxShadow: "0 8px 24px rgba(16, 185, 129, 0.15)",
-                          borderColor: alpha(GREEN_600, 0.3),
-                        },
-                      }}
-                    >
-                      <Typography
-                        variant="h4"
-                        sx={{
-                          fontSize: "1.125rem",
-                          fontWeight: 700,
-                          mb: 3,
-                          color: "#171717",
-                          pb: 2,
-                          borderBottom: `2px solid ${alpha(GREEN_600, 0.2)}`,
-                        }}
-                      >
-                        {category.title}
-                      </Typography>
-                      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                        {category.items.map((item) => (
-                          <Box
-                            key={item.name}
-                            sx={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "flex-start",
-                              gap: 2,
-                              py: 1.5,
-                              borderBottom: `1px solid ${alpha("#171717", 0.05)}`,
-                              "&:last-child": { borderBottom: "none" },
-                            }}
-                          >
-                            <Typography
-                              variant="body1"
-                              sx={{
-                                fontSize: "0.9375rem",
-                                color: alpha("#171717", 0.8),
-                                lineHeight: 1.5,
-                              }}
-                            >
-                              {item.name}
-                            </Typography>
-                            <Typography
-                              variant="body1"
-                              sx={{
-                                fontSize: "0.9375rem",
-                                fontWeight: 700,
-                                color: GREEN_600,
-                                whiteSpace: "nowrap",
-                              }}
-                            >
-                              {item.price}
-                            </Typography>
-                          </Box>
-                        ))}
-                      </Box>
-                    </Box>
-                  </Grid>
-                ))}
-              </Grid>
+              <ProcedurePricingGrid categories={PROCEDURE_PRICE_CATEGORIES} />
               <Typography
                 variant="body2"
                 sx={{
@@ -1197,7 +1108,6 @@ export default function ForKenyaPage() {
             </Box>
           </SectionContainer>
 
-          <TeamGroupPhotosSection />
           <FaqSection />
           <RequestFormSection />
         </Box>

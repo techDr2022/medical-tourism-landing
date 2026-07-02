@@ -6,6 +6,8 @@ import Typography from "@mui/material/Typography";
 import { SectionContainer } from "../ui/SectionContainer";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { alpha } from "@mui/material/styles";
+import { PROCEDURE_PRICE_CATEGORIES } from "@/constants/procedurePricing";
+import { ProcedurePricingGrid } from "../ui/ProcedurePricingGrid";
 
 const GREEN_600 = "#1c7c7f";
 const GREEN_700 = "#0d9488";
@@ -18,39 +20,6 @@ const PACKAGE_ITEMS = [
   "Room category options (Economy, Double, Single)",
   "Implant details where applicable",
   "Inclusions and exclusions within the package",
-];
-
-const PROCEDURE_CATEGORIES = [
-  {
-    title: "Cardiac Procedures",
-    procedures: [
-      { name: "Angiography", price: "USD 400" },
-      { name: "Angioplasty (1 Stent)", price: "USD 4,400" },
-      { name: "Bypass Surgery (CABG)", price: "USD 5,500" },
-      { name: "Valve Replacement", price: "USD 8,000" },
-    ],
-  },
-  {
-    title: "Orthopaedic Procedures",
-    procedures: [
-      { name: "Total Knee Replacement (Single Knee)", price: "USD 5,500" },
-      { name: "Total Hip Replacement", price: "USD 6,200" },
-    ],
-  },
-  {
-    title: "Neurosurgery",
-    procedures: [
-      { name: "Spinal Fusion (Up to Two Levels)", price: "USD 8,200" },
-      { name: "Craniotomy", price: "USD 7,800" },
-    ],
-  },
-  {
-    title: "Transplant Procedures",
-    procedures: [
-      { name: "Kidney Transplant", price: "USD 13,000" },
-      { name: "Liver Transplant (Adult)", price: "USD 27,000" },
-    ],
-  },
 ];
 
 const TRANSPARENCY_POINTS = [
@@ -234,86 +203,11 @@ export function PackageEstimatesSection() {
               mx: "auto",
             }}
           >
-            Based on official hospital tariff plans. These are indicative ranges and may vary based on medical condition, room category selection, and specialist evaluation.
+            India hospital packages compared to typical costs in the US and UK. Western figures are
+            indicative public estimates for comparison only.
           </Typography>
 
-          <Grid container spacing={3}>
-            {PROCEDURE_CATEGORIES.map((category) => (
-              <Grid key={category.title} size={{ xs: 12, md: 6 }}>
-                <Box
-                  sx={{
-                    p: 4,
-                    height: "100%",
-                    borderRadius: 3,
-                    backgroundColor: "#ffffff",
-                    border: `1px solid ${alpha("#171717", 0.1)}`,
-                    boxShadow: "0 2px 12px rgba(0, 0, 0, 0.06)",
-                    transition: "all 0.3s ease",
-                    "&:hover": {
-                      transform: "translateY(-4px)",
-                      boxShadow: "0 8px 24px rgba(16, 185, 129, 0.15)",
-                      borderColor: alpha(GREEN_600, 0.3),
-                    },
-                  }}
-                >
-                  <Typography
-                    variant="h4"
-                    sx={{
-                      fontSize: "1.125rem",
-                      fontWeight: 700,
-                      mb: 3,
-                      color: "#171717",
-                      pb: 2,
-                      borderBottom: `2px solid ${alpha(GREEN_600, 0.2)}`,
-                    }}
-                  >
-                    {category.title}
-                  </Typography>
-                  <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                    {category.procedures.map((procedure) => (
-                      <Box
-                        key={procedure.name}
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "flex-start",
-                          gap: 2,
-                          py: 1.5,
-                          borderBottom: `1px solid ${alpha("#171717", 0.05)}`,
-                          "&:last-child": {
-                            borderBottom: "none",
-                          },
-                        }}
-                      >
-                        <Typography
-                          variant="body1"
-                          sx={{
-                            fontSize: "0.9375rem",
-                            color: alpha("#171717", 0.8),
-                            lineHeight: 1.5,
-                            flex: 1,
-                          }}
-                        >
-                          {procedure.name}
-                        </Typography>
-                        <Typography
-                          variant="body1"
-                          sx={{
-                            fontSize: "0.9375rem",
-                            fontWeight: 700,
-                            color: GREEN_600,
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          {procedure.price}
-                        </Typography>
-                      </Box>
-                    ))}
-                  </Box>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
+          <ProcedurePricingGrid categories={PROCEDURE_PRICE_CATEGORIES} />
 
           <Box
             sx={{

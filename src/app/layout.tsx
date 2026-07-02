@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 import { ThemeRegistry } from "@/theme/ThemeRegistry";
 import { RecaptchaProvider } from "@/components/providers/RecaptchaProvider";
-import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
-import {
-  GoogleTagManager,
-  GoogleTagManagerNoscript,
-} from "@/components/analytics/GoogleTagManager";
+import { StickyWhatsAppButton } from "@/components/layout/StickyWhatsAppButton";
 import { GlobalJsonLd } from "@/components/seo/GlobalJsonLd";
 import { absoluteUrl, createPageMetadata, getSiteVerification, SITE } from "@/lib/seo";
 import "./globals.css";
@@ -36,8 +32,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <GoogleAnalytics />
-        <GoogleTagManager />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WB9CT8FN');`,
+          }}
+        />
         <link
           rel="alternate"
           type="text/plain"
@@ -58,10 +61,20 @@ export default function RootLayout({
         />
       </head>
       <body style={{ margin: 0, padding: 0 }} suppressHydrationWarning>
-        <GoogleTagManagerNoscript />
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-WB9CT8FN"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          />
+        </noscript>
         <GlobalJsonLd />
         <ThemeRegistry>
-          <RecaptchaProvider>{children}</RecaptchaProvider>
+          <RecaptchaProvider>
+            {children}
+            <StickyWhatsAppButton />
+          </RecaptchaProvider>
         </ThemeRegistry>
       </body>
     </html>

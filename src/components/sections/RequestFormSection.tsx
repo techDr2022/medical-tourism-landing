@@ -32,7 +32,7 @@ export function RequestFormSection() {
             Request a Treatment Estimate Within 24–48 Hours
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-            Submit your medical reports to receive:
+            Share your details to receive:
           </Typography>
           <Box component="ul" sx={{ m: 0, p: 0, listStyle: "none" }}>
             {BENEFITS.map((item) => (

@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
-import { trackFormConversion } from "@/components/analytics/GoogleAnalytics";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
@@ -19,6 +18,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Alert from "@mui/material/Alert";
 import CircularProgress from "@mui/material/CircularProgress";
+import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
 import { alpha } from "@mui/material/styles";
 import { MedicalFileUpload } from "./ui/MedicalFileUpload";
 import { RecaptchaNotice } from "./ui/RecaptchaNotice";
@@ -101,7 +101,7 @@ export function LeadForm({ showCoordinatorButton = true }: LeadFormProps) {
     setIsSubmitting(true);
     setSubmitStatus({ type: null, message: "" });
 
-    const validationError = validateLeadFormFields({ ...formData, fileCount: files.length });
+    const validationError = validateLeadFormFields(formData);
     if (validationError) {
       setSubmitStatus({ type: "error", message: validationError });
       setIsSubmitting(false);
@@ -147,7 +147,6 @@ export function LeadForm({ showCoordinatorButton = true }: LeadFormProps) {
         throw new Error(data.error || "Failed to send message");
       }
 
-      trackFormConversion();
       router.push("/thank-you");
     } catch (error) {
       setSubmitStatus({
@@ -327,10 +326,30 @@ export function LeadForm({ showCoordinatorButton = true }: LeadFormProps) {
               if (submitStatus.type) setSubmitStatus({ type: null, message: "" });
             }}
             disabled={isSubmitting}
-            required
           />
         </Grid>
       </Grid>
+
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "flex-start",
+          gap: 1.5,
+          px: 2,
+          py: 1.5,
+          borderRadius: 2,
+          bgcolor: alpha(GREEN_600, 0.06),
+          border: `1px solid ${alpha(GREEN_600, 0.15)}`,
+        }}
+      >
+        <ScheduleOutlinedIcon sx={{ fontSize: 22, color: GREEN_600, mt: 0.15, flexShrink: 0 }} />
+        <Typography variant="body2" sx={{ color: alpha("#171717", 0.85), lineHeight: 1.55 }}>
+          <Box component="span" sx={{ fontWeight: 600 }}>
+            A coordinator replies within 24–48 hours
+          </Box>{" "}
+          on WhatsApp or email.
+        </Typography>
+      </Box>
 
       <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" }, gap: 2 }}>
         <Button

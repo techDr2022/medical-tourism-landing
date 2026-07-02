@@ -8,16 +8,17 @@ import { TrustBarSection } from "@/components/sections/TrustBarSection";
 import { WhyConsiderIndiaSection } from "@/components/sections/WhyConsiderIndiaSection";
 import { WhyCoordinatorSection } from "@/components/sections/WhyCoordinatorSection";
 import { HospitalsSection } from "@/components/sections/HospitalsSection";
+import { MedicalVisaSection } from "@/components/sections/MedicalVisaSection";
 import { VideoConsultationSection } from "@/components/sections/VideoConsultationSection";
 import { TreatmentsSection } from "@/components/sections/TreatmentsSection";
 import { CoordinationSection } from "@/components/sections/CoordinationSection";
 import { TransparencySection } from "@/components/sections/TransparencySection";
+import { PatientSocialProofSection } from "@/components/sections/PatientSocialProofSection";
 import { PackageEstimatesSection } from "@/components/sections/PackageEstimatesSection";
 import { ProcessSection } from "@/components/sections/ProcessSection";
 import { ImportantInfoSection } from "@/components/sections/ImportantInfoSection";
-import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
+import { YouTubePatientTestimonialsSection } from "@/components/sections/YouTubePatientTestimonialsSection";
 import { FaqSection } from "@/components/sections/FaqSection";
-import { TeamGroupPhotosSection } from "@/components/sections/TeamGroupPhotosSection";
 import { MobileStickyCta } from "@/components/layout/MobileStickyCta";
 import { AuroraBackground } from "@/components/layout/AuroraBackground";
 
@@ -41,16 +42,17 @@ export default function Home() {
         <WhyConsiderIndiaSection />
         <WhyCoordinatorSection />
         <HospitalsSection />
+        <PatientSocialProofSection />
+        <YouTubePatientTestimonialsSection />
+        <MedicalVisaSection />
         <VideoConsultationSection />
         <TreatmentsSection />
         <CoordinationSection />
         <TransparencySection />
         <PackageEstimatesSection />
         <ProcessSection />
-        <TestimonialsSection />
         <FaqSection />
         <ImportantInfoSection />
-        <TeamGroupPhotosSection />
       </Box>
 
       <Footer />

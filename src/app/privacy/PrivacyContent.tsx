@@ -25,10 +25,6 @@ export function PrivacyContent() {
           <li>Medical condition descriptions and medical reports you upload</li>
           <li>Any other information you submit through our contact or inquiry forms</li>
         </Box>
-        <Typography variant="body1" sx={{ lineHeight: 1.8, color: "#374151", mt: 1 }}>
-          We may also collect usage data through cookies and analytics (e.g., Google Analytics) to improve our
-          website, including pages visited, referral sources, and general geographic location.
-        </Typography>
       </section>
 
       <section>
@@ -53,8 +49,8 @@ export function PrivacyContent() {
         </Typography>
         <Typography variant="body1" sx={{ lineHeight: 1.8, color: "#374151" }}>
           We share your medical and contact information only with hospitals and their teams as necessary to
-          coordinate your care. We may use third-party service providers (e.g., email delivery, hosting,
-          analytics) who process data on our behalf. We do not sell your personal information.
+          coordinate your care.           We may use third-party service providers (e.g., email delivery, hosting) who process data on our
+          behalf. We do not sell your personal information.
         </Typography>
       </section>
 
@@ -95,11 +91,11 @@ export function PrivacyContent() {
 
       <section>
         <Typography variant="h6" sx={{ fontWeight: 600, color: "#171717", mb: 1 }}>
-          7. Cookies and Analytics
+          7. Cookies
         </Typography>
         <Typography variant="body1" sx={{ lineHeight: 1.8, color: "#374151" }}>
-          We use cookies and similar technologies for analytics (e.g., Google Analytics) and to improve user
-          experience. You can control cookie preferences through your browser settings.
+          We use cookies and similar technologies only as needed for essential site functionality, such as
+          spam protection on forms. You can control cookie preferences through your browser settings.
         </Typography>
       </section>
 

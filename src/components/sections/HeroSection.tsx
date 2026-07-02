@@ -25,6 +25,9 @@ const GRADIENT_END = "#0d9488";
 export function HeroSection({ ctaHref = "/lead-form", onUploadClick, audience = "default" }: HeroSectionProps) {
   const [imageError, setImageError] = useState(false);
   const isKenya = audience === "kenya";
+  const coordinationLine = isKenya
+    ? "Free coordination for patients from Kenya."
+    : "Free coordination for international patients.";
 
   return (
     <Box
@@ -62,16 +65,12 @@ export function HeroSection({ ctaHref = "/lead-form", onUploadClick, audience = 
                   color: "#171717",
                 }}
               >
-                Get Complete Medical Treatment Coordination
-                <Box component="span" sx={{ display: "block", mt: 0.5 }}>
-                  for{" "}
-                  <Box component="span" sx={{ color: GREEN_600 }}>
-                    {isKenya ? "Patients from Kenya" : "International Patients"}
-                  </Box>{" "}
-                  <Box component="span" sx={{ color: GREEN_600 }}>Predictably</Box>
+                World-Class Treatment in India.
+                <Box component="span" sx={{ display: "block", mt: 0.5, color: GREEN_600 }}>
+                  Zero Coordination Fees.
                 </Box>
               </Typography>
-              
+
               <Typography
                 sx={{
                   mb: 3,
@@ -80,7 +79,8 @@ export function HeroSection({ ctaHref = "/lead-form", onUploadClick, audience = 
                   color: alpha("#171717", 0.7),
                 }}
               >
-                Hospital coordination, medical visa guidance, and complete travel support built exclusively for international patients seeking treatment in India.
+                Share your medical reports and get hospital options, cost estimates, and a video
+                consult with the specialist — before you travel. {coordinationLine}
               </Typography>
 
               {/* Credibility Indicators */}

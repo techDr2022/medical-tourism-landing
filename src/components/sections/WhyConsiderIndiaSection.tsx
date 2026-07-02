@@ -108,7 +108,7 @@ export function WhyConsiderIndiaSection({ audience = "default" }: WhyConsiderInd
             />
           </svg>
         </Box>
-        <Box sx={{ textAlign: "center", mb: 5, position: "relative", zIndex: 1 }}>
+        <Box sx={{ textAlign: "center", mb: { xs: 2.5, md: 3 }, position: "relative", zIndex: 1 }}>
           <Typography
             variant="overline"
             sx={{
@@ -117,7 +117,7 @@ export function WhyConsiderIndiaSection({ audience = "default" }: WhyConsiderInd
               letterSpacing: 1.5,
               fontSize: "0.8125rem",
               display: "block",
-              mb: 1.5,
+              mb: 1,
             }}
           >
             Why Choose India
@@ -125,10 +125,9 @@ export function WhyConsiderIndiaSection({ audience = "default" }: WhyConsiderInd
           <Typography
             variant="h2"
             sx={{
-              fontSize: { xs: "1.75rem", md: "2rem" },
+              fontSize: { xs: "1.5rem", md: "1.75rem" },
               fontWeight: 700,
-              mb: 2,
-              lineHeight: 1.2,
+              lineHeight: 1.25,
             }}
           >
             <Box
@@ -153,8 +152,7 @@ export function WhyConsiderIndiaSection({ audience = "default" }: WhyConsiderInd
             backgroundColor: "#ffffff",
             borderRadius: 2,
             border: `1px solid ${alpha("#171717", 0.1)}`,
-            p: { xs: 3, md: 4 },
-            mb: 4,
+            p: { xs: 2.5, md: 3 },
             position: "relative",
             zIndex: 1,
           }}
@@ -162,40 +160,40 @@ export function WhyConsiderIndiaSection({ audience = "default" }: WhyConsiderInd
           <Typography
             variant="body1"
             sx={{
-              fontSize: "1rem",
-              color: alpha("#171717", 0.8),
-              mb: 3,
-              fontWeight: 500,
+              fontSize: "0.9375rem",
+              color: alpha("#171717", 0.85),
+              mb: 1.5,
+              fontWeight: 600,
             }}
           >
             India is recognised for:
           </Typography>
 
-          <Grid container spacing={2}>
+          <Grid container spacing={{ xs: 0.5, sm: 1 }}>
             {REASONS.map((reason) => (
               <Grid key={reason} size={{ xs: 12, sm: 6 }}>
                 <Box
                   sx={{
                     display: "flex",
                     alignItems: "flex-start",
-                    gap: 2,
-                    py: 1.5,
+                    gap: 1.25,
+                    py: 0.5,
                   }}
                 >
                   <CheckCircleIcon
                     sx={{
-                      fontSize: 24,
+                      fontSize: 20,
                       color: GREEN_600,
                       flexShrink: 0,
-                      mt: 0.25,
+                      mt: 0.2,
                     }}
                   />
                   <Typography
-                    variant="body1"
+                    variant="body2"
                     sx={{
                       fontSize: "0.9375rem",
                       color: alpha("#171717", 0.8),
-                      lineHeight: 1.6,
+                      lineHeight: 1.45,
                     }}
                   >
                     {reason}
@@ -204,21 +202,22 @@ export function WhyConsiderIndiaSection({ audience = "default" }: WhyConsiderInd
               </Grid>
             ))}
           </Grid>
-        </Box>
 
-        <Typography
-          variant="body2"
-          sx={{
-            textAlign: "center",
-            color: alpha("#171717", 0.7),
-            fontSize: "0.9375rem",
-            lineHeight: 1.7,
-            position: "relative",
-            zIndex: 1,
-          }}
-        >
-          {closingLine}
-        </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              mt: 2,
+              pt: 2,
+              borderTop: `1px solid ${alpha("#171717", 0.08)}`,
+              textAlign: "center",
+              color: alpha("#171717", 0.7),
+              fontSize: "0.875rem",
+              lineHeight: 1.55,
+            }}
+          >
+            {closingLine}
+          </Typography>
+        </Box>
       </Box>
     </SectionContainer>
   );
