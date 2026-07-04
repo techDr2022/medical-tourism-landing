@@ -31,9 +31,10 @@ export function StickyWhatsAppButton() {
       sx={{
         position: "fixed",
         right: { xs: 16, md: 24 },
-        bottom: { xs: 88, lg: 24 },
+        bottom: { xs: 104, lg: 24 },
         zIndex: 1300,
         display: "flex",
+        flexDirection: { xs: "column", sm: "row" },
         alignItems: "flex-end",
         gap: 1.25,
       }}
@@ -46,11 +47,11 @@ export function StickyWhatsAppButton() {
           rel="noopener noreferrer"
           onClick={() => setDismissed(true)}
           sx={{
-            display: { xs: "none", sm: "block" },
+            display: "block",
             position: "relative",
-            maxWidth: 220,
-            px: 2,
-            py: 1.5,
+            maxWidth: { xs: 200, sm: 220 },
+            px: { xs: 1.75, sm: 2 },
+            py: { xs: 1.25, sm: 1.5 },
             borderRadius: 2.5,
             bgcolor: "#ffffff",
             color: "#171717",
@@ -68,14 +69,14 @@ export function StickyWhatsAppButton() {
             "&::after": {
               content: '""',
               position: "absolute",
-              right: -6,
-              bottom: 14,
+              right: { xs: 18, sm: -6 },
+              bottom: { xs: -6, sm: 14 },
               width: 12,
               height: 12,
               bgcolor: "#ffffff",
               borderRight: `1px solid ${alpha("#25D366", 0.2)}`,
               borderBottom: `1px solid ${alpha("#25D366", 0.2)}`,
-              transform: "rotate(-45deg)",
+              transform: { xs: "rotate(45deg)", sm: "rotate(-45deg)" },
             },
           }}
         >
@@ -100,7 +101,12 @@ export function StickyWhatsAppButton() {
           </IconButton>
           <Typography
             variant="body2"
-            sx={{ fontWeight: 600, lineHeight: 1.4, pr: 2, fontSize: "0.8125rem" }}
+            sx={{
+              fontWeight: 600,
+              lineHeight: 1.4,
+              pr: 2,
+              fontSize: { xs: "0.75rem", sm: "0.8125rem" },
+            }}
           >
             Need help? Chat with our coordinator on WhatsApp.
           </Typography>
