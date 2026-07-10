@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Dialog from "@mui/material/Dialog";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -19,6 +18,7 @@ import { MedicalFileUpload } from "../ui/MedicalFileUpload";
 import { RecaptchaNotice } from "../ui/RecaptchaNotice";
 import { fileToBase64, MAX_FILE_BYTES, MAX_FILE_SIZE_MB } from "@/lib/fileUpload";
 import { validateLeadFormFields } from "@/lib/formValidation";
+import { redirectToThankYou } from "@/lib/gclid";
 
 const GREEN_600 = "#1c7c7f";
 const GREEN_700 = "#0d9488";
@@ -40,7 +40,6 @@ interface PopupFormProps {
 }
 
 export function PopupForm({ open, onClose, title = "Request a Treatment Estimate" }: PopupFormProps) {
-  const router = useRouter();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -124,7 +123,7 @@ export function PopupForm({ open, onClose, title = "Request a Treatment Estimate
       }
 
       onClose();
-      router.push("/thank-you");
+      redirectToThankYou();
     } catch (error) {
       setSubmitStatus({
         type: "error",

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -24,6 +23,7 @@ import { MedicalFileUpload } from "./ui/MedicalFileUpload";
 import { RecaptchaNotice } from "./ui/RecaptchaNotice";
 import { fileToBase64, MAX_FILE_BYTES, MAX_FILE_SIZE_MB } from "@/lib/fileUpload";
 import { validateLeadFormFields } from "@/lib/formValidation";
+import { redirectToThankYou } from "@/lib/gclid";
 import {
   VISA_ASSISTANCE_OPTIONS,
   WHEN_TO_TRAVEL_OPTIONS,
@@ -59,7 +59,6 @@ interface LeadFormProps {
 }
 
 export function LeadForm({ showCoordinatorButton = true }: LeadFormProps) {
-  const router = useRouter();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -147,7 +146,7 @@ export function LeadForm({ showCoordinatorButton = true }: LeadFormProps) {
         throw new Error(data.error || "Failed to send message");
       }
 
-      router.push("/thank-you");
+      redirectToThankYou();
     } catch (error) {
       setSubmitStatus({
         type: "error",

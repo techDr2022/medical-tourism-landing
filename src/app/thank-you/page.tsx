@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -10,6 +11,7 @@ import { alpha } from "@mui/material/styles";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { AuroraBackground } from "@/components/layout/AuroraBackground";
+import { publishGclidForConversion } from "@/lib/gclid";
 
 import { DEFAULT_WHATSAPP_NUMBER, formatWhatsAppDisplay } from "@/lib/contact";
 
@@ -29,6 +31,11 @@ const NEXT_STEPS = [
 ];
 
 export default function ThankYouPage() {
+  useEffect(() => {
+    // Ensure gclid from URL/storage/cookie is available for GTM conversion tags
+    publishGclidForConversion();
+  }, []);
+
   return (
     <>
       <AuroraBackground />

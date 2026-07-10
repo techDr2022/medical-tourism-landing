@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ThemeRegistry } from "@/theme/ThemeRegistry";
 import { RecaptchaProvider } from "@/components/providers/RecaptchaProvider";
+import { GclidCapture } from "@/components/GclidCapture";
 import { StickyWhatsAppButton } from "@/components/layout/StickyWhatsAppButton";
 import { GlobalJsonLd } from "@/components/seo/GlobalJsonLd";
 import { absoluteUrl, createPageMetadata, getSiteVerification, SITE } from "@/lib/seo";
@@ -70,6 +71,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           />
         </noscript>
         <GlobalJsonLd />
+        <GclidCapture />
         <ThemeRegistry>
           <RecaptchaProvider>
             {children}
