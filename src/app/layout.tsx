@@ -19,9 +19,6 @@ export const metadata: Metadata = {
     apple: "/logos/medical%20tours%20india%20favicon.png",
   },
   applicationName: SITE.name,
-  authors: [{ name: SITE.name, url: SITE.url }],
-  creator: SITE.name,
-  publisher: SITE.name,
   category: "health",
   verification: getSiteVerification(),
 };
