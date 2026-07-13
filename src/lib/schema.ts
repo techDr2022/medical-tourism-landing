@@ -1,6 +1,38 @@
 import { HOSPITALS, PROCESS_STEPS } from "@/constants";
-import { SITE_FAQ } from "@/lib/faq";
+import type { FaqItem } from "@/lib/faq";
 import { SITE, absoluteUrl } from "@/lib/seo";
+
+/** Richer HowTo copy for answer engines — UI still uses short PROCESS_STEPS labels. */
+const PROCESS_STEP_DETAILS: { name: string; text: string }[] = [
+  {
+    name: "Share medical reports",
+    text: "Submit your medical reports and contact details via the lead form or WhatsApp so our coordinators can review your case.",
+  },
+  {
+    name: "Receive hospital options and preliminary estimate",
+    text: "Within about 24–48 hours you receive suitable accredited hospital options in India and a preliminary treatment package estimate.",
+  },
+  {
+    name: "Optional video consultation",
+    text: "Arrange an optional video consultation with a hospital specialist to discuss your condition, plan, and expected stay before you travel.",
+  },
+  {
+    name: "Confirm hospital and travel dates",
+    text: "Choose your preferred hospital and confirm travel and admission dates with your dedicated coordinator.",
+  },
+  {
+    name: "Visa and accommodation coordination",
+    text: "We guide medical visa documentation and help arrange airport pickup and accommodation near the hospital.",
+  },
+  {
+    name: "Treatment in India",
+    text: "Receive treatment at the accredited hospital while your coordinator supports admission, local logistics, and in-hospital needs.",
+  },
+  {
+    name: "Post-treatment follow-up communication",
+    text: "After discharge we help with follow-up communication and return-travel coordination so you stay connected with the care team.",
+  },
+];
 
 export function buildOrganizationGraph() {
   const organizationId = `${SITE.url}/#organization`;
@@ -16,16 +48,34 @@ export function buildOrganizationGraph() {
         "@id": organizationId,
         name: SITE.name,
         url: SITE.url,
-        logo: absoluteUrl("/logos/new-logo.png"),
+        logo: {
+          "@type": "ImageObject",
+          url: absoluteUrl("/logos/new-logo.png"),
+        },
+        image: absoluteUrl("/logos/new-logo.png"),
         email: SITE.contactEmail,
         telephone: `+${SITE.whatsapp}`,
         description: SITE.defaultDescription,
-        areaServed: "Worldwide",
+        areaServed: [
+          { "@type": "Place", name: "Worldwide" },
+          { "@type": "Country", name: "Kenya" },
+          { "@type": "Country", name: "Nigeria" },
+          { "@type": "Country", name: "Afghanistan" },
+          { "@type": "Country", name: "India" },
+        ],
         knowsAbout: [
           "Medical tourism India",
-          "Hospital coordination",
-          "International patient care",
+          "Medical travel coordination",
+          "Hospital matching for international patients",
+          "Treatment cost estimates India",
           "Medical visa India",
+          "Cardiac surgery India",
+          "Orthopaedic surgery India",
+          "Cancer treatment India",
+          "Organ transplant India",
+          "IVF and fertility India",
+          "Neurosurgery India",
+          "International patient departments India",
         ],
         contactPoint: [
           {
@@ -33,7 +83,17 @@ export function buildOrganizationGraph() {
             telephone: `+${SITE.whatsapp}`,
             email: SITE.contactEmail,
             contactType: "customer service",
-            availableLanguage: ["English"],
+            availableLanguage: [
+              "English",
+              "Hindi",
+              "Arabic",
+              "French",
+              "Dari",
+              "Pashto",
+              "Hausa",
+              "Yoruba",
+              "Igbo",
+            ],
             areaServed: "Worldwide",
           },
         ],
@@ -69,7 +129,7 @@ export function buildOrganizationGraph() {
         },
         hasOfferCatalog: {
           "@type": "OfferCatalog",
-          name: "Coordinated treatments in India",
+          name: "Partner hospitals in India",
           itemListElement: HOSPITALS.map((hospital, index) => ({
             "@type": "Offer",
             position: index + 1,
@@ -93,17 +153,22 @@ export function buildOrganizationGraph() {
         parentOrganization: { "@id": organizationId },
         medicalSpecialty: "Medical travel coordination",
       },
-      buildFaqPageSchema(),
-      buildHowToSchema(),
+      buildHowToSchema({ standalone: false }),
     ],
   };
 }
 
-export function buildFaqPageSchema() {
+export function buildFaqPageSchema(
+  faqs: readonly FaqItem[] | FaqItem[],
+  pagePath = "/"
+) {
+  const pageUrl = absoluteUrl(pagePath);
   return {
+    "@context": "https://schema.org",
     "@type": "FAQPage",
-    "@id": `${SITE.url}/#faq`,
-    mainEntity: SITE_FAQ.map((item) => ({
+    "@id": `${pageUrl}#faq`,
+    url: pageUrl,
+    mainEntity: faqs.map((item) => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: {
@@ -114,19 +179,77 @@ export function buildFaqPageSchema() {
   };
 }
 
-export function buildHowToSchema() {
+export function buildHowToSchema(
+  options?: {
+    path?: string;
+    name?: string;
+    description?: string;
+    steps?: readonly { name: string; text: string }[];
+    /** When true (default), include @context for a standalone JSON-LD script. */
+    standalone?: boolean;
+  }
+) {
+  const path = options?.path ?? "/";
+  const pageUrl = absoluteUrl(path);
+  const standalone = options?.standalone !== false;
+  const steps =
+    options?.steps ??
+    (PROCESS_STEP_DETAILS.length === PROCESS_STEPS.length
+      ? PROCESS_STEP_DETAILS
+      : PROCESS_STEPS.map((step) => ({ name: step, text: step })));
+
   return {
+    ...(standalone ? { "@context": "https://schema.org" } : {}),
     "@type": "HowTo",
-    "@id": `${SITE.url}/#process`,
-    name: "How to get medical treatment in India as an international patient",
+    "@id": `${pageUrl}#process`,
+    name:
+      options?.name ??
+      "How to get medical treatment in India as an international patient",
     description:
-      "Step-by-step process for international patients coordinating medical treatment in India through MedicalToursIndia.",
-    step: PROCESS_STEPS.map((step, index) => ({
+      options?.description ??
+      "Step-by-step process for international patients coordinating medical treatment in India through MedicalToursIndia at zero coordination cost.",
+    totalTime: "P14D",
+    step: steps.map((step, index) => ({
       "@type": "HowToStep",
       position: index + 1,
-      name: step,
-      text: step,
+      name: step.name,
+      text: step.text,
+      url: `${pageUrl}#process`,
     })),
+  };
+}
+
+export function buildWebPageSchema({
+  path,
+  title,
+  description,
+  speakableSelectors = ["h1", "[data-speakable]"],
+}: {
+  path: string;
+  title: string;
+  description: string;
+  speakableSelectors?: string[];
+}) {
+  const pageUrl = absoluteUrl(path);
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: title,
+    description,
+    isPartOf: { "@id": `${SITE.url}/#website` },
+    about: { "@id": `${SITE.url}/#organization` },
+    inLanguage: "en",
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: speakableSelectors,
+    },
+    potentialAction: {
+      "@type": "CommunicateAction",
+      name: "Request a free treatment estimate",
+      target: absoluteUrl("/lead-form"),
+    },
   };
 }
 

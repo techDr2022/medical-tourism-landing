@@ -10,19 +10,17 @@ import { MetricsCard } from "@/components/sections/MetricsCard";
 import { alpha } from "@mui/material/styles";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import VideoCallIcon from "@mui/icons-material/VideoCall";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SectionContainer } from "@/components/ui/SectionContainer";
 import { VideoConsultationSection } from "@/components/sections/VideoConsultationSection";
 import { MedicalVisaSection } from "@/components/sections/MedicalVisaSection";
-import { HospitalLogo } from "@/components/sections/HospitalsSection";
+import { HospitalsSection } from "@/components/sections/HospitalsSection";
 import { RequestFormSection } from "@/components/sections/RequestFormSection";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { YouTubePatientTestimonialsSection } from "@/components/sections/YouTubePatientTestimonialsSection";
 import { PatientSocialProofSection } from "@/components/sections/PatientSocialProofSection";
-import { HOSPITALS } from "@/constants";
 import { PROCEDURE_PRICE_CATEGORIES } from "@/constants/procedurePricing";
 import { ProcedurePricingGrid } from "@/components/ui/ProcedurePricingGrid";
 import { MobileStickyCta } from "@/components/layout/MobileStickyCta";
@@ -202,7 +200,7 @@ export default function ForKenyaPage() {
                           color: "#171717",
                         }}
                       >
-                        <Box component="span" sx={{ color: GREEN_600 }}>50+</Box> hospitals
+                        <Box component="span" sx={{ color: GREEN_600 }}>200+</Box> accredited hospitals
                       </Typography>
                     </Box>
                     <Box
@@ -315,6 +313,8 @@ export default function ForKenyaPage() {
             </Container>
           </Box>
 
+          <YouTubePatientTestimonialsSection />
+
           {/* SECTION 2 – WHY INDIA */}
           <SectionContainer id="why-india" variant="alt">
             <Box sx={{ maxWidth: 1000, mx: "auto" }}>
@@ -399,88 +399,9 @@ export default function ForKenyaPage() {
             </Box>
           </SectionContainer>
 
-          {/* SECTION 3 – HOSPITAL COLLABORATIONS */}
-          <SectionContainer id="hospitals">
-            <Box sx={{ textAlign: "center", mb: 4 }}>
-              <Typography
-                variant="overline"
-                sx={{
-                  color: GREEN_600,
-                  fontWeight: 600,
-                  letterSpacing: 1.5,
-                  fontSize: "0.8125rem",
-                  display: "block",
-                  mb: 1.5,
-                }}
-              >
-                Official Partners
-              </Typography>
-              <Typography
-                variant="h2"
-                sx={{
-                  fontSize: { xs: "1.5rem", md: "1.75rem" },
-                  fontWeight: 700,
-                  mb: 2,
-                  color: "#171717",
-                }}
-              >
-                Official Hospital Network
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  color: alpha("#171717", 0.7),
-                  maxWidth: 560,
-                  mx: "auto",
-                  mb: 2,
-                  lineHeight: 1.6,
-                }}
-              >
-                We operate under formal collaborations and working arrangements with major
-                hospital groups in India, including:
-              </Typography>
-            </Box>
-            <Grid
-              container
-              spacing={{ xs: 2, sm: 3, md: 3 }}
-              sx={{ maxWidth: 1000, mx: "auto", justifyContent: "center", justifyItems: "stretch" }}
-            >
-              {HOSPITALS.map((hospital) => (
-                <HospitalLogo key={hospital.name} hospital={hospital} />
-              ))}
-            </Grid>
-            <Typography
-              variant="body2"
-              sx={{
-                textAlign: "center",
-                mt: 3,
-                mb: 1,
-                fontSize: { xs: "1.0625rem", md: "1.125rem" },
-                fontWeight: 600,
-                color: GREEN_600,
-              }}
-            >
-              50+ hospitals in India
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                textAlign: "center",
-                color: alpha("#171717", 0.7),
-                mt: 2,
-                maxWidth: 560,
-                mx: "auto",
-                lineHeight: 1.6,
-              }}
-            >
-              Patients are treated directly by the selected hospital and its licensed medical team.
-              Hospital billing is issued directly by the hospital. We act as your coordination
-              partner.
-            </Typography>
-          </SectionContainer>
+          <HospitalsSection />
 
           <PatientSocialProofSection />
-          <YouTubePatientTestimonialsSection />
 
           <MedicalVisaSection />
 

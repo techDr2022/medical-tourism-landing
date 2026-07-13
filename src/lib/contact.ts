@@ -1,5 +1,5 @@
 export const DEFAULT_CONTACT_EMAIL = "info@techdr.in";
-export const DEFAULT_WHATSAPP_NUMBER = "918499005006";
+export const DEFAULT_WHATSAPP_NUMBER = "916303225006";
 
 export function formatWhatsAppDisplay(number: string): string {
   const digits = number.replace(/\D/g, "");

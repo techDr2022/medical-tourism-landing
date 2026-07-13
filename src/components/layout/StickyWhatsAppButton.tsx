@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -8,14 +9,15 @@ import CloseIcon from "@mui/icons-material/Close";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { alpha } from "@mui/material/styles";
 import { DEFAULT_WHATSAPP_NUMBER } from "@/lib/contact";
+import { useTranslation } from "@/i18n/LanguageProvider";
 
 const WHATSAPP_NUMBER =
   process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || DEFAULT_WHATSAPP_NUMBER;
 
-const WHATSAPP_MESSAGE = "Hi, I'd like help with medical treatment in India.";
-
 /** Sticky WhatsApp CTA with animated hint bubble. */
 export function StickyWhatsAppButton() {
+  const pathname = usePathname();
+  const { t } = useTranslation();
   const [showBubble, setShowBubble] = useState(false);
   const [dismissed, setDismissed] = useState(false);
 
@@ -24,7 +26,14 @@ export function StickyWhatsAppButton() {
     return () => window.clearTimeout(showTimer);
   }, []);
 
-  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+  // Ads market pages use WhatsAppFloatingButton with market-specific prefill + tracking
+  if (pathname === "/nigeria" || pathname === "/afghanistan") {
+    return null;
+  }
+
+  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+    t("common.whatsappDefaultMessage")
+  )}`;
 
   return (
     <Box
@@ -108,7 +117,7 @@ export function StickyWhatsAppButton() {
               fontSize: { xs: "0.75rem", sm: "0.8125rem" },
             }}
           >
-            Need help? Chat with our coordinator on WhatsApp.
+            {t("common.whatsappBubble")}
           </Typography>
         </Box>
       )}
@@ -132,7 +141,7 @@ export function StickyWhatsAppButton() {
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Chat on WhatsApp"
+          aria-label={t("common.whatsappAria")}
           sx={{
             position: "relative",
             width: 56,

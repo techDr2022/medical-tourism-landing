@@ -9,6 +9,8 @@ import Link from "next/link";
 import { alpha } from "@mui/material/styles";
 import { useState } from "react";
 import { MetricsCard } from "./MetricsCard";
+import { HOSPITAL_NETWORK } from "@/constants";
+import { useTranslation } from "@/i18n/LanguageProvider";
 
 interface HeroSectionProps {
   ctaHref?: string;
@@ -24,10 +26,11 @@ const GRADIENT_END = "#0d9488";
 
 export function HeroSection({ ctaHref = "/lead-form", onUploadClick, audience = "default" }: HeroSectionProps) {
   const [imageError, setImageError] = useState(false);
+  const { t } = useTranslation();
   const isKenya = audience === "kenya";
   const coordinationLine = isKenya
-    ? "Free coordination for patients from Kenya."
-    : "Free coordination for international patients.";
+    ? t("hero.coordinationKenya")
+    : t("hero.coordinationDefault");
 
   return (
     <Box
@@ -56,6 +59,7 @@ export function HeroSection({ ctaHref = "/lead-form", onUploadClick, audience = 
             <Box>
               <Typography
                 component="h1"
+                data-speakable
                 sx={{
                   mb: 3,
                   fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
@@ -65,9 +69,9 @@ export function HeroSection({ ctaHref = "/lead-form", onUploadClick, audience = 
                   color: "#171717",
                 }}
               >
-                World-Class Treatment in India.
+                {t("hero.titleLine1")}
                 <Box component="span" sx={{ display: "block", mt: 0.5, color: GREEN_600 }}>
-                  Zero Coordination Fees.
+                  {t("hero.titleLine2")}
                 </Box>
               </Typography>
 
@@ -79,8 +83,7 @@ export function HeroSection({ ctaHref = "/lead-form", onUploadClick, audience = 
                   color: alpha("#171717", 0.7),
                 }}
               >
-                Share your medical reports and get hospital options, cost estimates, and a video
-                consult with the specialist — before you travel. {coordinationLine}
+                {t("hero.body")} {coordinationLine}
               </Typography>
 
               {/* Credibility Indicators */}
@@ -92,7 +95,10 @@ export function HeroSection({ ctaHref = "/lead-form", onUploadClick, audience = 
                     color: alpha("#171717", 0.6),
                   }}
                 >
-                  <Box component="span" sx={{ fontWeight: 600, color: GREEN_600 }}>50+</Box> hospitals in India
+                  <Box component="span" sx={{ fontWeight: 600, color: GREEN_600 }}>
+                    {HOSPITAL_NETWORK.countLabel}
+                  </Box>{" "}
+                  accredited hospitals in India
                 </Typography>
                 <Box
                   sx={{
@@ -151,7 +157,7 @@ export function HeroSection({ ctaHref = "/lead-form", onUploadClick, audience = 
                     },
                   }}
                 >
-                  Book Free Strategy Call
+                  {t("hero.primaryCta")}
                 </Button>
                 <Button
                   variant="outlined"
@@ -177,7 +183,7 @@ export function HeroSection({ ctaHref = "/lead-form", onUploadClick, audience = 
                     },
                   }}
                 >
-                  See How It Works →
+                  {t("hero.secondaryCta")}
                 </Button>
               </Box>
             </Box>

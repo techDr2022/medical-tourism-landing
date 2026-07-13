@@ -4,6 +4,7 @@ import { RecaptchaProvider } from "@/components/providers/RecaptchaProvider";
 import { GclidCapture } from "@/components/GclidCapture";
 import { StickyWhatsAppButton } from "@/components/layout/StickyWhatsAppButton";
 import { GlobalJsonLd } from "@/components/seo/GlobalJsonLd";
+import { LanguageProvider } from "@/i18n/LanguageProvider";
 import { absoluteUrl, createPageMetadata, getSiteVerification, SITE } from "@/lib/seo";
 import "./globals.css";
 
@@ -73,10 +74,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <GlobalJsonLd />
         <GclidCapture />
         <ThemeRegistry>
-          <RecaptchaProvider>
-            {children}
-            <StickyWhatsAppButton />
-          </RecaptchaProvider>
+          <LanguageProvider>
+            <RecaptchaProvider>
+              {children}
+              <StickyWhatsAppButton />
+            </RecaptchaProvider>
+          </LanguageProvider>
         </ThemeRegistry>
       </body>
     </html>

@@ -64,6 +64,8 @@ export const SITE_KEYWORDS = [
   "no service fee medical tourism",
   "medical travel Kenya to India",
   "medical tourism Africa India",
+  "medical tourism Nigeria India",
+  "medical tourism Afghanistan India",
   "medical tourism Middle East India",
   "medical tourism USA to India",
   "medical tourism UK to India",
@@ -72,10 +74,13 @@ export const SITE_KEYWORDS = [
   "medical tourism Canada India",
   "patients from Kenya India treatment",
   "patients from Nigeria India treatment",
+  "patients from Afghanistan India treatment",
   "patients from UAE India treatment",
   "patients from Saudi Arabia India treatment",
   "patients from Bangladesh India treatment",
   "patients from Sri Lanka India treatment",
+  "e-Medical Visa India for Nigerians",
+  "compare hospitals India international patients",
   "Apollo Hospitals India",
   "Max Healthcare India",
   "Medicover Hospitals India",
@@ -96,7 +101,7 @@ export const SITE = {
   defaultTitle:
     "Medical Travel to India | Free Coordination for International Patients Worldwide",
   defaultDescription:
-    "Free medical travel coordination for international patients worldwide. 20+ team, 50+ hospitals in India, all treatments and conditions. Hospital options, estimates, visa and travel support at zero cost.",
+    "Free medical travel coordination for international patients worldwide. 20+ team, 200+ accredited hospitals in India, all treatments and conditions. Hospital options, estimates, visa and travel support at zero cost.",
   locale: "en_US",
   ogImagePath: "/opengraph-image",
   twitterHandle: "@medicaltoursindia",
@@ -115,6 +120,8 @@ type PageMetadataOptions = {
   path: string;
   keywords?: string[];
   noIndex?: boolean;
+  /** Prefer page-specific keywords first; site-wide terms still appended for completeness. */
+  ogLocale?: string;
 };
 
 export function createPageMetadata({
@@ -123,19 +130,28 @@ export function createPageMetadata({
   path,
   keywords,
   noIndex = false,
+  ogLocale,
 }: PageMetadataOptions): Metadata {
   const url = absoluteUrl(path);
   const imageUrl = absoluteUrl(SITE.ogImagePath);
+  const mergedKeywords = keywords
+    ? Array.from(new Set([...keywords, ...SITE_KEYWORDS]))
+    : [...SITE_KEYWORDS];
 
   return {
     title,
     description,
-    keywords: keywords
-      ? Array.from(new Set([...keywords, ...SITE_KEYWORDS]))
-      : [...SITE_KEYWORDS],
+    keywords: mergedKeywords,
     metadataBase: new URL(SITE.url),
     alternates: {
       canonical: url,
+      types: {
+        "text/plain": [
+          { url: absoluteUrl("/llms.txt"), title: "llms.txt" },
+          { url: absoluteUrl("/llms-full.txt"), title: "llms-full.txt" },
+          { url: absoluteUrl("/ai.txt"), title: "ai.txt" },
+        ],
+      },
     },
     formatDetection: {
       telephone: true,
@@ -146,14 +162,14 @@ export function createPageMetadata({
       description,
       url,
       siteName: SITE.name,
-      locale: SITE.locale,
+      locale: ogLocale ?? SITE.locale,
       type: "website",
       images: [
         {
           url: imageUrl,
           width: 1200,
           height: 630,
-          alt: title,
+          alt: `${SITE.name} — ${title}`,
         },
       ],
     },

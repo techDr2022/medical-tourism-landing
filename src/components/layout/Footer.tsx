@@ -13,18 +13,22 @@ import {
   DEFAULT_WHATSAPP_NUMBER,
   formatWhatsAppDisplay,
 } from "@/lib/contact";
+import { HOSPITAL_NETWORK } from "@/constants";
+import { useTranslation } from "@/i18n/LanguageProvider";
 
 const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || DEFAULT_WHATSAPP_NUMBER;
 const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || DEFAULT_CONTACT_EMAIL;
 const WHATSAPP_DISPLAY = formatWhatsAppDisplay(WHATSAPP);
 
-const TRUST_METRICS = [
-  { value: "50+", label: "Hospitals in India" },
-  { value: "Worldwide", label: "Global support" },
-  { value: "24/7", label: "Patient coordinators" },
-];
-
 export function Footer() {
+  const { t } = useTranslation();
+
+  const trustMetrics = [
+    { value: HOSPITAL_NETWORK.countLabel, label: t("footer.metricHospitals") },
+    { value: "Worldwide", label: t("footer.metricSupport") },
+    { value: "24/7", label: t("footer.metricCoordinators") },
+  ];
+
   return (
     <Box
       component="footer"
@@ -53,14 +57,10 @@ export function Footer() {
               fontSize: "0.875rem",
             }}
           >
-            <strong>Important Information:</strong> We are a medical travel coordination service.
-            We do not provide medical diagnosis or treatment. All medical services are delivered by
-            licensed hospitals and doctors in India. Our services are exclusively for international
-            patients travelling to India for medical treatment.
+            <strong>{t("footer.importantTitle")}</strong> {t("footer.importantBody")}
           </Typography>
         </Box>
 
-        {/* Trust Metrics */}
         <Stack
           direction={{ xs: "column", sm: "row" }}
           spacing={{ xs: 3, sm: 2, md: 4 }}
@@ -83,7 +83,7 @@ export function Footer() {
             py: 1,
           }}
         >
-          {TRUST_METRICS.map((metric) => (
+          {trustMetrics.map((metric) => (
             <Box key={metric.value} sx={{ textAlign: "center", minWidth: { sm: 120 } }}>
               <Typography
                 component="span"
@@ -113,7 +113,6 @@ export function Footer() {
 
         <Divider sx={{ borderColor: "rgba(255, 255, 255, 0.1)", mb: 4 }} />
 
-        {/* Company Info */}
         <Stack
           direction={{ xs: "column", md: "row" }}
           spacing={4}
@@ -125,11 +124,7 @@ export function Footer() {
             <Typography
               variant="h6"
               fontWeight={600}
-              sx={{
-                fontSize: "1.125rem",
-                mb: 1,
-                color: "#ffffff",
-              }}
+              sx={{ fontSize: "1.125rem", mb: 1, color: "#ffffff" }}
             >
               MedicalToursIndia.com
             </Typography>
@@ -183,14 +178,11 @@ export function Footer() {
                 fontSize: "0.875rem",
               }}
             >
-              We act as a medical travel coordination service connecting patients with licensed
-              hospitals in India. All medical decisions are made between the patient and treating
-              hospital.
+              {t("footer.about")}
             </Typography>
           </Box>
         </Stack>
 
-        {/* Legal links */}
         <Stack
           direction="row"
           spacing={2}
@@ -206,7 +198,7 @@ export function Footer() {
               "&:hover": { color: "#ffffff" },
             }}
           >
-            Privacy Policy
+            {t("footer.privacy")}
           </Link>
           <Link
             component={NextLink}
@@ -218,11 +210,10 @@ export function Footer() {
               "&:hover": { color: "#ffffff" },
             }}
           >
-            Terms &amp; Disclaimer
+            {t("footer.terms")}
           </Link>
         </Stack>
 
-        {/* Copyright */}
         <Box
           sx={{
             mt: 2,
@@ -233,12 +224,9 @@ export function Footer() {
         >
           <Typography
             variant="caption"
-            sx={{
-              color: "rgba(255, 255, 255, 0.78)",
-              fontSize: "0.8125rem",
-            }}
+            sx={{ color: "rgba(255, 255, 255, 0.78)", fontSize: "0.8125rem" }}
           >
-            © {new Date().getFullYear()} MedicalToursIndia.com. All rights reserved.
+            © {new Date().getFullYear()} MedicalToursIndia.com. {t("footer.rights")}
           </Typography>
         </Box>
       </Container>

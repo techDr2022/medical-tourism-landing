@@ -38,11 +38,11 @@ export default function KenyaPage() {
       >
         <Box component="main">
           <HeroSection audience="kenya" />
+          <YouTubePatientTestimonialsSection />
           <TrustBarSection />
           <WhyConsiderIndiaSection audience="kenya" />
           <HospitalsSection />
           <PatientSocialProofSection />
-          <YouTubePatientTestimonialsSection />
           <MedicalVisaSection />
           <VideoConsultationSection />
           <TreatmentsSection />

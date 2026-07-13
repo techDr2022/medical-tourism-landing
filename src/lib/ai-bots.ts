@@ -17,6 +17,9 @@ export const AI_BOT_USER_AGENTS = [
   "Diffbot",
   "YouBot",
   "Amazonbot",
+  "DuckAssistBot",
+  "AI2Bot",
+  "TimpiBot",
 ] as const;
 
 export const AI_CONTENT_PATHS = ["/llms.txt", "/llms-full.txt", "/ai.txt"] as const;
