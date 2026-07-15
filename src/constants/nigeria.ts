@@ -326,10 +326,21 @@ export const NIGERIA_FAQ = [
 ] as const;
 
 export const NIGERIA_TRUST_POINTS = [
-  "e-Medical Visa for Nigerian citizens: we file it, average approval 3–5 business days",
-  // TODO: confirm payment model before ads
-  "Pay the hospital directly — we do not collect treatment fees on their behalf",
-  "Direct WhatsApp line to a Nigerian patient coordinator, not a call center",
+  {
+    id: "visa",
+    title: "e-Medical Visa",
+    body: "For Nigerian citizens: we file it, average approval 3–5 business days",
+  },
+  {
+    id: "payment",
+    title: "Pay the hospital directly",
+    body: "We do not collect treatment fees on their behalf",
+  },
+  {
+    id: "coordinator",
+    title: "Direct WhatsApp line",
+    body: "A Nigerian patient coordinator — not a call center",
+  },
 ] as const;
 
 /**

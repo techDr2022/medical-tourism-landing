@@ -9,6 +9,7 @@ declare global {
 export type AdsConversionEvent =
   | "form_start"
   | "form_submit"
+  | "lead_submit"
   | "whatsapp_click";
 
 function pushDataLayer(payload: Record<string, unknown>) {
@@ -20,6 +21,9 @@ function pushDataLayer(payload: Record<string, unknown>) {
 /**
  * Fire Google Ads / GTM conversion-style events.
  * Uses dataLayer (GTM is already on the site) and gtag when present.
+ *
+ * Do not use this for Nigeria lead conversions — use {@link trackLeadSubmit} so Ads
+ * receives a single `lead_submit` (not `form_submit` / native GTM form events).
  */
 export function trackAdsConversion(
   event: AdsConversionEvent,
@@ -46,6 +50,35 @@ export function trackAdsConversion(
   // if (typeof window.fbq === "function") {
   //   window.fbq("trackCustom", event, params);
   // }
+}
+
+/** Time for GTM / Google Ads tags to process `lead_submit` before page unload. */
+export const LEAD_SUBMIT_REDIRECT_DELAY_MS = 700;
+
+/**
+ * Single Google Ads conversion signal for a successful lead save.
+ * Pushes exactly one `lead_submit` dataLayer event.
+ * Call once after the lead is saved and before any WhatsApp redirect.
+ */
+export function trackLeadSubmit(): void {
+  if (typeof window === "undefined") return;
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: "lead_submit",
+  });
+}
+
+/**
+ * Push `lead_submit`, then wait so GTM can fire conversion tags before redirect.
+ */
+export function trackLeadSubmitAndWait(
+  delayMs: number = LEAD_SUBMIT_REDIRECT_DELAY_MS
+): Promise<void> {
+  trackLeadSubmit();
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, delayMs);
+  });
 }
 
 /** Capture UTM params from the current URL for CRM attribution. */

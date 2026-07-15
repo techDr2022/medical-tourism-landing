@@ -12,7 +12,6 @@ import { alpha } from "@mui/material/styles";
 import {
   COST_COMPARISON_ROWS,
   NGN_PER_USD_APPROX,
-  NIGERIA_TRUST_POINTS,
   formatMoney,
   type CurrencyMode,
 } from "@/constants/nigeria";
@@ -96,31 +95,6 @@ export function CostComparisonTable({ currency }: CostComparisonTableProps) {
           ? ` NGN amounts use an approximate rate of 1 USD ≈ ₦${NGN_PER_USD_APPROX.toLocaleString("en-NG")}.`
           : null}
       </Typography>
-
-      <Box
-        sx={{
-          mt: 3,
-          display: "flex",
-          flexDirection: "column",
-          gap: 1.5,
-        }}
-      >
-        {NIGERIA_TRUST_POINTS.map((point) => (
-          <Typography
-            key={point}
-            variant="body2"
-            sx={{
-              pl: 2,
-              borderLeft: `3px solid ${GREEN_600}`,
-              color: alpha("#171717", 0.85),
-              lineHeight: 1.55,
-              fontSize: "0.9375rem",
-            }}
-          >
-            {point}
-          </Typography>
-        ))}
-      </Box>
     </Box>
   );
 }

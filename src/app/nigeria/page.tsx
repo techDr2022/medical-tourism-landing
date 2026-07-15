@@ -57,6 +57,7 @@ import {
   NigeriaMobileStickyBar,
   TestimonialCard,
   TreatmentCard,
+  TrustPointsSection,
   WhatsAppFloatingButton,
 } from "@/components/nigeria";
 import { HospitalsSection } from "@/components/sections/HospitalsSection";
@@ -325,6 +326,8 @@ function NigeriaPageInner() {
             </Box>
             <CostComparisonTable currency={currency} />
           </SectionContainer>
+
+          <TrustPointsSection />
 
           <HospitalsSection />
 

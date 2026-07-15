@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -32,7 +32,11 @@ import {
   type BudgetBand,
   type TreatmentOption,
 } from "@/constants/nigeria";
-import { getUtmParamsFromUrl, trackAdsConversion } from "@/lib/adsTracking";
+import {
+  getUtmParamsFromUrl,
+  trackAdsConversion,
+  trackLeadSubmitAndWait,
+} from "@/lib/adsTracking";
 import { DEFAULT_WHATSAPP_NUMBER } from "@/lib/contact";
 import { MAX_FILE_BYTES } from "@/lib/fileUpload";
 import { validateName } from "@/lib/formValidation";
@@ -77,6 +81,8 @@ export function LeadFormMultiStep({
   const [files, setFiles] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  /** Prevents a second conversion push if submit is invoked twice before redirect. */
+  const leadSubmitFiredRef = useRef(false);
 
   const [utm, setUtm] = useState({
     utm_source: "",
@@ -173,8 +179,9 @@ export function LeadFormMultiStep({
     setActiveStep((s) => Math.max(s - 1, 0));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    if (isSubmitting || leadSubmitFiredRef.current) return;
+
     const validationError = validateStep(2);
     if (validationError) {
       setError(validationError);
@@ -209,18 +216,22 @@ export function LeadFormMultiStep({
         files: filePayload,
       });
 
-      trackAdsConversion("form_submit", {
-        treatment: treatmentLabel,
-        budget_band: budgetBand,
-        lead_intent_score: intentScore,
-      });
-
+      // One conversion event after successful save, then brief wait so GTM can
+      // fire Ads tags before WhatsApp navigation unloads the page.
       const businessNumber =
         process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || DEFAULT_WHATSAPP_NUMBER;
-
-      window.location.assign(
-        buildWhatsAppEstimateUrl(businessNumber, treatmentLabel, budgetBand)
+      const whatsappUrl = buildWhatsAppEstimateUrl(
+        businessNumber,
+        treatmentLabel,
+        budgetBand
       );
+
+      if (!leadSubmitFiredRef.current) {
+        leadSubmitFiredRef.current = true;
+        await trackLeadSubmitAndWait();
+      }
+
+      window.location.assign(whatsappUrl);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
       setIsSubmitting(false);
@@ -230,8 +241,8 @@ export function LeadFormMultiStep({
   return (
     <Box
       id="lead-form"
-      component="form"
-      onSubmit={handleSubmit}
+      role="form"
+      aria-label="Treatment cost estimate request"
       sx={
         variant === "embedded"
           ? { p: 0, backgroundColor: "transparent" }
@@ -468,9 +479,10 @@ export function LeadFormMultiStep({
           </Button>
         ) : (
           <Button
-            type="submit"
+            type="button"
             variant="contained"
             disabled={isSubmitting}
+            onClick={() => void handleSubmit()}
             startIcon={isSubmitting ? <CircularProgress size={18} color="inherit" /> : null}
             sx={{
               background: `linear-gradient(135deg, ${GRADIENT_START} 0%, ${GRADIENT_END} 100%)`,

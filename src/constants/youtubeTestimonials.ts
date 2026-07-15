@@ -5,7 +5,6 @@ export interface YoutubePatientTestimonial {
 }
 
 export const YOUTUBE_PATIENT_TESTIMONIALS: YoutubePatientTestimonial[] = [
-  { id: "-MDocA3r87E" },
   { id: "TejDdo7mNAE", startSeconds: 3 },
   { id: "XLfVDUSjKTY" },
   { id: "-FL_m2Ypqrg" },

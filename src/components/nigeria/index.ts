@@ -7,3 +7,4 @@ export { FAQAccordion } from "./FAQAccordion";
 export { WhatsAppFloatingButton } from "./WhatsAppFloatingButton";
 export { CurrencyToggle } from "./CurrencyToggle";
 export { NigeriaMobileStickyBar } from "./NigeriaMobileStickyBar";
+export { TrustPointsSection } from "./TrustPointsSection";
