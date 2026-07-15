@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/seo";
 
 /** Content revision date for crawl signals — bump when major page copy changes. */
-const CONTENT_LAST_MODIFIED = new Date("2026-07-13");
+const CONTENT_LAST_MODIFIED = new Date("2026-07-15");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = SITE.url;
