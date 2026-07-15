@@ -1,8 +1,8 @@
 /**
  * /africa — Conversion-focused landing page for African patients seeking treatment in India.
  *
- * Primary conversion: whatsapp_click (GTM / Google Ads)
- * Secondary conversion: lead_submit (secondary form)
+ * Primary conversion: africa_whatsapp_click (GTM / Google Ads)
+ * Secondary conversion: africa_lead_submit (lead drawer / form)
  */
 
 "use client";
@@ -43,11 +43,9 @@ import {
 } from "@/constants/africa";
 import { AF } from "@/constants/africaTheme";
 import { getAfricaCountryFromUrl } from "@/lib/africaUtm";
-import { trackAdsConversion } from "@/lib/adsTracking";
+import { trackAfricaWhatsAppClick } from "@/lib/adsTracking";
 import { DEFAULT_WHATSAPP_NUMBER } from "@/lib/contact";
 import type { AfricaCountry } from "@/constants/africa";
-
-const EVENT_CATEGORY = "africa_lead_form";
 
 function AfricaPageInner() {
   const searchParams = useSearchParams();
@@ -83,7 +81,7 @@ function AfricaPageInner() {
   const whatsappHref = `https://wa.me/${phone}?text=${encodeURIComponent(AFRICA_WHATSAPP_DEFAULT_MESSAGE)}`;
 
   const handleHeroWhatsApp = () => {
-    trackAdsConversion("whatsapp_click", { source: "hero_cta" }, EVENT_CATEGORY);
+    trackAfricaWhatsAppClick({ source: "hero_cta" });
   };
 
   const headline = targetCountry
@@ -314,7 +312,7 @@ function AfricaPageInner() {
       />
       <WhatsAppFloatingButton
         prefilledMessage={AFRICA_WHATSAPP_DEFAULT_MESSAGE}
-        eventCategory={EVENT_CATEGORY}
+        eventCategory="africa_lead_form"
       />
       <AfricaMobileStickyBar />
       <Box sx={{ height: 80, display: { xs: "block", lg: "none" } }} />

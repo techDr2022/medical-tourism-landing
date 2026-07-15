@@ -7,10 +7,8 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { alpha } from "@mui/material/styles";
 import { AFRICA_WHATSAPP_DEFAULT_MESSAGE } from "@/constants/africa";
 import { AF } from "@/constants/africaTheme";
-import { trackAdsConversion } from "@/lib/adsTracking";
+import { trackAfricaWhatsAppClick } from "@/lib/adsTracking";
 import { DEFAULT_WHATSAPP_NUMBER } from "@/lib/contact";
-
-const EVENT_CATEGORY = "africa_lead_form";
 
 interface AfricaMobileStickyBarProps {
   showAfterScrollRatio?: number;
@@ -45,7 +43,7 @@ export function AfricaMobileStickyBar({
   const href = `https://wa.me/${phone}?text=${encodeURIComponent(AFRICA_WHATSAPP_DEFAULT_MESSAGE)}`;
 
   const handleClick = () => {
-    trackAdsConversion("whatsapp_click", { source: "mobile_sticky_bar" }, EVENT_CATEGORY);
+    trackAfricaWhatsAppClick({ source: "mobile_sticky_bar" });
   };
 
   return (

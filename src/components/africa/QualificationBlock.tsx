@@ -25,10 +25,8 @@ import { getAfricaCountryFromUrl } from "@/lib/africaUtm";
 import {
   buildQualificationWhatsAppUrl,
 } from "@/lib/africaLeadSubmit";
-import { getUtmParamsFromUrl, trackAdsConversion } from "@/lib/adsTracking";
+import { getUtmParamsFromUrl, trackAfricaWhatsAppClick } from "@/lib/adsTracking";
 import { DEFAULT_WHATSAPP_NUMBER } from "@/lib/contact";
-
-const EVENT_CATEGORY = "africa_lead_form";
 
 interface QualificationBlockProps {
   /** Pre-select treatment from treatment cards or query param. */
@@ -113,18 +111,14 @@ export function QualificationBlock({ initialTreatment = "" }: QualificationBlock
 
     const utm = getUtmParamsFromUrl();
 
-    trackAdsConversion(
-      "whatsapp_click",
-      {
-        source: "qualification_block",
-        treatment: treatmentLabel,
-        report_status: reportStatus,
-        travel_timeline: travelTimeline,
-        country: country ?? "general",
-        utm_campaign: utm.utm_campaign,
-      },
-      EVENT_CATEGORY
-    );
+    trackAfricaWhatsAppClick({
+      source: "qualification_block",
+      treatment: treatmentLabel,
+      report_status: reportStatus,
+      travel_timeline: travelTimeline,
+      country: country ?? "general",
+      utm_campaign: utm.utm_campaign,
+    });
 
     const phone =
       process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || DEFAULT_WHATSAPP_NUMBER;

@@ -5,7 +5,10 @@ import IconButton from "@mui/material/IconButton";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { DEFAULT_WHATSAPP_NUMBER } from "@/lib/contact";
 import { NIGERIA_WHATSAPP_DEFAULT_MESSAGE } from "@/constants/nigeria";
-import { trackAdsConversion } from "@/lib/adsTracking";
+import {
+  trackAdsConversion,
+  trackAfricaWhatsAppClick,
+} from "@/lib/adsTracking";
 
 interface WhatsAppFloatingButtonProps {
   /** Digits only or with country code; defaults to site WhatsApp number. */
@@ -17,7 +20,7 @@ interface WhatsAppFloatingButtonProps {
 
 /**
  * Floating WhatsApp CTA for ads market landing pages.
- * Fires `whatsapp_click` for Google Ads / GTM funnel tracking.
+ * Africa uses `africa_whatsapp_click`; Nigeria keeps `whatsapp_click`.
  */
 export function WhatsAppFloatingButton({
   phoneNumber,
@@ -32,6 +35,10 @@ export function WhatsAppFloatingButton({
   const href = `https://wa.me/${number}?text=${encodeURIComponent(prefilledMessage)}`;
 
   const handleClick = () => {
+    if (eventCategory === "africa_lead_form") {
+      trackAfricaWhatsAppClick({ source: "floating_button" });
+      return;
+    }
     trackAdsConversion("whatsapp_click", { source: "floating_button" }, eventCategory);
   };
 

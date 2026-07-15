@@ -25,11 +25,9 @@ import {
   QUALIFICATION_TREATMENTS,
 } from "@/constants/africa";
 import { AF } from "@/constants/africaTheme";
-import { getUtmParamsFromUrl, trackAdsConversion } from "@/lib/adsTracking";
+import { getUtmParamsFromUrl, trackAfricaLeadSubmit } from "@/lib/adsTracking";
 import { submitAfricaLeadEmail } from "@/lib/africaLeadSubmit";
 import { redirectToThankYou } from "@/lib/gclid";
-
-const EVENT_CATEGORY = "africa_lead_form";
 
 interface AfricaContactFormProps {
   initialTreatment?: string;
@@ -119,11 +117,9 @@ export function AfricaContactForm({
         ...(recaptchaToken && { recaptchaToken }),
       });
 
-      trackAdsConversion(
-        "lead_submit",
-        { source: variant === "embedded" ? "popup_form" : "page_form" },
-        EVENT_CATEGORY
-      );
+      trackAfricaLeadSubmit({
+        source: variant === "embedded" ? "popup_form" : "page_form",
+      });
 
       onSuccess?.();
       redirectToThankYou();

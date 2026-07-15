@@ -86,6 +86,53 @@ export const AFRICA_ADS_CONVERSION_SEND_TO =
   "AW-18246472126/psUOCOiQ8tAcEL6jzPxD";
 
 /**
+ * GTM Custom Event for Africa WhatsApp clicks.
+ * Unique name so Nigeria `whatsapp_click` triggers do not mix.
+ */
+export function trackAfricaWhatsAppClick(
+  params: Record<string, unknown> = {}
+): void {
+  if (typeof window === "undefined") return;
+
+  pushDataLayer({
+    event: "africa_whatsapp_click",
+    event_category: "africa_lead_form",
+    ...params,
+  });
+
+  if (typeof window.gtag === "function") {
+    window.gtag("event", "africa_whatsapp_click", {
+      event_category: "africa_lead_form",
+      ...params,
+    });
+  }
+}
+
+/**
+ * GTM Custom Event for Africa lead-form success.
+ * Unique name so Nigeria `lead_submit` triggers do not mix.
+ * Call only after a successful API submit — never on button click alone.
+ */
+export function trackAfricaLeadSubmit(
+  params: Record<string, unknown> = {}
+): void {
+  if (typeof window === "undefined") return;
+
+  pushDataLayer({
+    event: "africa_lead_submit",
+    event_category: "africa_lead_form",
+    ...params,
+  });
+
+  if (typeof window.gtag === "function") {
+    window.gtag("event", "africa_lead_submit", {
+      event_category: "africa_lead_form",
+      ...params,
+    });
+  }
+}
+
+/**
  * Fire the Africa lead-form Google Ads conversion snippet.
  * Call only after a successful `/api/africa-contact` submit — never on page load.
  */
@@ -108,12 +155,13 @@ export function trackAfricaLeadFormConversion(): void {
 }
 
 /**
- * Fire Africa Ads conversion + dataLayer lead_submit, then wait before redirect.
+ * Fire Africa GTM lead event + Ads conversion, then wait before redirect.
  */
 export function trackAfricaLeadFormConversionAndWait(
-  delayMs: number = LEAD_SUBMIT_REDIRECT_DELAY_MS
+  delayMs: number = LEAD_SUBMIT_REDIRECT_DELAY_MS,
+  params: Record<string, unknown> = { source: "side_drawer" }
 ): Promise<void> {
-  trackAdsConversion("lead_submit", { source: "side_drawer" }, "africa_lead_form");
+  trackAfricaLeadSubmit(params);
   trackAfricaLeadFormConversion();
   return new Promise((resolve) => {
     window.setTimeout(resolve, delayMs);
