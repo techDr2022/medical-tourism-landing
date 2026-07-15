@@ -174,21 +174,6 @@ export function Header({ ctaHref = "/lead-form", onCtaClick, variant = "default"
             </Button>
             <Button
               {...ctaProps}
-              variant="outlined"
-              sx={{
-                display: { xs: "none", lg: "inline-flex" },
-                borderColor: isOverlay ? alpha("#fff", 0.45) : alpha("#171717", 0.2),
-                color: isOverlay ? "#fff" : "#171717",
-                "&:hover": {
-                  borderColor: isOverlay ? "#fff" : GREEN_600,
-                  backgroundColor: isOverlay ? alpha("#fff", 0.08) : alpha(GREEN_600, 0.05),
-                },
-              }}
-            >
-              {t("common.cta.talkToExpert")}
-            </Button>
-            <Button
-              {...ctaProps}
               variant="contained"
               sx={{
                 display: { xs: "none", lg: "inline-flex" },

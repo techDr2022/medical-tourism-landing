@@ -27,7 +27,7 @@ export function StickyWhatsAppButton() {
   }, []);
 
   // Ads market pages use WhatsAppFloatingButton with market-specific prefill + tracking
-  if (pathname === "/nigeria" || pathname === "/afghanistan") {
+  if (pathname === "/nigeria" || pathname === "/afghanistan" || pathname === "/africa") {
     return null;
   }
 

@@ -8,7 +8,6 @@ import { alpha } from "@mui/material/styles";
 import {
   formatMoney,
   type CurrencyMode,
-  type NigeriaTreatmentCard,
 } from "@/constants/nigeria";
 
 const GREEN_600 = "#1c7c7f";
@@ -16,11 +15,15 @@ const GREEN_700 = "#0d9488";
 const GRADIENT_START = "#10b981";
 const GRADIENT_END = "#0d9488";
 
-/** Shared shape for Nigeria / Afghanistan (and future market) treatment cards. */
-export type TreatmentCardData = Pick<
-  NigeriaTreatmentCard,
-  "id" | "title" | "description" | "startingFromUsd" | "formTreatmentValue" | "iconSrc"
->;
+/** Shared shape for Nigeria / Afghanistan / Africa (and future market) treatment cards. */
+export type TreatmentCardData = {
+  id: string;
+  title: string;
+  description: string;
+  startingFromUsd: number;
+  formTreatmentValue: string;
+  iconSrc?: string;
+};
 
 interface TreatmentCardProps {
   treatment: TreatmentCardData;

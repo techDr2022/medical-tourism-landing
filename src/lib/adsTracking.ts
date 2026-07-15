@@ -81,6 +81,45 @@ export function trackLeadSubmitAndWait(
   });
 }
 
+/** Google Ads conversion — Africa LP lead form success only. */
+export const AFRICA_ADS_CONVERSION_SEND_TO =
+  "AW-18246472126/psUOCOiQ8tAcEL6jzPxD";
+
+/**
+ * Fire the Africa lead-form Google Ads conversion snippet.
+ * Call only after a successful `/api/africa-contact` submit — never on page load.
+ */
+export function trackAfricaLeadFormConversion(): void {
+  if (typeof window === "undefined") return;
+
+  pushDataLayer({
+    event: "africa_lead_conversion",
+    event_category: "africa_lead_form",
+    send_to: AFRICA_ADS_CONVERSION_SEND_TO,
+  });
+
+  if (typeof window.gtag === "function") {
+    window.gtag("event", "conversion", {
+      send_to: AFRICA_ADS_CONVERSION_SEND_TO,
+      value: 1.0,
+      currency: "INR",
+    });
+  }
+}
+
+/**
+ * Fire Africa Ads conversion + dataLayer lead_submit, then wait before redirect.
+ */
+export function trackAfricaLeadFormConversionAndWait(
+  delayMs: number = LEAD_SUBMIT_REDIRECT_DELAY_MS
+): Promise<void> {
+  trackAdsConversion("lead_submit", { source: "side_drawer" }, "africa_lead_form");
+  trackAfricaLeadFormConversion();
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, delayMs);
+  });
+}
+
 /** Capture UTM params from the current URL for CRM attribution. */
 export function getUtmParamsFromUrl(): {
   utm_source: string;

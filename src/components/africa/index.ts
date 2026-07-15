@@ -1,0 +1,10 @@
+export { QualificationBlock } from "./QualificationBlock";
+export { AfricaTestimonialCard } from "./AfricaTestimonialCard";
+export { AfricaCostComparisonTable } from "./AfricaCostComparisonTable";
+export { VisaTravelSection } from "./VisaTravelSection";
+export { AfricaTrustPointsSection } from "./AfricaTrustPointsSection";
+export { AfricaMobileStickyBar } from "./AfricaMobileStickyBar";
+export { AfricaSecondaryForm } from "./AfricaSecondaryForm";
+export { AfricaContactForm } from "./AfricaContactForm";
+export { AfricaLeadDrawer } from "./AfricaLeadDrawer";
+export { AfricaHero } from "./AfricaHero";

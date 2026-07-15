@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: baseUrl, lastModified, changeFrequency: "weekly", priority: 1 },
     { url: `${baseUrl}/nigeria`, lastModified, changeFrequency: "weekly", priority: 0.95 },
+    { url: `${baseUrl}/africa`, lastModified, changeFrequency: "weekly", priority: 0.95 },
     { url: `${baseUrl}/afghanistan`, lastModified, changeFrequency: "weekly", priority: 0.95 },
     { url: `${baseUrl}/for-kenya`, lastModified, changeFrequency: "weekly", priority: 0.95 },
     {
