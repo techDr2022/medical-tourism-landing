@@ -24,7 +24,7 @@ export const AI_BOT_USER_AGENTS = [
 
 export const AI_CONTENT_PATHS = ["/llms.txt", "/llms-full.txt", "/ai.txt"] as const;
 
-export const AI_DISALLOW_PATHS = ["/api/", "/thank-you"] as const;
+export const AI_DISALLOW_PATHS = ["/api/", "/thank-you", "/neurology/thank-you"] as const;
 
 export function aiTextFileHeaders(): HeadersInit {
   return {

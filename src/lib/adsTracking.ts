@@ -85,6 +85,10 @@ export function trackLeadSubmitAndWait(
 export const AFRICA_ADS_CONVERSION_SEND_TO =
   "AW-18246472126/psUOCOiQ8tAcEL6jzPxD";
 
+/** Google Ads conversion — Neurology Lead Form (fires on /neurology/thank-you). */
+export const NEUROLOGY_ADS_CONVERSION_SEND_TO =
+  "AW-18246472126/SR4MCIi259UcEL6jzPxD";
+
 /**
  * GTM Custom Event for Africa WhatsApp clicks.
  * Unique name so Nigeria `whatsapp_click` triggers do not mix.
@@ -163,6 +167,65 @@ export function trackAfricaLeadFormConversionAndWait(
 ): Promise<void> {
   trackAfricaLeadSubmit(params);
   trackAfricaLeadFormConversion();
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, delayMs);
+  });
+}
+
+/**
+ * GTM Custom Event for Neurology lead-form success (before thank-you redirect).
+ * Ads conversion fires on /neurology/thank-you — do not send_to here.
+ */
+export function trackNeurologyLeadSubmit(
+  params: Record<string, unknown> = {}
+): void {
+  if (typeof window === "undefined") return;
+
+  pushDataLayer({
+    event: "neurology_lead_submit",
+    event_category: "neurology_lead_form",
+    ...params,
+  });
+
+  if (typeof window.gtag === "function") {
+    window.gtag("event", "neurology_lead_submit", {
+      event_category: "neurology_lead_form",
+      ...params,
+    });
+  }
+}
+
+/**
+ * Fire the Neurology Lead Form Google Ads conversion snippet.
+ * Call on /neurology/thank-you page load after a successful lead submit.
+ */
+export function trackNeurologyLeadFormConversion(): void {
+  if (typeof window === "undefined") return;
+
+  pushDataLayer({
+    event: "neurology_lead_conversion",
+    event_category: "neurology_lead_form",
+    send_to: NEUROLOGY_ADS_CONVERSION_SEND_TO,
+  });
+
+  if (typeof window.gtag === "function") {
+    window.gtag("event", "conversion", {
+      send_to: NEUROLOGY_ADS_CONVERSION_SEND_TO,
+      value: 1.0,
+      currency: "INR",
+    });
+  }
+}
+
+/**
+ * Fire Neurology GTM lead event, then wait before thank-you redirect.
+ * Ads conversion is deferred to /neurology/thank-you.
+ */
+export function trackNeurologyLeadSubmitAndWait(
+  delayMs: number = LEAD_SUBMIT_REDIRECT_DELAY_MS,
+  params: Record<string, unknown> = { source: "neurology_hero_form" }
+): Promise<void> {
+  trackNeurologyLeadSubmit(params);
   return new Promise((resolve) => {
     window.setTimeout(resolve, delayMs);
   });

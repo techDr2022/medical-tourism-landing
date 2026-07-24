@@ -1,4 +1,4 @@
-export const DEFAULT_CONTACT_EMAIL = "info@techdr.in";
+export const DEFAULT_CONTACT_EMAIL = "hi@medicaltoursindia.com";
 export const DEFAULT_WHATSAPP_NUMBER = "916303225006";
 
 export function formatWhatsAppDisplay(number: string): string {

@@ -69,20 +69,36 @@ export function getStoredGclid(): string | null {
   return null;
 }
 
-/** Thank-you path with gclid query param when available. */
-export function getThankYouPath(): string {
+/** Thank-you path with gclid (+ optional extra query params) for Ads attribution. */
+export function getThankYouPath(
+  extraParams: Record<string, string> = {},
+  basePath = "/thank-you"
+): string {
+  const params = new URLSearchParams();
   const gclid = getStoredGclid();
-  if (!gclid) return "/thank-you";
-  return `/thank-you?gclid=${encodeURIComponent(gclid)}`;
+  if (gclid) params.set("gclid", gclid);
+  for (const [key, value] of Object.entries(extraParams)) {
+    if (value) params.set(key, value);
+  }
+  const qs = params.toString();
+  return qs ? `${basePath}?${qs}` : basePath;
 }
 
 /**
  * Full-page navigation to thank-you so GTM/Google Ads see a real page load
  * with gclid in the URL (client-side router.push often drops conversion attribution).
  */
-export function redirectToThankYou(): void {
+export function redirectToThankYou(
+  extraParams: Record<string, string> = {},
+  basePath = "/thank-you"
+): void {
   if (typeof window === "undefined") return;
-  window.location.assign(getThankYouPath());
+  window.location.assign(getThankYouPath(extraParams, basePath));
+}
+
+/** Neurology LP conversion thank-you destination. */
+export function redirectToNeurologyThankYou(): void {
+  redirectToThankYou({}, "/neurology/thank-you");
 }
 
 declare global {
