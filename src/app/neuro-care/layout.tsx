@@ -35,6 +35,7 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     path: PATH,
     keywords: [...NEUROLOGY_SEO.keywords],
+    ogImage: NEUROLOGY_SEO.ogImage,
   }),
   icons: {
     icon: "/logos/medical%20tours%20india%20favicon.png",

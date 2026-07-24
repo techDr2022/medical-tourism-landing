@@ -125,6 +125,8 @@ type PageMetadataOptions = {
   noIndex?: boolean;
   /** Prefer page-specific keywords first; site-wide terms still appended for completeness. */
   ogLocale?: string;
+  /** Override default OG/Twitter image (public path, e.g. `/services/5576.jpg`). */
+  ogImage?: string;
 };
 
 export function createPageMetadata({
@@ -134,9 +136,10 @@ export function createPageMetadata({
   keywords,
   noIndex = false,
   ogLocale,
+  ogImage,
 }: PageMetadataOptions): Metadata {
   const url = absoluteUrl(path);
-  const imageUrl = absoluteUrl(SITE.ogImagePath);
+  const imageUrl = absoluteUrl(ogImage ?? SITE.ogImagePath);
   const mergedKeywords = keywords
     ? Array.from(new Set([...keywords, ...SITE_KEYWORDS]))
     : [...SITE_KEYWORDS];

@@ -1,5 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    outputFileTracingIncludes: {
+      "/api/africa-contact": [
+        "./public/services/medical-tourism-india-brochure.pdf",
+      ],
+      "/api/contact": ["./public/services/medical-tourism-india-brochure.pdf"],
+    },
+  },
   async redirects() {
     return [
       {

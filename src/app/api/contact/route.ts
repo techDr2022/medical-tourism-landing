@@ -5,6 +5,7 @@ import {
   DEFAULT_WHATSAPP_NUMBER,
   formatWhatsAppDisplay,
 } from "@/lib/contact";
+import { getBrochureAttachment } from "@/lib/brochureAttachment";
 import { validateLeadFormFields } from "@/lib/formValidation";
 import {
   formatVisaAssistance,
@@ -366,6 +367,8 @@ ${attachments.length > 0 ? `\nAttached Files:\n${attachments.map((a) => `- ${a.f
       );
     }
 
+    const brochure = await getBrochureAttachment();
+
     const customerSubject = "Thank you for your inquiry – Medical Travel to India";
     const customerHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -377,6 +380,13 @@ ${attachments.length > 0 ? `\nAttached Files:\n${attachments.map((a) => `- ${a.f
         </p>
         <p style="color: #374151; line-height: 1.6;">
           Thank you for submitting your medical travel inquiry. We have received your details and our team will connect with you shortly to discuss your requirements and next steps.
+        </p>
+        <p style="color: #374151; line-height: 1.6;">
+          ${
+            brochure
+              ? "We have attached our <strong>Medical Tourism India brochure</strong> with an overview of hospitals, treatments, and how we support international patients."
+              : "Our team will also share our Medical Tourism India brochure with hospital and treatment details."
+          }
         </p>
         <p style="color: #374151; line-height: 1.6;">
           If you have any urgent questions, please reply to this email or WhatsApp us at <a href="https://wa.me/${WHATSAPP_NUMBER}" style="color: #1c7c7f; text-decoration: none;">${WHATSAPP_DISPLAY}</a>.
@@ -391,7 +401,7 @@ ${attachments.length > 0 ? `\nAttached Files:\n${attachments.map((a) => `- ${a.f
 Thank you for reaching out, ${name}.
 
 Thank you for submitting your medical travel inquiry. We have received your details and our team will connect with you shortly to discuss your requirements and next steps.
-
+${brochure ? "\nOur Medical Tourism India brochure is attached.\n" : ""}
 If you have any urgent questions, please reply to this email or WhatsApp us at ${WHATSAPP_DISPLAY}.
 
 Best regards,
@@ -404,6 +414,7 @@ Medical Travel to India Team
       subject: customerSubject,
       html: customerHtml,
       text: customerText,
+      ...(brochure ? { attachments: [brochure] } : {}),
     });
 
     if (customerResult.error) {

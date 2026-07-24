@@ -14,6 +14,7 @@ export const NEUROLOGY_SEO = {
   description:
     "Brain, spine & epilepsy care in India for Nigeria, Kenya, Ghana & Africa. Free expert opinion in 24 hours, JCI hospitals, visa help — save 60–80%.",
   path: "/neuro-care",
+  ogImage: "/services/5576.jpg",
   keywords: [
     "neurology treatment India African patients",
     "brain tumor surgery India cost Nigeria",

@@ -5,6 +5,7 @@ import {
   DEFAULT_WHATSAPP_NUMBER,
   formatWhatsAppDisplay,
 } from "@/lib/contact";
+import { getBrochureAttachment } from "@/lib/brochureAttachment";
 
 const RECAPTCHA_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
 const RECAPTCHA_MIN_SCORE = 0.5;
@@ -254,6 +255,8 @@ ${message ? `Message:\n${message}` : ""}
       );
     }
 
+    const brochure = await getBrochureAttachment();
+
     const customerResult = await resend.emails.send({
       from: fromEmail,
       to: String(email).trim(),
@@ -266,6 +269,13 @@ ${message ? `Message:\n${message}` : ""}
             with transparent pricing and next steps — including medical visa support if needed.
           </p>
           <p style="color:#374151; line-height:1.6;">
+            ${
+              brochure
+                ? "We have attached our <strong>Medical Tourism India brochure</strong> for an overview of hospitals, treatments, and how we support international patients."
+                : "Our team will also share our Medical Tourism India brochure with hospital and treatment details."
+            }
+          </p>
+          <p style="color:#374151; line-height:1.6;">
             Prefer WhatsApp? Message us at
             <a href="https://wa.me/${WHATSAPP_NUMBER}" style="color:#1c7c7f;">${WHATSAPP_DISPLAY}</a>.
           </p>
@@ -274,7 +284,8 @@ ${message ? `Message:\n${message}` : ""}
           </p>
         </div>
       `,
-      text: `Thank you, ${name}. We received your enquiry about treatment in India. A coordinator will follow up shortly. WhatsApp: ${WHATSAPP_DISPLAY}`,
+      text: `Thank you, ${name}. We received your enquiry about treatment in India. A coordinator will follow up shortly.${brochure ? " Our Medical Tourism India brochure is attached." : ""} WhatsApp: ${WHATSAPP_DISPLAY}`,
+      ...(brochure ? { attachments: [brochure] } : {}),
     });
 
     if (customerResult.error) {
