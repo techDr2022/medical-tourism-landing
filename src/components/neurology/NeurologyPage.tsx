@@ -814,10 +814,10 @@ function LeadForm({ onWhatsApp }: LeadFormProps) {
         ...(recaptchaToken && { recaptchaToken }),
       });
 
-      // GTM lead event, then thank-you — Ads conversion fires on /neurology/thank-you
+      // GTM lead event, then thank-you — Ads conversion fires on /neuro-care/thank-you
       await trackNeurologyLeadSubmitAndWait(undefined, {
         source: "neurology_hero_form",
-        page: "/neurology",
+        page: "/neuro-care",
       });
       redirectToNeurologyThankYou();
     } catch (err) {

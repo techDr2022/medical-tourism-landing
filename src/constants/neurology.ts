@@ -1,5 +1,5 @@
 /**
- * Content & data for /neurology — Africa → India neurology Google Ads LP.
+ * Content & data for /neuro-care — Africa → India neurology Google Ads LP.
  */
 
 export const NEUROLOGY_BRAND = "Medical Tours India";
@@ -13,7 +13,7 @@ export const NEUROLOGY_SEO = {
   title: "Neurology Treatment in India for African Patients | Free Plan",
   description:
     "Brain, spine & epilepsy care in India for Nigeria, Kenya, Ghana & Africa. Free expert opinion in 24 hours, JCI hospitals, visa help — save 60–80%.",
-  path: "/neurology",
+  path: "/neuro-care",
   keywords: [
     "neurology treatment India African patients",
     "brain tumor surgery India cost Nigeria",

@@ -56,7 +56,7 @@ export default function NeurologyLayout({
 
   return (
     <div className={`${inter.variable} ${inter.className}`}>
-      {/* Google Ads base tag — Neurology Lead Form conversion fires on /neurology/thank-you */}
+      {/* Google Ads base tag — Neurology Lead Form conversion fires on /neuro-care/thank-you */}
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${NEUROLOGY_GOOGLE_ADS_ID}`}
         strategy="afterInteractive"

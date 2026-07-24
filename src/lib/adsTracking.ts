@@ -85,7 +85,7 @@ export function trackLeadSubmitAndWait(
 export const AFRICA_ADS_CONVERSION_SEND_TO =
   "AW-18246472126/psUOCOiQ8tAcEL6jzPxD";
 
-/** Google Ads conversion — Neurology Lead Form (fires on /neurology/thank-you). */
+/** Google Ads conversion — Neurology Lead Form (fires on /neuro-care/thank-you). */
 export const NEUROLOGY_ADS_CONVERSION_SEND_TO =
   "AW-18246472126/SR4MCIi259UcEL6jzPxD";
 
@@ -174,7 +174,7 @@ export function trackAfricaLeadFormConversionAndWait(
 
 /**
  * GTM Custom Event for Neurology lead-form success (before thank-you redirect).
- * Ads conversion fires on /neurology/thank-you — do not send_to here.
+ * Ads conversion fires on /neuro-care/thank-you — do not send_to here.
  */
 export function trackNeurologyLeadSubmit(
   params: Record<string, unknown> = {}
@@ -197,7 +197,7 @@ export function trackNeurologyLeadSubmit(
 
 /**
  * Fire the Neurology Lead Form Google Ads conversion snippet.
- * Call on /neurology/thank-you page load after a successful lead submit.
+ * Call on /neuro-care/thank-you page load after a successful lead submit.
  */
 export function trackNeurologyLeadFormConversion(): void {
   if (typeof window === "undefined") return;
@@ -219,7 +219,7 @@ export function trackNeurologyLeadFormConversion(): void {
 
 /**
  * Fire Neurology GTM lead event, then wait before thank-you redirect.
- * Ads conversion is deferred to /neurology/thank-you.
+ * Ads conversion is deferred to /neuro-care/thank-you.
  */
 export function trackNeurologyLeadSubmitAndWait(
   delayMs: number = LEAD_SUBMIT_REDIRECT_DELAY_MS,

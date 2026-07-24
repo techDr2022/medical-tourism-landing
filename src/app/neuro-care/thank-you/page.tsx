@@ -33,14 +33,14 @@ export default function NeurologyThankYouPage() {
     window.dataLayer.push({
       event: "thank_you_page_view",
       source: "neurology",
-      page: "/neurology/thank-you",
+      page: "/neuro-care/thank-you",
       ...(gclid ? { gclid } : {}),
     });
     window.dataLayer.push({
       event: "neurology_lead_thank_you",
       event_category: "neurology_lead_form",
       source: "neurology",
-      page: "/neurology/thank-you",
+      page: "/neuro-care/thank-you",
       ...(gclid ? { gclid } : {}),
     });
   }, []);
@@ -49,7 +49,7 @@ export default function NeurologyThankYouPage() {
     <div className="neuro-page neuro-thankyou">
       <header className="neuro-header">
         <div className="neuro-header__inner">
-          <Link className="neuro-logo" href="/neurology" aria-label={NEUROLOGY_BRAND}>
+          <Link className="neuro-logo" href="/neuro-care" aria-label={NEUROLOGY_BRAND}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               className="neuro-logo__img"
@@ -106,7 +106,7 @@ export default function NeurologyThankYouPage() {
             >
               Chat on WhatsApp · {WA_DISPLAY}
             </a>
-            <Link className="neuro-btn neuro-btn--teal neuro-thankyou__back" href="/neurology">
+            <Link className="neuro-btn neuro-btn--teal neuro-thankyou__back" href="/neuro-care">
               Back to Neurology
             </Link>
           </div>

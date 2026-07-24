@@ -31,8 +31,8 @@ export function StickyWhatsAppButton() {
     pathname === "/nigeria" ||
     pathname === "/afghanistan" ||
     pathname === "/africa" ||
-    pathname === "/neurology" ||
-    pathname === "/neurology/thank-you"
+    pathname === "/neuro-care" ||
+    pathname === "/neuro-care/thank-you"
   ) {
     return null;
   }

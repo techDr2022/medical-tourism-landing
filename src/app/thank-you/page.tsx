@@ -67,7 +67,7 @@ function ThankYouContent() {
   }, [isNeurology, source]);
 
   const nextSteps = isNeurology ? NEUROLOGY_NEXT_STEPS : DEFAULT_NEXT_STEPS;
-  const backHref = isNeurology ? "/neurology" : "/";
+  const backHref = isNeurology ? "/neuro-care" : "/";
   const backLabel = isNeurology ? "Back to Neurology" : "Back to Home";
   const whatsappHref = isNeurology
     ? `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(NEUROLOGY_WHATSAPP_MESSAGE)}`

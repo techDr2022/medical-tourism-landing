@@ -98,7 +98,7 @@ export function redirectToThankYou(
 
 /** Neurology LP conversion thank-you destination. */
 export function redirectToNeurologyThankYou(): void {
-  redirectToThankYou({}, "/neurology/thank-you");
+  redirectToThankYou({}, "/neuro-care/thank-you");
 }
 
 declare global {

@@ -10,7 +10,7 @@ export const metadata: Metadata = createPageMetadata({
   title: "Thank You | Neurology Treatment in India",
   description:
     "Your neurology treatment plan request has been received. Expect a free expert medical opinion within 24 hours.",
-  path: "/neurology/thank-you",
+  path: "/neuro-care/thank-you",
   noIndex: true,
 });
 

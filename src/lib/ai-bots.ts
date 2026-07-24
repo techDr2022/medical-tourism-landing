@@ -8,6 +8,9 @@ export const AI_BOT_USER_AGENTS = [
   "PerplexityBot",
   "Google-Extended",
   "Googlebot",
+  /** Google Ads landing-page checkers — keep explicitly allowed. */
+  "AdsBot-Google",
+  "AdsBot-Google-Mobile",
   "Applebot-Extended",
   "cohere-ai",
   "Bytespider",
@@ -24,7 +27,7 @@ export const AI_BOT_USER_AGENTS = [
 
 export const AI_CONTENT_PATHS = ["/llms.txt", "/llms-full.txt", "/ai.txt"] as const;
 
-export const AI_DISALLOW_PATHS = ["/api/", "/thank-you", "/neurology/thank-you"] as const;
+export const AI_DISALLOW_PATHS = ["/api/", "/thank-you", "/neuro-care/thank-you"] as const;
 
 export function aiTextFileHeaders(): HeadersInit {
   return {
