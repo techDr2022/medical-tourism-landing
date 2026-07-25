@@ -8,23 +8,15 @@ const nextConfig = {
       "/api/contact": ["./public/services/medical-tourism-india-brochure.pdf"],
     },
   },
-  async redirects() {
+  /**
+   * Serve /neurology as an alias (HTTP 200) — do not 308-redirect.
+   * Google Ads destination checkers fail or flag Final URLs / sitelinks that redirect.
+   * Canonical in page metadata remains /neuro-care.
+   */
+  async rewrites() {
     return [
-      {
-        source: "/neurology",
-        destination: "/neuro-care",
-        permanent: true,
-      },
-      {
-        source: "/neurology/thank-you",
-        destination: "/neuro-care/thank-you",
-        permanent: true,
-      },
-      {
-        source: "/neurology/:path*",
-        destination: "/neuro-care/:path*",
-        permanent: true,
-      },
+      { source: "/neurology", destination: "/neuro-care" },
+      { source: "/neurology/thank-you", destination: "/neuro-care/thank-you" },
     ];
   },
 };

@@ -10,6 +10,7 @@ import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { alpha } from "@mui/material/styles";
 import { DEFAULT_WHATSAPP_NUMBER } from "@/lib/contact";
 import { useTranslation } from "@/i18n/LanguageProvider";
+import { trackAdsConversion } from "@/lib/adsTracking";
 
 const WHATSAPP_NUMBER =
   process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.trim() || DEFAULT_WHATSAPP_NUMBER;
@@ -41,6 +42,15 @@ export function StickyWhatsAppButton() {
     t("common.whatsappDefaultMessage")
   )}`;
 
+  /** One dataLayer `whatsapp_click` per user click for GTM → Google Ads. */
+  const handleWhatsAppClick = (source: "sticky_bubble" | "sticky_button") => {
+    trackAdsConversion(
+      "whatsapp_click",
+      { source, page: pathname || "/" },
+      "main_site"
+    );
+  };
+
   return (
     <Box
       sx={{
@@ -60,7 +70,10 @@ export function StickyWhatsAppButton() {
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          onClick={() => setDismissed(true)}
+          onClick={() => {
+            handleWhatsAppClick("sticky_bubble");
+            setDismissed(true);
+          }}
           sx={{
             display: "block",
             position: "relative",
@@ -148,6 +161,7 @@ export function StickyWhatsAppButton() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={t("common.whatsappAria")}
+          onClick={() => handleWhatsAppClick("sticky_button")}
           sx={{
             position: "relative",
             width: 56,
